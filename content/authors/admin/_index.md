@@ -142,7 +142,7 @@ skills:
       - name: Chess
         description: ''
         percent: 100
-        icon: pawn
+        icon: Chess
       - name: Hiking
         description: ''
         percent: 60
