@@ -45,7 +45,7 @@ interests:
   - Political economy
 
 education:
-  - area: PhD in Economics
+  - area: PhD Student in Economics (Part-time)
     institution: Trinity College Dublin
     date_start: 2023-09-01
     date_end: 
@@ -67,40 +67,56 @@ education:
       Courses included:
       - Corporate Finance, Financial Markets, Game Theory, Globalization & Exchange rates
       - Thesis on CDS' prices
-  - area: BSc Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    date_start: 2016-01-01
-    date_end: 2020-12-31
+  - area: Bachelor in Applied Mathematics
+    institution: Paris I - La Sorbonne
+    date_start: 2013-09-01
+    date_end: 2014-06-01
     summary: |
-      GPA: 3.4/4.0
-      
       Courses included:
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
+      - Topology, Optimization, Numerical Method
 work:
-  - position: Director of Cloud Infrastructure
-    company_name: GenCoin
-    company_url: ''
+  - position: Policy Specialit (EU&International Function)
+    company_name: Central Bank of Ireland
+    company_url: 'https://www.centralbank.ie/'
+    company_logo: ''
+    date_start: 2023-05-02
+    date_end: ''
+    summary: |
+      - In charge of the central bank's collaborations with the ECB regarding Single Supervisory Mechanism issues as well as with the European Banking Authority. 
+      - Presented analyses on strategic issues concerning financial supervisory risks to the Deputy Governor of the Central Bank, contributing to a deeper understanding of regulatory challenges.
+      - Assisted in shaping key policy positions, including those on the Capital Markets Union
+  - position: Acquisition Associate
+    company_name: AWS
+    company_url: 'https://aws.amazon.com/'
+    company_logo: ''
+    date_start: 2022-06-01
+    date_end: 2023-05-01
+    summary: |
+      Within the EMEA Data Center Supply Solutions (DCSS) team:
+      - Provided deal support and coordinated internal stakeholders on $100MM+ commercial deals on the DUB mega-region to procure additional infrastructure capacity;
+      - Ad-hoc support and analysis on supply plans, strategy documents, account reviews, or research requests;
+      - Crafted reports and dashboards (SQL, VBA, Tableau, PowerBI) to analyze, develop and automatize the firm's understanding of clients' benefits.
+  - position: Resolution expert
+    company_name: Banque de France
+    company_url: 'https://www.banque-france.fr/fr'
     company_logo: ''
     date_start: 2021-01-01
-    date_end: ''
-    summary: |2-
-      Responsibilities include:
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - position: Backend Software Engineer
-    company_name: X
+    date_end: 2022-06-01
+    summary: |
+      Within the French Prudential Supervision and Resolution Authority (Autorité de contrôle prudentiel et de résolution; ACPR):
+      - Worked on the banking resolution framework, established by the BRRD, in coordination with the Single Resolution Board (SRB) through Internal Resolution Team (IRT). More specifically in charge of bail-in , operational continuity and management information system issues;
+      - Wrote G-SIB resolution plans and published a working paper regarding the French cooperatives’ bail-in mechanism.
+  - position: Financial Attaché
+    company_name: French Treasury & French Embassy in the US
     company_url: ''
     company_logo: ''
-    date_start: 2016-01-01
-    date_end: 2020-12-31
+    date_start: 2017-06-01
+    date_end: 2019-06-01
     summary: |
-      Responsibilities include:
-      - Migrated infrastructure to a new data center
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
+      - Helped to maintain/enhance French government’s ongoing preparedness and contributed to its economic and financial reform agenda;
+      - Contributed to maintaining a level playing field for US and European companies in financial regulation (Banking, Insurance and CCP);
+      - Analyzed blockchain/ FinTech issues from a legal perspective and contributed to the establishment of the French framework for blockchain.
+  
 
 # Skills
 # Add your own SVG icons to `assets/media/icons/`
