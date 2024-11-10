@@ -3,11 +3,11 @@
 title: Alexis Ladasic
 
 # Name pronunciation (optional)
-name_pronunciation: Alexis Ladasic
+name_pronunciation: 
 
 # Full name (for SEO)
-first_name: Shiung Wu
-last_name: Chien
+first_name: Alexis
+last_name: Ladasic
 
 # Status emoji
 status:
@@ -20,12 +20,12 @@ superuser: true
 highlight_name: true
 
 # Role/position/tagline
-role: Chief Scientist
+role: Policy Specialit - EBA
 
 # Organizations/Affiliations to display in Biography blox
 organizations:
-  - name: OpenAI
-    url: https://openai.com/
+  - name: Central Bank of Ireland
+    url: https://centralbank.ie
 
 # Social network links
 # Need to use another icon? Simply download the SVG icon to your `assets/media/icons/` folder.
