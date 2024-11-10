@@ -35,9 +35,7 @@ sections:
       title: '📚 My Research'
       subtitle: ''
       text: |-
-        Use this area to speak to your mission. I'm a research scientist in the Moonshot team at DeepMind. I blog about machine learning, deep learning, and moonshots.
-
-        I apply a range of qualitative and quantitative methods to comprehensively investigate the role of science and technology in the economy.
+        My research focuses on our understanding of banking supervision through the application of game theory and behavioral economics. More specifically I try to examine the interactions between banks and supervisors, while taking into account behavioral biases in supervisors' decisions. This research also tries to address the current gap in the theoretical modelling of banking supervision, while testing through empirical analysis assumptions being put forward. Finally, I aim to provide practical recommendations for improving supervisory and regulatory frameworks.
         
         Please reach out to collaborate 😃
     design:
