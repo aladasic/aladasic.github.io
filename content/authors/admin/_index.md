@@ -41,31 +41,32 @@ profiles:
     url: https://www.linkedin.com/
 
 interests:
-  - Artificial Intelligence
-  - Computational Linguistics
-  - Information Retrieval
+  - Banking regulation & Supervision
+  - Political economy
 
 education:
-  - area: PhD Artificial Intelligence
-    institution: Stanford University
-    date_start: 2016-01-01
-    date_end: 2020-12-31
+  - area: PhD in Economics
+    institution: Trinity College Dublin
+    date_start: 2023-09-01
+    date_end: 
     summary: |
-      Thesis on _Why LLMs are awesome_. Supervised by [Prof Joe Smith](https://example.com). Presented papers at 5 IEEE conferences with the contributions being published in 2 Springer journals.
-    button:
-      text: 'Read Thesis'
-      url: 'https://example.com'
-  - area: MEng Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    date_start: 2016-01-01
-    date_end: 2020-12-31
+      Thesis on banking supervision and regulation. Supervised by [Prof Davide Romelli](https://davideromelli.com/).
+  - area: Master in Public Administration
+    institution: Paris I - La Sorbonne
+    date_start: 2019-09-01
+    date_end: 2020-06-01
     summary: |
-      GPA: 3.8/4.0
-
       Courses included:
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
+      - Public & European Law, Geopolitics, Public finance
+      - Passed national exams for the administration. Admitted to the French central bank as a public servant
+  - area: Master in Financial Economics
+    institution: HEC Paris
+    date_start: 2013-09-01
+    date_end: 2017-06-01
+    summary: |
+      Courses included:
+      - Corporate Finance, Financial Markets, Game Theory, Globalization & Exchange rates
+      - Thesis on CDS' prices
   - area: BSc Artificial Intelligence
     institution: Massachusetts Institute of Technology
     date_start: 2016-01-01
