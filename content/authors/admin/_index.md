@@ -20,7 +20,7 @@ superuser: true
 highlight_name: true
 
 # Role/position/tagline
-role: Policy Specialit - EBA
+role: Policy Specialist - EBA
 
 # Organizations/Affiliations to display in Biography blox
 organizations:
