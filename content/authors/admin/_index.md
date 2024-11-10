@@ -2,9 +2,12 @@
 # Display name
 title: Alexis Ladasic
 
+# Name pronunciation (optional)
+name_pronunciation: Alexis Ladasic
+
 # Full name (for SEO)
-first_name: Alexis
-last_name: Ladasic
+first_name: Shiung Wu
+last_name: Chien
 
 # Status emoji
 status:
