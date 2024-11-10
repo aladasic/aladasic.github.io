@@ -170,4 +170,4 @@ languages:
 
 ## About Me
 
-Chien Shiung Wu is a professor of artificial intelligence at the Stanford AI Lab. Her research interests include distributed robotics, mobile computing and programmable matter. She leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+Hi ! I am Alexis a 5 years' experienced public servant with a background in finance and public policies.I have worked in the private sector within financial markets (Goldman Sachs) and the tech sector (AWS), but i have spent most of my time in the the public sector (French Ministry of Finance, French Central Bank and Central Bank of Ireland). My experience to date has focused on promoting international financial stability, public regulatory and economic interests. These are also the fields that I am interested in for my part-time PhD @Trinity. Feel free to get in touch - AL
