@@ -21,7 +21,7 @@ abstract: In this paper, we present how French authorities have addressed key le
 summary: In this paper, we present how French authorities have addressed key legal challenges and obstacles related to the resolution of cooperative groups, in particular the implementation of the bail-in tool.
 
 tags:
-- Resolution, banking
+- Banking resolution
 
 featured: true
 
