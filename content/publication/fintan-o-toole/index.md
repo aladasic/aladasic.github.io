@@ -29,12 +29,12 @@ featured: false
 # - name: ""
 #   url: ""
 url_pdf: 'https://aladasic.github.io/content/publication/fintan-o-toole/ladasic-toole-2.pdf'
-url_code: 'https://shs.cairn.info/revue-esprit-2024-4-page-148?lang=fr'
+url_code: ''
 url_dataset: ''
 url_poster: ''
 url_project: ''
 url_slides: ''
-url_source: ''
+url_source: 'https://shs.cairn.info/revue-esprit-2024-4-page-148?lang=fr'
 url_video: ''
 
 # Featured image
