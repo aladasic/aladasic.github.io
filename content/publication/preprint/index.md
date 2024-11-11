@@ -1,12 +1,10 @@
 ---
-title: "An example preprint / working paper"
+title: "How to resolve a cooperative banking group? The French case"
 authors:
 - admin
-date: "2019-04-07T00:00:00Z"
+- Marion Zosi
+date: "2021-10-19T00:00:00Z"
 doi: ""
-
-# Schedule page publish date (NOT publication's date).
-publishDate: "2017-01-01T00:00:00Z"
 
 # Publication type.
 # Accepts a single type but formatted as a YAML list (for Hugo requirements).
@@ -17,27 +15,27 @@ publication_types: ["article"]
 publication: ""
 publication_short: ""
 
-abstract: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.
+abstract: In this paper, we present how French authorities have addressed key legal challenges and obstacles related to the resolution of cooperative groups, in particular the implementation of the bail-in tool (“individual bail-in” and “coordinated bail-in”).  In the first part, we present key features of French cooperative groups and the legal framework establishing a solidarity mechanism and central bodies. We also explain how we took into account the lessons learnt from previous crises, where it appears that French cooperative groups were resilient.  In the second part, we identify key challenges related to the implementation of the bail-in tool for cooperative groups and describe amendments made to the French legal framework on the occasion of the transposition of BRRD 2, in order to clarify the legislation and facilitate the implementation of resolution strategies suited to cooperative groups.  In the last part, we point out progresses that should be made in order to achieve (i) a smooth operationalisation of the bail-in tool and (ii) the resolvability of French cooperative groups. Those elements and expectations are not specific to French cooperative groups, but should be considered as expectations to achieve a full resolvability of French cooperatives groups and are more generally in line with the FSB roadmap to make specific banks and large banks fully resolvable.
 
 # Summary. An optional shortened abstract.
-summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum.
+summary: In this paper, we present how French authorities have addressed key legal challenges and obstacles related to the resolution of cooperative groups, in particular the implementation of the bail-in tool.
 
 tags:
-- Large Language Models
+- Resolution, banking
 
 featured: true
 
 links:
 - name: Custom Link
-  url: http://example.org
-url_pdf: http://arxiv.org/pdf/1512.04133v1
-url_code: 'https://github.com/HugoBlox/hugo-blox-builder'
-url_dataset: '#'
-url_poster: '#'
+  url: https://acpr.banque-france.fr/sites/default/files/medias/documents/20211019_how_to_resolve_a_cooperative_group.pdf
+url_pdf: https://acpr.banque-france.fr/sites/default/files/medias/documents/20211019_how_to_resolve_a_cooperative_group.pdf
+url_code: ''
+url_dataset: ''
+url_poster: ''
 url_project: ''
 url_slides: ''
-url_source: '#'
-url_video: '#'
+url_source: ''
+url_video: ''
 
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder. 
@@ -59,13 +57,7 @@ projects:
 #   Simply enter your slide deck's filename without extension.
 #   E.g. `slides: "example"` references `content/slides/example/index.md`.
 #   Otherwise, set `slides: ""`.
-slides: example
+slides: ""
 ---
 
-This work is driven by the results in my [previous paper](/publication/conference-paper/) on LLMs.
 
-{{% callout note %}}
-Create your slides in Markdown - click the *Slides* button to check out the example.
-{{% /callout %}}
-
-Add the publication's **full text** or **supplementary notes** here. You can use rich formatting such as including [code, math, and images](https://docs.hugoblox.com/content/writing-markdown-latex/).
