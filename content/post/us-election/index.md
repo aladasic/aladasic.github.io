@@ -1,5 +1,5 @@
 ---
-title: '[#1 | New Github journey -- US Election (1/X)]'
+title: '#1 | New Github journey -- US Election (1/X)'
 summary: 'Analyzing the 2024 US election results and implications for political realignment, with thoughts on recent cultural recommendations.'
 date: 2024-11-14
 image:
@@ -17,18 +17,6 @@ tags:
 
 {{< toc mobile_only=true is_open=true >}}
 
----
-title: '[#1 | New Github journey -- US Election (1/X)]'
-summary: 'Analyzing the 2024 US election results and implications for political realignment, with thoughts on recent cultural recommendations.'
-date: 2024-11-14
-image:
-  caption: 'Photo by eberhard 🖐 grossgasteiger on Unsplash'
-authors:
-  - admin
-tags:
-  - Politics 
-  - US Elections
-  - Analysis
 ---
 
 I decided to pick up again on some of my old habits. This time, though, it will have a twist though: I'll share here some of my most recent work, readings, music or films I have enjoyed. Perhaps this will be of interest to some. Mostly, this will be of help to me for organizing thoughts and keeping track of my journey.
