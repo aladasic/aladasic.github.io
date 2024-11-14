@@ -1,21 +1,17 @@
 ---
-title: 🎉 Easily create your own simple yet highly customizable blog
-summary: Take full control of your personal brand and privacy by migrating away from the big tech platforms!
-date: 2023-10-27
-
-# Featured image
-# Place an image named `featured.jpg/png` in this page's folder and customize its options here.
+title: '[#1 | New Github journey -- US Election (1/X)]'
+summary: 'Analyzing the 2024 US election results and implications for political realignment, with thoughts on recent cultural recommendations.'
+date: 2024-11-14
 image:
-  caption: 'Image credit: [**Unsplash**](https://unsplash.com)'
+caption: 'Photo by eberhard 🖐 grossgasteiger on Unsplash'
 
 authors:
   - admin
-  - Ted
 
 tags:
-  - Academic
-  - Hugo Blox
-  - Markdown
+  - US elections
+  - United States
+  - Politics
 ---
 
 Welcome 👋
