@@ -25,8 +25,7 @@ I decided to pick up again on some of my old habits. This time, though, it will 
 
 **First, I want to come back on the outcome of US elections, which have been less close than initially anticipated**. The GOP won the Presidential race (Trump 50.38% (74.8M) votes vs. Kamala 47.96% (71.2M)); the House of Rep (214 (+1) vs. 204 (-1)) and the Senate (53 (+4) vs. 46 (-4)). Battlegrounds (AZ,NV, MI, WI, PA, GA, NC, NE) were all won by Trump. Still, 4 states are won by 100,000 votes or less (MI, NV, WI, MI) and all of them by <1%. Looking at a more granular level: each map shows the usual fracture around city / rural areas.
 
-![alt](US-1.png)
-![alt](US-2.png)
+![alt](US-1.png)![alt](US-2.png)
 
 ## Electoral Shifts
 
