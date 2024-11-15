@@ -19,7 +19,7 @@ tags:
 
 ---
 
-I decided to pick up again on some of my old habits. This time, though, it will have a twist though: I'll share here some of my most recent work, readings, music or films I have enjoyed. Perhaps this will be of interest to some. Mostly, this will be of help to me for organizing thoughts and keeping track of my journey.
+I decided to pick up again on some of my old habits. This time, it will have a twist though: I'll share here some of my most recent work, readings, music or films I have enjoyed. Perhaps this will be of interest to some. Mostly, this will be of help to me for organizing thoughts and keeping track of my journey.
 
 ## Election Results
 
