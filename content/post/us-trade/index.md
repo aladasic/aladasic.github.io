@@ -22,7 +22,7 @@ Ok so now we see a bit more clearly what will go on this time. We already have 2
 
 **The obvious question that is on everyone's mind is the impact on global trade**. Now when facing this wide question, my first reaction is always to go back to theory. So the classic trade framework (check Krugman's very clear textbook in case of doubt) tells you that consumer are worse off (a+b+c+d) -- and this is not compensated by producers' gain (a) -- but the government can get an extra revenue (c+e), and that the importing country will see an appreciation of its currency.
 
-![Trade Framework Diagram](media/image1.png)
+![alt](image1.png)
 
 Now, I don't want to dwell too much on the mathematics here (a simple review of local projection can be found [here](https://www3.nd.edu/~nmark/Climate/Jorda_LPsForAppliedEconomics.pdf)), but [this](https://www.nber.org/system/files/working_papers/w25402/w25402.pdf) paper covers a broad time span (1963-2014) and wide variety of countries (151 actually) and is quiet clear on one thing: it does look grim. **Tariffs have an adverse impact on output, productivity, they increase unemployment and inequality and had little impact on trade balance** (because of the offset of exchange rates). In a nutshell, that might have worked with the Corn Laws and perhaps for new sectors, but not anymore. *La fete est finie*. History is full of other examples but an intellectually stimulating discussion is to be found (again) in [Trade talks](https://tradetalkspodcast.com/podcast/49-are-trumps-steel-quotas-worse-than-his-steel-tariffs/).
 
@@ -32,8 +32,8 @@ That's for the theory. And I remember that **when Trump announced in 2018 the st
 
 **And then guess what happened ? Well exactly what the theory projected**. An April 2019 U Chicago [study](https://bfi.uchicago.edu/wp-content/uploads/BFI_WP_201961-1.pdf) found that after the Trump administration imposed tariffs on washing machines, washer prices increased by $86 per unit and dryer prices increased by $92 per unit, due to package deals, ultimately resulting in an aggregate increase in consumer costs of over $1.5 billion. An October 2019 [paper](https://www.federalreserve.gov/econres/feds/files/2019086pap.pdf) by Alberto Cavallo et. al. found tariffs on imports from China were almost fully passed through to US import prices but only partially to retail consumers, implying some businesses absorbed the higher tariffs, reducing retail margins. In December 2019, Federal Reserve economists Aaron Flaaen and Justin Pierce [found](https://www.federalreserve.gov/econres/feds/files/2019086pap.pdf) a net decrease in manufacturing employment due to the tariffs, suggesting that the benefit of increased production in protected industries was outweighed by the consequences of rising input costs and retaliatory tariffs. But the prize goes to D. Autor et al in January 2024 [concluding](https://www.nber.org/papers/w32082#fromrss) that import tariffs had "*neither a sizable nor significant effect on US employment in regions with newly‐​protected sectors*" and foreign retaliation "*by contrast had clear negative employment impacts, particularly in agriculture*".
 
-![Impact Analysis Graph 1](media/image2.png)
-![Impact Analysis Graph 2](media/image3.png)
+![alt](image2.png)![alt](image3.png)
+
 
 **While it did [curb](https://www.piie.com/research/piie-charts/2024/americans-have-been-paying-tariffs-imports-china-decades) Chinese imports, it didn't do much for the trade deficit**. It leaves you wondering: would people be willing to trade off inflation for home production? Often one would say this is probably an *elasticity* question. It does also beg a wider question for those of you who love administratology (rather than legal) question on whether the President has a tyrannic power over trade policy. The Economist did a pretty [neat job](https://www.economist.com/united-states/2024/11/27/does-donald-trump-have-unlimited-authority-to-impose-tariffs) at summarizing it.
 
