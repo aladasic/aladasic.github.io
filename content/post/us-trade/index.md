@@ -6,7 +6,6 @@ date: 2024-12-02
 # Featured image
 image:
   caption: 'Image credit: Photo by Kseniia Rastvorova on Unsplash'
-      '
 
 authors:
   - admin
@@ -15,7 +14,6 @@ tags:
   - Economics
   - Trade Policy
   - US Election
-  - Analysis
 ---
 
 Ok so now we see a bit more clearly what will go on this time. We already have 2 Secretaries [doing the same thing](https://x.com/SenWarren/status/1856541693836734783) (not that they are in charge of efficiency.. oh wait..); an Irak medical unit veteran as spy in chief and an anti-vax in charge of Health policies. Doing great so far.
