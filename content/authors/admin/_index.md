@@ -20,7 +20,7 @@ superuser: true
 highlight_name: true
 
 # Role/position/tagline
-role: Policy Specialist - EBA
+role: Senior Economist
 
 # Organizations/Affiliations to display in Biography blox
 organizations:
@@ -75,12 +75,21 @@ education:
       Courses included:
       - Topology, Optimization, Numerical Method
 work:
-  - position: Policy Specialit (EU&International Function)
+  - position: Senior Economist (EU&International Function)
+    company_name: Central Bank of Ireland
+    company_url: 'https://www.centralbank.ie/'
+    company_logo: ''
+    date_start: 2025-02-01
+    date_end: ''
+    summary: |
+      - In charge of the central bank's contribution to the IMF Article IV mission and IMF FSAP. 
+      - Leading a team responsible for the preparation of EU committees (EFC, SCIMF, IRC)
+  - position: Policy Specialist (EU&International Function)
     company_name: Central Bank of Ireland
     company_url: 'https://www.centralbank.ie/'
     company_logo: ''
     date_start: 2023-05-02
-    date_end: ''
+    date_end: 2025-02-01
     summary: |
       - In charge of the central bank's collaborations with the ECB regarding Single Supervisory Mechanism issues as well as with the European Banking Authority. 
       - Presented analyses on strategic issues concerning financial supervisory risks to the Deputy Governor of the Central Bank, contributing to a deeper understanding of regulatory challenges.
