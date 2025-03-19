@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Regression with R-squared Visualization</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    
+    .controls {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+    }
+    
+    .control-group {
+      margin-bottom: 10px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    input[type="range"] {
+      width: 100%;
+    }
+    
+    .value-display {
+      display: inline-block;
+      width: 50px;
+      text-align: right;
+      margin-left: 10px;
+      font-family: monospace;
+    }
+    
+    .plot-container {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .button-group {
+      margin-top: 15px;
+    }
+    
+    button {
+      padding: 8px 16px;
+      margin-right: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    .checkbox-group {
+      margin-top: 15px;
+    }
+    
+    .checkbox-label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    
+    .stats-container {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e8f5e9;
+      border-radius: 8px;
+    }
+    
+    .info-box {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e3f2fd;
+      border-radius: 8px;
+    }
+    
+    .r-squared-legend {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+    }
+    
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+      border: 1px solid #333;
+    }
+    
+    .legend-text {
+      font-size: 0.9rem;
+    }
+    
+    .show-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    #scatter-plot {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+    }
+
+    #scatter-plot svg {
+      margin: 0 auto;
+      display: block;
+    }
+
+    .plot-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Interactive Linear Regression with R-squared</h1>
+    
+    <div class="controls">
+      <div class="control-group">
+        <label for="slope">Slope (m): <span id="slope-value" class="value-display">0.50</span></label>
+        <input type="range" id="slope" min="-2" max="2" step="0.05" value="0.5">
+      </div>
+      
+      <div class="control-group">
+        <label for="intercept">Intercept (b): <span id="intercept-value" class="value-display">2.00</span></label>
+        <input type="range" id="intercept" min="-5" max="5" step="0.1" value="2.0">
+      </div>
+      
+      <div class="show-options">
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="show-line" checked> Show Regression Line
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="show-residuals" checked> Show Residuals
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="show-best-fit"> Show Best Fit Line
+          </label>
+        </div>
+        
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="show-r-squared"> Show explained variances
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="show-dotted-squares"> Show Residual Squares
+          </label>
+        </div>
+      </div>
+      
+      <div class="button-group">
+        <button id="new-data-btn">Generate New Data</button>
+        <button id="best-fit-btn">Set to Best Fit</button>
+        <button id="fewer-points-btn">Fewer Data Points</button>
+        <button id="more-points-btn">More Data Points</button>
+      </div>
+    </div>
+    
+    <div class="plot-container">
+      <div id="scatter-plot"></div>
+    </div>
+    
+    <div class="plot-container">
+      <div id="residual-plot"></div>
+    </div>
+
+    <div class="plot-container">
+      <div id="sse-visualization"></div>
+    </div>
+    
+    <div class="stats-container">
+      <h3>Regression Statistics</h3>
+      <p>Current Line Equation: y = <span id="current-equation">0.50x + 2.00</span></p>
+      <p>Sum of Squared Errors (SSE): <span id="sse-value">0.00</span></p>
+      <p>R-squared (R²): <span id="r-squared-value">0.00</span></p>
+      
+      <div id="r-squared-explanation" style="display: none;">
+        <h3>R² Visualization Legend</h3>
+        <div class="r-squared-legend">
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: rgba(173, 216, 230, 0.3);"></div>
+            <span class="legend-text">Total Variance (TSS)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: rgba(144, 238, 144, 0.3);"></div>
+            <span class="legend-text">Explained Variance</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: rgba(255, 99, 71, 0.3);"></div>
+            <span class="legend-text">Unexplained Variance (RSS)</span>
+          </div>
+        </div>
+        <p style="margin-top: 10px;">R² = Explained Variance / Total Variance = 1 - (Unexplained Variance / Total Variance)</p>
+      </div>
+      
+      <div id="best-fit-stats" style="display: none;">
+        <h3>Best Fit Line</h3>
+        <p>Equation: y = <span id="best-fit-equation">0.00x + 0.00</span></p>
+        <p>Minimum SSE: <span id="best-fit-sse">0.00</span></p>
+        <p>Maximum R²: <span id="best-fit-r-squared">0.00</span></p>
+      </div>
+    </div>
+    
+    <div class="info-box">
+      <h3>Understanding Linear Regression</h3>
+      <p>Linear regression finds the line of best fit through data points, minimizing the sum of squared errors (SSE).</p>
+      <p>The line equation is <strong>y = mx + b</strong>, where <strong>m</strong> is the slope and <strong>b</strong> is the y-intercept.</p>
+      <p><strong>Residuals</strong> are the vertical distances between data points and the regression line. The best-fit line minimizes the sum of the squared residuals.</p>
+      <p><strong>R-squared (R²)</strong> measures how well the regression line explains the variation in the data. It ranges from 0 to 1, where 1 means the line perfectly explains all variation.</p>
+    </div>
+  </div>
+
+  <script>
+    // Configuration
+    const config = {
+      width: 600,
+      height: 400,
+      margin: { top: 30, right: 30, bottom: 50, left: 60 },
+      dotRadius: 5,
+      residualPlotHeight: 200
+    };
+    
+    // State
+    let state = {
+      data: [],
+      userSlope: 0.5,
+      userIntercept: 2.0,
+      bestFit: { slope: 0, intercept: 0 },
+      showLine: true,
+      showResiduals: true,
+      showBestFit: false,
+      showRSquared: false,
+      showDottedSquares: false,
+      sse: 0,
+      rSquared: 0,
+      bestFitSSE: 0,
+      bestFitRSquared: 0,
+      pointCount: 10 // Default to fewer points for clearer visualization
+    };
+    
+    // Function to generate random data
+    function generateData(n = state.pointCount, slope = 0.65, intercept = 1.4, noise = 1.5) {
+      const data = [];
+      for (let i = 0; i < n; i++) {
+        const x = i / (n - 1) * 10; // x from 0 to 10
+        // y = mx + b + random noise
+        const y = slope * x + intercept + (Math.random() - 0.5) * 2 * noise;
+        data.push({ x, y });
+      }
+      return data;
+    }
+    
+    // Calculate sum of squared residuals
+    function calculateSSE(data, slope, intercept) {
+      return data.reduce((sum, point) => {
+        const predicted = slope * point.x + intercept;
+        const residual = point.y - predicted;
+        return sum + residual * residual;
+      }, 0);
+    }
+    
+    // Calculate R-squared
+    function calculateRSquared(data, slope, intercept) {
+      // Calculate the mean of y values
+      const meanY = data.reduce((sum, point) => sum + point.y, 0) / data.length;
+      
+      // Calculate total sum of squares (TSS)
+      const tss = data.reduce((sum, point) => {
+        return sum + Math.pow(point.y - meanY, 2);
+      }, 0);
+      
+      // Calculate residual sum of squares (RSS)
+      const rss = data.reduce((sum, point) => {
+        const predicted = slope * point.x + intercept;
+        return sum + Math.pow(point.y - predicted, 2);
+      }, 0);
+      
+      // Calculate R-squared
+      const rSquared = 1 - (rss / tss);
+      
+      return rSquared;
+    }
+    
+    // Compute best fit using least squares
+    function computeBestFit(data) {
+      const n = data.length;
+      
+      // Calculate means
+      const meanX = data.reduce((sum, point) => sum + point.x, 0) / n;
+      const meanY = data.reduce((sum, point) => sum + point.y, 0) / n;
+      
+      // Calculate slope
+      const numerator = data.reduce((sum, point) => {
+        return sum + (point.x - meanX) * (point.y - meanY);
+      }, 0);
+      
+      const denominator = data.reduce((sum, point) => {
+        return sum + Math.pow(point.x - meanX, 2);
+      }, 0);
+      
+      const slope = numerator / denominator;
+      
+      // Calculate intercept
+      const intercept = meanY - slope * meanX;
+      
+      return { slope, intercept };
+    }
+    
+    // Create SVG for scatter plot
+    const scatterSvg = d3.select("#scatter-plot")
+      .append("svg")
+      .attr("width", config.width)
+      .attr("height", config.height)
+      .attr("viewBox", [0, 0, config.width, config.height])
+      .attr("style", "max-width: 100%; height: auto;");
+    
+    // Create SVG for residual plot
+    const residualSvg = d3.select("#residual-plot")
+      .append("svg")
+      .attr("width", config.width)
+      .attr("height", config.residualPlotHeight)
+      .attr("viewBox", [0, 0, config.width, config.residualPlotHeight])
+      .attr("style", "max-width: 100%; height: auto;");
+
+    // Create SVG for SSE visualization
+    const sseSvg = d3.select("#sse-visualization")
+      .append("svg")
+      .attr("width", config.width)
+      .attr("height", 200) // A good height for the SSE visual
+      .attr("viewBox", [0, 0, config.width, 200])
+      .attr("style", "max-width: 100%; height: auto;");
+
+    // Title for the SSE visualization
+    sseSvg.append("text")
+    .attr("text-anchor", "middle")
+    .attr("x", config.width / 2)
+    .attr("y", 20)
+    .attr("font-size", "14px")
+    .attr("font-weight", "bold")
+    .text("Sum of Squared Errors (SSE) Visualization");
+
+    // Add a group for the SSE square
+    const sseSquareGroup = sseSvg.append("g");
+
+    // Setup scales (initial, will be updated)
+    const xScale = d3.scaleLinear()
+      .domain([0, 10])
+      .range([config.margin.left, config.width - config.margin.right]);
+    
+    const yScale = d3.scaleLinear()
+      .domain([-1, 12])
+      .range([config.height - config.margin.bottom, config.margin.top]);
+    
+    const residualYScale = d3.scaleLinear()
+      .domain([-5, 5])
+      .range([config.residualPlotHeight - 30, 20]);
+    
+    // Add axes to scatter plot
+    const xAxis = d3.axisBottom(xScale);
+    scatterSvg.append("g")
+      .attr("transform", `translate(0,${config.height - config.margin.bottom})`)
+      .call(xAxis);
+    
+    const yAxis = d3.axisLeft(yScale);
+    scatterSvg.append("g")
+      .attr("transform", `translate(${config.margin.left},0)`)
+      .call(yAxis);
+    
+    // X-axis label
+    scatterSvg.append("text")
+      .attr("text-anchor", "middle")
+      .attr("x", config.width / 2)
+      .attr("y", config.height - 10)
+      .text("X");
+    
+    // Y-axis label
+    scatterSvg.append("text")
+      .attr("text-anchor", "middle")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -(config.height / 2))
+      .attr("y", 15)
+      .text("Y");
+    
+    // Add axes to residual plot
+    const residualXAxis = d3.axisBottom(xScale);
+    residualSvg.append("g")
+      .attr("transform", `translate(0,${config.residualPlotHeight / 2})`)
+      .call(residualXAxis);
+    
+    const residualYAxis = d3.axisLeft(residualYScale);
+    residualSvg.append("g")
+      .attr("transform", `translate(${config.margin.left},0)`)
+      .call(residualYAxis);
+    
+    // Add zero line to residual plot
+    residualSvg.append("line")
+      .attr("x1", config.margin.left)
+      .attr("y1", config.residualPlotHeight / 2)
+      .attr("x2", config.width - config.margin.right)
+      .attr("y2", config.residualPlotHeight / 2)
+      .attr("stroke", "black")
+      .attr("stroke-width", 1);
+    
+    // X-axis label for residual plot
+    residualSvg.append("text")
+      .attr("text-anchor", "middle")
+      .attr("x", config.width / 2)
+      .attr("y", config.residualPlotHeight - 5)
+      .text("X");
+    
+    // Y-axis label for residual plot
+    residualSvg.append("text")
+      .attr("text-anchor", "middle")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -(config.residualPlotHeight / 2))
+      .attr("y", 15)
+      .text("Residual");
+    
+    // Groups for different elements
+    const dotsGroup = scatterSvg.append("g");
+    const residualLinesGroup = scatterSvg.append("g");
+    const userLineGroup = scatterSvg.append("g");
+    const bestFitLineGroup = scatterSvg.append("g");
+    const residualDotsGroup = residualSvg.append("g");
+    const rSquaredGroup = scatterSvg.append("g");
+    const dottedSquaresGroup = scatterSvg.append("g");
+    
+    // Prepare data for R-squared visualization
+    function prepareRSquaredData() {
+      // Calculate mean y
+      const meanY = state.data.reduce((sum, point) => sum + point.y, 0) / state.data.length;
+      
+      // For each point, compute various deviations for visualization
+      return state.data.map(point => {
+        const predicted = state.userSlope * point.x + state.userIntercept;
+        return {
+          ...point,
+          predicted,
+          // Deviation from the mean (for total variance - TSS)
+          deviationFromMean: point.y - meanY,
+          // Residual (for unexplained variance - RSS)
+          residual: point.y - predicted,
+          // Explained deviation (the part that the model captures)
+          explainedDeviation: predicted - meanY
+        };
+      });
+    }
+    
+    // Update the plots
+function updatePlots() {
+  // Update displays
+  d3.select("#slope-value").text(state.userSlope.toFixed(2));
+  d3.select("#intercept-value").text(state.userIntercept.toFixed(2));
+  d3.select("#current-equation").text(`${state.userSlope.toFixed(2)}x + ${state.userIntercept.toFixed(2)}`);
+
+  // Update SSE and R-squared displays
+  state.sse = calculateSSE(state.data, state.userSlope, state.userIntercept);
+  state.rSquared = calculateRSquared(state.data, state.userSlope, state.userIntercept);
+  d3.select("#sse-value").text(state.sse.toFixed(2));
+  d3.select("#r-squared-value").text(state.rSquared.toFixed(2));
+
+  // Show/hide R-squared explanation
+  d3.select("#r-squared-explanation").style("display", state.showRSquared ? "block" : "none");
+
+  // Show/hide best fit stats
+  if (state.showBestFit) {
+    d3.select("#best-fit-stats").style("display", "block");
+    d3.select("#best-fit-equation").text(`${state.bestFit.slope.toFixed(2)}x + ${state.bestFit.intercept.toFixed(2)}`);
+    d3.select("#best-fit-sse").text(state.bestFitSSE.toFixed(2));
+    d3.select("#best-fit-r-squared").text(state.bestFitRSquared.toFixed(2));
+  } else {
+    d3.select("#best-fit-stats").style("display", "none");
+  }
+
+  // Clear existing elements
+  dotsGroup.selectAll("*").remove();
+  residualLinesGroup.selectAll("*").remove();
+  userLineGroup.selectAll("*").remove();
+  bestFitLineGroup.selectAll("*").remove();
+  residualDotsGroup.selectAll("*").remove();
+  rSquaredGroup.selectAll("*").remove();
+  dottedSquaresGroup.selectAll("*").remove();
+
+  // Draw data points
+  dotsGroup.selectAll("circle")
+    .data(state.data)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xScale(d.x))
+    .attr("cy", d => yScale(d.y))
+    .attr("r", config.dotRadius)
+    .attr("fill", "steelblue");
+
+  // Draw user's regression line (if enabled)
+  if (state.showLine) {
+    const userLineData = [
+      { x: 0, y: state.userIntercept },
+      { x: 10, y: state.userSlope * 10 + state.userIntercept }
+    ];
+
+    const userLine = d3.line()
+      .x(d => xScale(d.x))
+      .y(d => yScale(d.y));
+
+    userLineGroup.append("path")
+      .datum(userLineData)
+      .attr("fill", "none")
+      .attr("stroke", "orange")
+      .attr("stroke-width", 2)
+      .attr("d", userLine);
+  }
+
+  // Draw best fit line if enabled
+  if (state.showBestFit) {
+    const bestFitLineData = [
+      { x: 0, y: state.bestFit.intercept },
+      { x: 10, y: state.bestFit.slope * 10 + state.bestFit.intercept }
+    ];
+
+    const bestFitLine = d3.line()
+      .x(d => xScale(d.x))
+      .y(d => yScale(d.y));
+
+    bestFitLineGroup.append("path")
+      .datum(bestFitLineData)
+      .attr("fill", "none")
+      .attr("stroke", "green")
+      .attr("stroke-width", 2)
+      .attr("stroke-dasharray", "5,5")
+      .attr("d", bestFitLine);
+  }
+
+  // Calculate and draw residuals
+  if (state.showResiduals && state.showLine) {
+    const residuals = state.data.map(point => {
+      const predicted = state.userSlope * point.x + state.userIntercept;
+      return {
+        x: point.x,
+        y: point.y,
+        predicted: predicted,
+        residual: point.y - predicted
+      };
+    });
+
+    // Draw residual lines
+    residualLinesGroup.selectAll("line")
+      .data(residuals)
+      .enter()
+      .append("line")
+      .attr("x1", d => xScale(d.x))
+      .attr("y1", d => yScale(d.predicted))
+      .attr("x2", d => xScale(d.x))
+      .attr("y2", d => yScale(d.y))
+      .attr("stroke", "red")
+      .attr("stroke-width", 1)
+      .attr("stroke-dasharray", "3,3");
+
+    // Draw residual points in residual plot
+    residualDotsGroup.selectAll("circle")
+      .data(residuals)
+      .enter()
+      .append("circle")
+      .attr("cx", d => xScale(d.x))
+      .attr("cy", d => residualYScale(d.residual))
+      .attr("r", config.dotRadius)
+      .attr("fill", "red");
+
+    // Show/hide residual plot
+    d3.select("#residual-plot").style("display", "block");
+  } else {
+    d3.select("#residual-plot").style("display", "none");
+  }
+
+  // Draw R-squared visualization if enabled
+  if (state.showRSquared) {
+    const rSquaredData = prepareRSquaredData();
+    const meanY = state.data.reduce((sum, point) => sum + point.y, 0) / state.data.length;
+
+    // Draw squares for each point to visualize the variances
+    rSquaredData.forEach((point, index) => {
+      // Group for this point's visualization
+      const pointGroup = rSquaredGroup.append("g");
+
+      // Draw squares for total variance (deviation from mean)
+      // This is a rectangle from mean line to actual y value
+      pointGroup.append("rect")
+        .attr("x", xScale(point.x) - 5)
+        .attr("y", yScale(Math.max(meanY, point.y)))
+        .attr("width", 10)
+        .attr("height", Math.abs(yScale(meanY) - yScale(point.y)))
+        .attr("fill", "rgba(173, 216, 230, 0.3)")  // Light blue for total variance
+        .attr("stroke", "blue")
+        .attr("stroke-width", 1)
+        .attr("stroke-dasharray", "3,3");
+
+      if (state.showLine) {
+        // Draw squares for unexplained variance (residuals)
+        // This is a rectangle from regression line to actual y value
+        pointGroup.append("rect")
+          .attr("x", xScale(point.x) - 5)
+          .attr("y", yScale(Math.max(point.predicted, point.y)))
+          .attr("width", 10)
+          .attr("height", Math.abs(yScale(point.predicted) - yScale(point.y)))
+          .attr("fill", "rgba(255, 99, 71, 0.3)")  // Light red for unexplained variance
+          .attr("stroke", "red")
+          .attr("stroke-width", 1)
+          .attr("stroke-dasharray", "3,3");
+
+        // Draw squares for explained variance
+        // This is a rectangle from mean line to regression line
+        pointGroup.append("rect")
+          .attr("x", xScale(point.x) - 5)
+          .attr("y", yScale(Math.max(meanY, point.predicted)))
+          .attr("width", 10)
+          .attr("height", Math.abs(yScale(meanY) - yScale(point.predicted)))
+          .attr("fill", "rgba(144, 238, 144, 0.3)")  // Light green for explained variance
+          .attr("stroke", "green")
+          .attr("stroke-width", 1)
+          .attr("stroke-dasharray", "3,3");
+      }
+    });
+
+    // Draw mean line
+    rSquaredGroup.append("line")
+      .attr("x1", config.margin.left)
+      .attr("y1", yScale(meanY))
+      .attr("x2", config.width - config.margin.right)
+      .attr("y2", yScale(meanY))
+      .attr("stroke", "blue")
+      .attr("stroke-width", 1)
+      .attr("stroke-dasharray", "5,5");
+  }
+
+  // Draw dotted squares for residuals if enabled
+if (state.showDottedSquares && state.showLine) {
+  const residuals = state.data.map(point => {
+    const predicted = state.userSlope * point.x + state.userIntercept;
+    return {
+      x: point.x,
+      y: point.y,
+      predicted: predicted,
+      residual: point.y - predicted
+    };
+  });
+
+  // Draw dotted square outlines
+  residuals.forEach(point => {
+    const residualLength = Math.abs(yScale(point.predicted) - yScale(point.y));
+
+    // Position square with the residual line as the left edge
+    dottedSquaresGroup.append("rect")
+      .attr("x", xScale(point.x)) // Start at the point's x position
+      .attr("y", Math.min(yScale(point.y), yScale(point.predicted))) // Start at upper point of residual line
+      .attr("width", residualLength) // Width equals residual length
+      .attr("height", residualLength) // Height equals residual length
+      .attr("fill", "rgba(255, 0, 0, 0.05)")
+      .attr("stroke", "red")
+      .attr("stroke-width", 2)
+      .attr("stroke-dasharray", "4,4");
+  });
+}
+
+// Visualize the sum of squared errors
+sseSquareGroup.selectAll("*").remove();
+
+if (state.showDottedSquares && state.showLine) {
+  // Calculate all residuals
+  const residuals = state.data.map(point => {
+    const predicted = state.userSlope * point.x + state.userIntercept;
+    return Math.pow(point.y - predicted, 2); // Square the residuals
+  });
+
+  // Calculate total SSE
+  const totalSSE = residuals.reduce((sum, sq) => sum + sq, 0);
+
+  // Create a square with area proportional to SSE
+  const sideLength = Math.sqrt(totalSSE) * 15; // Scale factor to make it visible
+
+  // Draw the square in the center
+  sseSquareGroup.append("rect")
+    .attr("x", (config.width - sideLength) / 2)
+    .attr("y", 40)
+    .attr("width", sideLength)
+    .attr("height", sideLength)
+    .attr("fill", "rgba(255, 0, 0, 0.1)")
+    .attr("stroke", "red")
+    .attr("stroke-width", 2)
+    .attr("stroke-dasharray", "4,4");
+
+  // Add label with SSE value
+  sseSquareGroup.append("text")
+    .attr("text-anchor", "middle")
+    .attr("x", config.width / 2)
+    .attr("y", 70 + sideLength)
+    .attr("font-size", "12px")
+    .text(`Sum of Squared Errors (SSE): ${state.sse.toFixed(2)}`);
+
+  // Add explanation
+  sseSquareGroup.append("text")
+    .attr("text-anchor", "middle")
+    .attr("x", config.width / 2)
+    .attr("y", 90 + sideLength)
+    .attr("font-size", "12px")
+    .text("The area of this square represents the total squared error.");
+}
+
+// Show/hide SSE visualization
+d3.select("#sse-visualization").style("display",
+  (state.showDottedSquares && state.showLine) ? "block" : "none");
+
+}
+
+    
+    // Initialize with data
+    function initialize() {
+      state.data = generateData(state.pointCount);
+      state.bestFit = computeBestFit(state.data);
+      state.bestFitSSE = calculateSSE(state.data, state.bestFit.slope, state.bestFit.intercept);
+      state.bestFitRSquared = calculateRSquared(state.data, state.bestFit.slope, state.bestFit.intercept);
+      updatePlots();
+    }
+    
+    // Event listeners
+    d3.select("#slope").on("input", function() {
+      state.userSlope = parseFloat(this.value);
+      updatePlots();
+    });
+    
+    d3.select("#intercept").on("input", function() {
+      state.userIntercept = parseFloat(this.value);
+      updatePlots();
+    });
+    
+    d3.select("#show-line").on("change", function() {
+      state.showLine = this.checked;
+      updatePlots();
+    });
+    
+    d3.select("#show-residuals").on("change", function() {
+      state.showResiduals = this.checked;
+      updatePlots();
+    });
+    
+    d3.select("#show-best-fit").on("change", function() {
+      state.showBestFit = this.checked;
+      updatePlots();
+    });
+    
+    d3.select("#show-r-squared").on("change", function() {
+      state.showRSquared = this.checked;
+      updatePlots();
+    });
+
+    d3.select("#show-dotted-squares").on("change", function() {
+    state.showDottedSquares = this.checked;
+    updatePlots();
+    });
+    
+    d3.select("#new-data-btn").on("click", function() {
+      state.data = generateData();
+      state.bestFit = computeBestFit(state.data);
+      state.bestFitSSE = calculateSSE(state.data, state.bestFit.slope, state.bestFit.intercept);
+      state.bestFitRSquared = calculateRSquared(state.data, state.bestFit.slope, state.bestFit.intercept);
+      updatePlots();
+    });
+    
+    d3.select("#best-fit-btn").on("click", function() {
+      state.userSlope = state.bestFit.slope;
+      state.userIntercept = state.bestFit.intercept;
+      d3.select("#slope").property("value", state.userSlope);
+      d3.select("#intercept").property("value", state.userIntercept);
+      updatePlots();
+    });
+    
+    d3.select("#fewer-points-btn").on("click", function() {
+      state.pointCount = Math.max(5, state.pointCount - 5);
+      state.data = generateData();
+      state.bestFit = computeBestFit(state.data);
+      state.bestFitSSE = calculateSSE(state.data, state.bestFit.slope, state.bestFit.intercept);
+      state.bestFitRSquared = calculateRSquared(state.data, state.bestFit.slope, state.bestFit.intercept);
+      updatePlots();
+    });
+    
+    d3.select("#more-points-btn").on("click", function() {
+      state.pointCount = Math.min(30, state.pointCount + 5);
+      state.data = generateData();
+      state.bestFit = computeBestFit(state.data);
+      state.bestFitSSE = calculateSSE(state.data, state.bestFit.slope, state.bestFit.intercept);
+      state.bestFitRSquared = calculateRSquared(state.data, state.bestFit.slope, state.bestFit.intercept);
+      updatePlots();
+    });
+    
+    // Start the visualization
+    initialize();
+  </script>
+</body>
+</html>

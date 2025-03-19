@@ -330,6 +330,14 @@ $$\lim_{n\rightarrow\infty}P(|\hat{\theta}_n - \theta| > \epsilon) = 0$$
 [Sampling Theory](#) <!-- This will be replaced with the actual link once the spreadsheet is uploaded -->
 [Point estimation](#) <!-- This will be replaced with the actual link once the spreadsheet is uploaded -->
 
+## Interactive Tools
+
+Explore statistical concepts through interactive visualizations:
+
+{{< cta cta_text="Linear Regression Visualization" cta_link="/visualizations/regression-visualization-complete.html" cta_new_tab="true" >}}
+
+This interactive tool lets you manipulate regression parameters (slope and intercept) to see how they affect the fit to data points. You can visualize residuals, R-squared components, and understand the concepts of best fit lines in a hands-on way.
+
 
 ## Summary of Key Concepts
 
