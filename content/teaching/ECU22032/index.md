@@ -334,7 +334,7 @@ $$\lim_{n\rightarrow\infty}P(|\hat{\theta}_n - \theta| > \epsilon) = 0$$
 
 Explore statistical concepts through interactive visualizations:
 
-{{< cta cta_text="Linear Regression Visualization" cta_link="/visualizations/regression-visualization-complete.html" cta_new_tab="true" >}}
+[Linear Regression Interactive Visualization](/visualizations/regression-visualization-complete.html)
 
 This interactive tool lets you manipulate regression parameters (slope and intercept) to see how they affect the fit to data points. You can visualize residuals, R-squared components, and understand the concepts of best fit lines in a hands-on way.
 
