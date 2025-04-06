@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Difference-in-Differences Visualization</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    
+    .controls {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+    }
+    
+    .control-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    input[type="range"] {
+      width: 100%;
+    }
+    
+    .value-display {
+      display: inline-block;
+      width: 50px;
+      text-align: right;
+      margin-left: 10px;
+      font-family: monospace;
+    }
+    
+    .plot-container {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .button-group {
+      margin-top: 15px;
+    }
+    
+    button {
+      padding: 8px 16px;
+      margin-right: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    .stats-container {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e8f5e9;
+      border-radius: 8px;
+    }
+    
+    .info-box {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e3f2fd;
+      border-radius: 8px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+    }
+    
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+      border: 1px solid #333;
+    }
+
+    #did-plot {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+    }
+
+    #did-plot svg {
+      margin: 0 auto;
+      display: block;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .checkbox-container input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .regression-box {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #fff3e0;
+      border-radius: 8px;
+      border: 1px solid #ffcc80;
+    }
+
+    .formula {
+      font-family: 'Courier New', monospace;
+      margin: 15px 0;
+      font-size: 16px;
+      line-height: 1.5;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+
+    .formula .highlight {
+      background-color: #ffeb3b;
+      padding: 0 3px;
+    }
+
+    .formula .crossed {
+      text-decoration: line-through;
+      color: #999;
+    }
+
+    .formula-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .formula-control {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .toggle-btn {
+      padding: 6px 12px;
+      border-radius: 4px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      min-width: 100px;
+      text-align: center;
+    }
+
+    .toggle-active {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .toggle-active:hover {
+      background-color: #4CAF50;
+    }
+
+    .toggle-inactive {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .toggle-inactive:hover {
+      background-color: #f44336;
+    }
+
+    .formula-description {
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    .coefficient {
+      font-weight: bold;
+      color: #d32f2f;
+    }
+    
+    #coefficient-interpretations, #combination-interpretations {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-radius: 4px;
+      border-left: 4px solid #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Interactive Difference-in-Differences</h1>
+    
+    <div class="controls">
+      <div class="control-group">
+        <label for="treatment-effect">Treatment Effect: <span id="treatment-effect-value" class="value-display">2.00</span></label>
+        <input type="range" id="treatment-effect" min="-5" max="5" step="0.1" value="2.0">
+      </div>
+      
+      <div class="control-group">
+        <label for="baseline-diff">Baseline Difference: <span id="baseline-diff-value" class="value-display">1.00</span></label>
+        <input type="range" id="baseline-diff" min="-3" max="3" step="0.1" value="1.0">
+      </div>
+      
+      <div class="control-group">
+        <label for="time-trend">Time Trend: <span id="time-trend-value" class="value-display">1.50</span></label>
+        <input type="range" id="time-trend" min="-3" max="3" step="0.1" value="1.5">
+      </div>
+
+      <div class="control-group">
+        <label for="noise-level">Noise Level: <span id="noise-level-value" class="value-display">0.50</span></label>
+        <input type="range" id="noise-level" min="0" max="2" step="0.1" value="0.5">
+      </div>
+      
+      <div class="button-group">
+        <button id="new-data-btn">Generate New Data</button>
+        <button id="zero-effect-btn">Zero Treatment Effect</button>
+        <div class="checkbox-container">
+          <input type="checkbox" id="show-counterfactual" name="show-counterfactual">
+          <label for="show-counterfactual">Show Counterfactual</label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #4285F4;"></div>
+        <span>Control Group</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #EA4335;"></div>
+        <span>Treatment Group</span>
+      </div>
+      <div class="legend-item" id="counterfactual-legend" style="display: none;">
+        <div class="legend-color" style="background-color: #FBBC05; border-style: dashed;"></div>
+        <span>Counterfactual (No Treatment)</span>
+      </div>
+      <div class="legend-item" id="did-effect-legend">
+        <div class="legend-color" style="background-color: rgba(0,200,0,0.2); border: 1px dashed green;"></div>
+        <span>DiD Effect</span>
+      </div>
+    </div>
+    
+    <div class="plot-container">
+      <div id="did-plot"></div>
+    </div>
+    
+    <div class="stats-container">
+      <h3>Difference-in-Differences Analysis</h3>
+      <p>Treatment Group Pre-Treatment: <span id="treatment-pre">0.00</span></p>
+      <p>Treatment Group Post-Treatment: <span id="treatment-post">0.00</span></p>
+      <p>Control Group Pre-Treatment: <span id="control-pre">0.00</span></p>
+      <p>Control Group Post-Treatment: <span id="control-post">0.00</span></p>
+      <p>Difference-in-Differences Estimate: <span id="did-estimate">0.00</span></p>
+    </div>
+    
+    <div class="regression-box">
+      <h3>DiD Regression Formula</h3>
+      <div class="formula" id="regression-formula">
+        Y = α + β₁·Treatment + β₂·Post + <span class="coefficient">β₃·(Treatment×Post)</span> + ε
+      </div>
+      <div class="formula-controls">
+        <div class="formula-control">
+          <button id="toggle-treatment" class="toggle-btn toggle-active">ACTIVE</button>
+          <label>Treatment Dummy (β₁)</label>
+        </div>
+        <div class="formula-control">
+          <button id="toggle-time" class="toggle-btn toggle-active">ACTIVE</button>
+          <label>Post Dummy (β₂)</label>
+        </div>
+        <div class="formula-control">
+          <button id="toggle-interaction" class="toggle-btn toggle-active">ACTIVE</button>
+          <label>Interaction Term (β₃)</label>
+        </div>
+      </div>
+      <div class="formula-description">
+        <p>Where:</p>
+        <ul>
+          <li><strong>Y</strong> = Outcome variable</li>
+          <li><strong>Treatment</strong> = 1 if in treatment group, 0 if in control group</li>
+          <li><strong>Post</strong> = 1 if post-treatment period, 0 if pre-treatment period</li>
+          <li><strong>Treatment×Post</strong> = Interaction term (equals 1 only for treatment group in post period)</li>
+        </ul>
+        <p>Use the toggle buttons to include or exclude variables from the regression model. When both Treatment and Post are active, the interaction term is automatically included.</p>
+        <div id="coefficient-interpretations">
+          <!-- Filled dynamically with JavaScript -->
+        </div>
+        <div id="combination-interpretations">
+          <!-- Filled dynamically with JavaScript -->
+        </div>
+      </div>
+    </div>
+    
+    <div class="info-box">
+      <h3>Understanding Difference-in-Differences</h3>
+      <p>Difference-in-Differences (DiD) is a statistical technique used to estimate the effect of a specific intervention or treatment by comparing the changes in outcomes over time between a treatment group and a control group.</p>
+      <p>The key assumption is the <strong>parallel trends assumption</strong>: without treatment, both groups would follow the same trend over time.</p>
+      <p>The DiD estimate is calculated as: <strong>(Treatment Post - Treatment Pre) - (Control Post - Control Pre)</strong></p>
+      <p>Use the sliders to adjust the treatment effect, baseline difference between groups, time trend, and noise level to see how each affects the DiD estimate.</p>
+    </div>
+  </div>
+
+  <script>
+    // Configuration
+    const config = {
+      width: 700,
+      height: 400,
+      margin: { top: 50, right: 50, bottom: 60, left: 60 },
+      dotRadius: 5
+    };
+    
+    // State
+    let state = {
+      treatmentEffect: 2.0,
+      baselineDiff: 1.0,
+      timeTrend: 1.5,
+      noiseLevel: 0.5,
+      showCounterfactual: false,
+      includeTreatment: true,
+      includeTime: true,
+      includeInteraction: true,
+      controlData: [],
+      treatmentData: [],
+      counterfactualData: []
+    };
+    
+    // Function to generate data
+    function generateData() {
+      const periods = ["Pre", "Post"];
+      const controlData = [];
+      const treatmentData = [];
+      const counterfactualData = [];
+      
+      // Pre-treatment data (t=0)
+      for (let i = 0; i < 10; i++) {
+        // Control group
+        controlData.push({
+          period: "Pre",
+          group: "Control",
+          id: `control_pre_${i}`,
+          x: 0,
+          y: state.noiseLevel * (Math.random() - 0.5) * 2
+        });
+        
+        // Treatment group with baseline difference
+        treatmentData.push({
+          period: "Pre",
+          group: "Treatment",
+          id: `treatment_pre_${i}`,
+          x: 0,
+          y: state.baselineDiff + state.noiseLevel * (Math.random() - 0.5) * 2
+        });
+        
+        // Counterfactual (what would have happened without treatment)
+        counterfactualData.push({
+          period: "Post",
+          group: "Counterfactual",
+          id: `counterfactual_${i}`,
+          x: 1,
+          y: state.baselineDiff + state.timeTrend + state.noiseLevel * (Math.random() - 0.5) * 2
+        });
+      }
+      
+      // Post-treatment data (t=1)
+      for (let i = 0; i < 10; i++) {
+        // Control group with time trend
+        controlData.push({
+          period: "Post",
+          group: "Control",
+          id: `control_post_${i}`,
+          x: 1,
+          y: state.timeTrend + state.noiseLevel * (Math.random() - 0.5) * 2
+        });
+        
+        // Treatment group with baseline difference, time trend, and treatment effect
+        treatmentData.push({
+          period: "Post",
+          group: "Treatment",
+          id: `treatment_post_${i}`,
+          x: 1,
+          y: state.baselineDiff + state.timeTrend + state.treatmentEffect + state.noiseLevel * (Math.random() - 0.5) * 2
+        });
+      }
+      
+      return {
+        controlData,
+        treatmentData,
+        counterfactualData
+      };
+    }
+    
+    // Calculate group means
+    function calculateMeans(controlData, treatmentData) {
+      // Control Pre
+      const controlPre = d3.mean(
+        controlData.filter(d => d.period === "Pre"),
+        d => d.y
+      );
+      
+      // Control Post
+      const controlPost = d3.mean(
+        controlData.filter(d => d.period === "Post"),
+        d => d.y
+      );
+      
+      // Treatment Pre
+      const treatmentPre = d3.mean(
+        treatmentData.filter(d => d.period === "Pre"),
+        d => d.y
+      );
+      
+      // Treatment Post
+      const treatmentPost = d3.mean(
+        treatmentData.filter(d => d.period === "Post"),
+        d => d.y
+      );
+      
+      // DiD estimate
+      const didEstimate = (treatmentPost - treatmentPre) - (controlPost - controlPre);
+      
+      return {
+        controlPre,
+        controlPost,
+        treatmentPre,
+        treatmentPost,
+        didEstimate
+      };
+    }
+    
+    // Create SVG
+    const svg = d3.select("#did-plot")
+      .append("svg")
+      .attr("width", config.width)
+      .attr("height", config.height)
+      .attr("viewBox", [0, 0, config.width, config.height])
+      .attr("style", "max-width: 100%; height: auto;");
+    
+    // Add title
+    svg.append("text")
+      .attr("text-anchor", "middle")
+      .attr("x", config.width / 2)
+      .attr("y", 25)
+      .attr("font-size", "16px")
+      .attr("font-weight", "bold")
+      .text("Difference-in-Differences Analysis");
+    
+    // Setup scales
+    const xScale = d3.scalePoint()
+      .domain(["Pre", "Post"])
+      .range([config.margin.left, config.width - config.margin.right])
+      .padding(0.5);
+    
+    const yScale = d3.scaleLinear()
+      .domain([-4, 8])
+      .range([config.height - config.margin.bottom, config.margin.top]);
+    
+    // Add axes
+    const xAxis = d3.axisBottom(xScale);
+    svg.append("g")
+      .attr("transform", `translate(0,${config.height - config.margin.bottom})`)
+      .call(xAxis)
+      .append("text")
+      .attr("x", config.width / 2)
+      .attr("y", 40)
+      .attr("text-anchor", "middle")
+      .attr("fill", "black")
+      .attr("font-size", "14px")
+      .text("Time Period");
+    
+    const yAxis = d3.axisLeft(yScale);
+    svg.append("g")
+      .attr("transform", `translate(${config.margin.left},0)`)
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -config.height / 2)
+      .attr("y", -40)
+      .attr("text-anchor", "middle")
+      .attr("fill", "black")
+      .attr("font-size", "14px")
+      .text("Outcome");
+    
+    // Groups for different elements
+    const controlPointsGroup = svg.append("g");
+    const treatmentPointsGroup = svg.append("g");
+    const counterfactualPointsGroup = svg.append("g");
+    const controlLineGroup = svg.append("g");
+    const treatmentLineGroup = svg.append("g");
+    const counterfactualLineGroup = svg.append("g");
+    const effectRectGroup = svg.append("g");
+    const meanLabelsGroup = svg.append("g");
+    
+    // Update the plot
+    function updatePlot() {
+      // Update displays
+      d3.select("#treatment-effect-value").text(state.treatmentEffect.toFixed(2));
+      d3.select("#baseline-diff-value").text(state.baselineDiff.toFixed(2));
+      d3.select("#time-trend-value").text(state.timeTrend.toFixed(2));
+      d3.select("#noise-level-value").text(state.noiseLevel.toFixed(2));
+      
+      // Generate data
+      const { controlData, treatmentData, counterfactualData } = generateData();
+      state.controlData = controlData;
+      state.treatmentData = treatmentData;
+      state.counterfactualData = counterfactualData;
+      
+      // Calculate means
+      const means = calculateMeans(controlData, treatmentData);
+      
+      // Update stats display
+      d3.select("#control-pre").text(means.controlPre.toFixed(2));
+      d3.select("#control-post").text(means.controlPost.toFixed(2));
+      d3.select("#treatment-pre").text(means.treatmentPre.toFixed(2));
+      d3.select("#treatment-post").text(means.treatmentPost.toFixed(2));
+      d3.select("#did-estimate").text(means.didEstimate.toFixed(2));
+      
+      // Clear existing elements
+      controlPointsGroup.selectAll("*").remove();
+      treatmentPointsGroup.selectAll("*").remove();
+      counterfactualPointsGroup.selectAll("*").remove();
+      controlLineGroup.selectAll("*").remove();
+      treatmentLineGroup.selectAll("*").remove();
+      counterfactualLineGroup.selectAll("*").remove();
+      effectRectGroup.selectAll("*").remove();
+      meanLabelsGroup.selectAll("*").remove();
+      
+      // Show/hide counterfactual legend
+      d3.select("#counterfactual-legend").style("display", state.showCounterfactual ? "flex" : "none");
+      
+      // Draw control points
+      controlPointsGroup.selectAll("circle")
+        .data(controlData)
+        .enter()
+        .append("circle")
+        .attr("cx", d => xScale(d.period) + (Math.random() - 0.5) * 20) // Add jitter
+        .attr("cy", d => yScale(d.y))
+        .attr("r", config.dotRadius)
+        .attr("fill", "#4285F4") // Blue
+        .attr("opacity", 0.7);
+      
+      // Draw treatment points
+      treatmentPointsGroup.selectAll("circle")
+        .data(treatmentData)
+        .enter()
+        .append("circle")
+        .attr("cx", d => xScale(d.period) + (Math.random() - 0.5) * 20) // Add jitter
+        .attr("cy", d => yScale(d.y))
+        .attr("r", config.dotRadius)
+        .attr("fill", "#EA4335") // Red
+        .attr("opacity", 0.7);
+      
+      // Draw counterfactual points if enabled
+      if (state.showCounterfactual) {
+        counterfactualPointsGroup.selectAll("circle")
+          .data(counterfactualData)
+          .enter()
+          .append("circle")
+          .attr("cx", d => xScale(d.period) + (Math.random() - 0.5) * 20) // Add jitter
+          .attr("cy", d => yScale(d.y))
+          .attr("r", config.dotRadius)
+          .attr("fill", "#FBBC05") // Yellow
+          .attr("opacity", 0.5)
+          .attr("stroke", "#FBBC05")
+          .attr("stroke-width", 1)
+          .attr("stroke-dasharray", "2,2");
+      }
+      
+      // Draw control line
+      controlLineGroup.append("line")
+        .attr("x1", xScale("Pre"))
+        .attr("y1", yScale(means.controlPre))
+        .attr("x2", xScale("Post"))
+        .attr("y2", yScale(means.controlPost))
+        .attr("stroke", "#4285F4")
+        .attr("stroke-width", 3)
+        .attr("opacity", 0.8);
+      
+      // Draw treatment line
+      treatmentLineGroup.append("line")
+        .attr("x1", xScale("Pre"))
+        .attr("y1", yScale(means.treatmentPre))
+        .attr("x2", xScale("Post"))
+        .attr("y2", yScale(means.treatmentPost))
+        .attr("stroke", "#EA4335")
+        .attr("stroke-width", 3)
+        .attr("opacity", 0.8);
+      
+      // Draw counterfactual line if enabled
+      if (state.showCounterfactual) {
+        const counterfactualMean = d3.mean(counterfactualData, d => d.y);
+        
+        counterfactualLineGroup.append("line")
+          .attr("x1", xScale("Pre"))
+          .attr("y1", yScale(means.treatmentPre))
+          .attr("x2", xScale("Post"))
+          .attr("y2", yScale(counterfactualMean))
+          .attr("stroke", "#FBBC05")
+          .attr("stroke-width", 2)
+          .attr("opacity", 0.7)
+          .attr("stroke-dasharray", "5,5");
+        
+        // Draw effect rectangle (difference between treatment and counterfactual)
+        effectRectGroup.append("rect")
+          .attr("x", xScale("Post") - 30)
+          .attr("y", yScale(Math.max(means.treatmentPost, counterfactualMean)))
+          .attr("width", 60)
+          .attr("height", Math.abs(yScale(counterfactualMean) - yScale(means.treatmentPost)))
+          .attr("fill", "rgba(0, 200, 0, 0.2)")
+          .attr("stroke", "green")
+          .attr("stroke-width", 1)
+          .attr("stroke-dasharray", "5,5");
+      } else {
+        // Draw DiD rectangle
+        effectRectGroup.append("rect")
+          .attr("x", xScale("Post") - 30)
+          .attr("y", yScale(Math.max(means.treatmentPost, means.controlPost + (means.treatmentPre - means.controlPre))))
+          .attr("width", 60)
+          .attr("height", Math.abs(yScale(means.controlPost + (means.treatmentPre - means.controlPre)) - yScale(means.treatmentPost)))
+          .attr("fill", "rgba(0, 200, 0, 0.2)")
+          .attr("stroke", "green")
+          .attr("stroke-width", 1)
+          .attr("stroke-dasharray", "5,5");
+      }
+      
+      // Add mean labels
+      meanLabelsGroup.selectAll("text.control")
+        .data([
+          { period: "Pre", value: means.controlPre },
+          { period: "Post", value: means.controlPost }
+        ])
+        .enter()
+        .append("text")
+        .attr("class", "control")
+        .attr("x", d => xScale(d.period) - 40)
+        .attr("y", d => yScale(d.value))
+        .attr("text-anchor", "end")
+        .attr("font-size", "12px")
+        .attr("fill", "#4285F4")
+        .text(d => d.value.toFixed(2));
+      
+      meanLabelsGroup.selectAll("text.treatment")
+        .data([
+          { period: "Pre", value: means.treatmentPre },
+          { period: "Post", value: means.treatmentPost }
+        ])
+        .enter()
+        .append("text")
+        .attr("class", "treatment")
+        .attr("x", d => xScale(d.period) + 40)
+        .attr("y", d => yScale(d.value))
+        .attr("text-anchor", "start")
+        .attr("font-size", "12px")
+        .attr("fill", "#EA4335")
+        .text(d => d.value.toFixed(2));
+      
+      // Add DiD label
+      meanLabelsGroup.append("text")
+        .attr("x", xScale("Post"))
+        .attr("y", yScale(means.treatmentPost) - 20)
+        .attr("text-anchor", "middle")
+        .attr("font-size", "12px")
+        .attr("font-weight", "bold")
+        .attr("fill", "green")
+        .text(`DiD = ${means.didEstimate.toFixed(2)}`);
+    }
+    
+    // Update the regression formula display
+    function updateRegressionFormula() {
+      let formulaHTML = "Y = α";
+      
+      if (state.includeTreatment) {
+        formulaHTML += " + β₁·Treatment";
+      } else {
+        formulaHTML += " + <span class='crossed'>β₁·Treatment</span>";
+      }
+      
+      if (state.includeTime) {
+        formulaHTML += " + β₂·Post";
+      } else {
+        formulaHTML += " + <span class='crossed'>β₂·Post</span>";
+      }
+      
+      // Only show the interaction term normally if both treatment and time are active
+      const interactionPossible = state.includeTreatment && state.includeTime;
+      if (interactionPossible && state.includeInteraction) {
+        formulaHTML += " + <span class='coefficient'>β₃·(Treatment×Post)</span>";
+      } else {
+        formulaHTML += " + <span class='crossed coefficient'>β₃·(Treatment×Post)</span>";
+      }
+      
+      formulaHTML += " + ε";
+      
+      document.getElementById("regression-formula").innerHTML = formulaHTML;
+      
+      // Update coefficient interpretations
+      let interpretationHTML = "";
+      
+      // Basic definition always shown
+      interpretationHTML += "<p><strong>Coefficient Interpretations:</strong></p><ul>";
+      
+      // α interpretation
+      interpretationHTML += "<li><strong>α</strong> = " + getCoefficientInterpretation("alpha") + "</li>";
+      
+      // β₁ interpretation
+      if (state.includeTreatment) {
+        interpretationHTML += "<li><strong>β₁</strong> = " + getCoefficientInterpretation("treatment") + "</li>";
+      }
+      
+      // β₂ interpretation
+      if (state.includeTime) {
+        interpretationHTML += "<li><strong>β₂</strong> = " + getCoefficientInterpretation("time") + "</li>";
+      }
+      
+      // β₃ interpretation
+      if (interactionPossible && state.includeInteraction) {
+        interpretationHTML += "<li><strong class='coefficient'>β₃</strong> = " + getCoefficientInterpretation("interaction") + "</li>";
+      }
+      
+      interpretationHTML += "</ul>";
+      
+      document.getElementById("coefficient-interpretations").innerHTML = interpretationHTML;
+      
+      // Update combination interpretations
+      updateCombinationInterpretations();
+    }
+    
+    function getCoefficientInterpretation(coefficient) {
+      switch(coefficient) {
+        case "alpha":
+          if (!state.includeTreatment && !state.includeTime) {
+            return "Overall mean of Y across all groups and time periods";
+          } else if (!state.includeTreatment && state.includeTime) {
+            return "Mean outcome for pre-treatment period (both groups)";
+          } else if (state.includeTreatment && !state.includeTime) {
+            return "Mean outcome for control group (both time periods)";
+          } else {
+            return "Mean outcome for control group in pre-treatment period";
+          }
+          
+        case "treatment":
+          if (!state.includeTime) {
+            return "Difference between treatment and control groups (both time periods)";
+          } else if (!state.includeInteraction) {
+            return "Difference between treatment and control groups (both time periods)";
+          } else {
+            return "Baseline difference between treatment and control groups (pre-treatment only)";
+          }
+          
+        case "time":
+          if (!state.includeTreatment) {
+            return "Change over time (both groups combined)";
+          } else if (!state.includeInteraction) {
+            return "Change over time (both groups)";
+          } else {
+            return "Change over time for control group only";
+          }
+          
+        case "interaction":
+          return "Difference-in-differences estimate (treatment effect)";
+          
+        default:
+          return "";
+      }
+    }
+    
+    function updateCombinationInterpretations() {
+      let combinationsHTML = "<p><strong>Key Quantities:</strong></p><ul>";
+      
+      // Add relevant combinations based on included terms
+      if (state.includeTreatment && state.includeTime) {
+        // α + β₁: Mean for treatment group in pre-period
+        combinationsHTML += "<li><strong>α + β₁</strong> = Mean outcome for treatment group in pre-treatment period</li>";
+        
+        // α + β₂: Mean for control group in post-period
+        combinationsHTML += "<li><strong>α + β₂</strong> = Mean outcome for control group in post-treatment period</li>";
+        
+        if (state.includeInteraction) {
+          // α + β₁ + β₂ + β₃: Mean for treatment group in post-period
+          combinationsHTML += "<li><strong>α + β₁ + β₂ + β₃</strong> = Mean outcome for treatment group in post-treatment period</li>";
+          
+          // β₂ + β₃: Change over time for treatment group
+          combinationsHTML += "<li><strong>β₂ + β₃</strong> = Change over time for treatment group</li>";
+          
+          // β₃: Difference in differences
+          combinationsHTML += "<li><strong class='coefficient'>β₃</strong> = (Treatment post - Treatment pre) - (Control post - Control pre)</li>";
+        } else {
+          // α + β₁ + β₂: Mean for treatment group in post-period
+          combinationsHTML += "<li><strong>α + β₁ + β₂</strong> = Mean outcome for treatment group in post-treatment period</li>";
+        }
+      } else if (state.includeTreatment && !state.includeTime) {
+        // α + β₁: Mean for treatment group
+        combinationsHTML += "<li><strong>α + β₁</strong> = Mean outcome for treatment group (both periods)</li>";
+      } else if (!state.includeTreatment && state.includeTime) {
+        // α + β₂: Mean for post-period
+        combinationsHTML += "<li><strong>α + β₂</strong> = Mean outcome for post-treatment period (both groups)</li>";
+      }
+      
+      combinationsHTML += "</ul>";
+      
+      document.getElementById("combination-interpretations").innerHTML = combinationsHTML;
+    }
+    
+    // Event listeners
+    d3.select("#treatment-effect").on("input", function() {
+      state.treatmentEffect = parseFloat(this.value);
+      updatePlot();
+    });
+    
+    d3.select("#baseline-diff").on("input", function() {
+      state.baselineDiff = parseFloat(this.value);
+      updatePlot();
+    });
+    
+    d3.select("#time-trend").on("input", function() {
+      state.timeTrend = parseFloat(this.value);
+      updatePlot();
+    });
+    
+    d3.select("#noise-level").on("input", function() {
+      state.noiseLevel = parseFloat(this.value);
+      updatePlot();
+    });
+    
+    d3.select("#new-data-btn").on("click", function() {
+      updatePlot();
+    });
+    
+    d3.select("#zero-effect-btn").on("click", function() {
+      state.treatmentEffect = 0;
+      d3.select("#treatment-effect").property("value", 0);
+      updatePlot();
+    });
+    
+    d3.select("#show-counterfactual").on("change", function() {
+      state.showCounterfactual = this.checked;
+      updatePlot();
+    });
+    
+    d3.select("#toggle-treatment").on("click", function() {
+      state.includeTreatment = !state.includeTreatment;
+      
+      // If treatment is turned off, interaction must be off too
+      if (!state.includeTreatment) {
+        state.includeInteraction = false;
+      } else if (state.includeTime) {
+        // If both treatment and time are on, automatically turn on interaction
+        state.includeInteraction = true;
+      }
+      
+      updateToggleButtons();
+      updateRegressionFormula();
+    });
+    
+    d3.select("#toggle-time").on("click", function() {
+      state.includeTime = !state.includeTime;
+      
+      // If time is turned off, interaction must be off too
+      if (!state.includeTime) {
+        state.includeInteraction = false;
+      } else if (state.includeTreatment) {
+        // If both treatment and time are on, automatically turn on interaction
+        state.includeInteraction = true;
+      }
+      
+      updateToggleButtons();
+      updateRegressionFormula();
+    });
+    
+    d3.select("#toggle-interaction").on("click", function() {
+      // Only toggle if both treatment and time are active
+      if (state.includeTreatment && state.includeTime) {
+        state.includeInteraction = !state.includeInteraction;
+        updateToggleButtons();
+        updateRegressionFormula();
+      }
+    });
+    
+    function updateToggleButtons() {
+      // Update Treatment button
+      d3.select("#toggle-treatment")
+        .attr("class", state.includeTreatment ? "toggle-btn toggle-active" : "toggle-btn toggle-inactive")
+        .text(state.includeTreatment ? "ACTIVE" : "INACTIVE");
+      
+      // Update Time button
+      d3.select("#toggle-time")
+        .attr("class", state.includeTime ? "toggle-btn toggle-active" : "toggle-btn toggle-inactive")
+        .text(state.includeTime ? "ACTIVE" : "INACTIVE");
+      
+      // Update Interaction button
+      // Interaction is only possible if both treatment and time are included
+      const interactionPossible = state.includeTreatment && state.includeTime;
+      
+      d3.select("#toggle-interaction")
+        .attr("class", state.includeInteraction ? "toggle-btn toggle-active" : "toggle-btn toggle-inactive")
+        .text(state.includeInteraction ? "ACTIVE" : "INACTIVE")
+        .property("disabled", !interactionPossible)
+        .style("opacity", interactionPossible ? 1 : 0.5)
+        .style("cursor", interactionPossible ? "pointer" : "not-allowed");
+    }
+    
+    // Start the visualization
+    updatePlot();
+    updateToggleButtons();
+    updateRegressionFormula();
+  </script>
+</body>
+</html>
