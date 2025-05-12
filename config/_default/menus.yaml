@@ -10,8 +10,8 @@ main:
   - name: Papers
     url: /#papers
     weight: 11
-  - name: Talks
-    url: /#talks
+  - name: Nestor
+    url: '/nestor/'
     weight: 12
   - name: News
     url: /#news
