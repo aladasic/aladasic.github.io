@@ -3,33 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes Géopolitiques - L'Arctique</title>
+    <title>Notes Géopolitiques</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: #2b5199;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #f5f6fa;
+            position: relative;
+            z-index: 2;
         }
-        
+
+        .logo-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+            background: #f5f6fa;
+            padding: 15px 0;
+            height: 110px;
+        }
+
+        .logo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            max-height: 80px;
+        }
+
+        .content-wrapper {
+            margin-top: 110px;
+        }
+
         header {
-            background-color: #2c3e50;
-            color: white;
+            background: #fff;
+            color: #2b5199;
             padding: 20px;
             text-align: center;
-            border-radius: 5px 5px 0 0;
+            border-bottom: 1px solid #e6eeff;
         }
-        
+
         nav {
-            background-color: #34495e;
+            background-color: #2b5199;
             padding: 10px;
-            border-radius: 0 0 5px 5px;
+            border-radius: 5px;
             margin-bottom: 20px;
         }
-        
+
         nav ul {
             list-style-type: none;
             padding: 0;
@@ -37,12 +65,12 @@
             display: flex;
             justify-content: center;
         }
-        
+
         nav li {
             margin: 0 15px;
             position: relative;
         }
-        
+
         nav a {
             color: white;
             text-decoration: none;
@@ -52,32 +80,31 @@
             transition: background-color 0.3s;
             display: block;
         }
-        
+
         nav a:hover {
-            background-color: #1abc9c;
+            background-color: #40a6d8;
         }
-        
+
         .active {
-            background-color: #1abc9c;
+            background-color: #40a6d8;
         }
-        
-        /* Style pour le menu déroulant */
+
         .dropdown {
             position: relative;
             display: inline-block;
         }
-        
+
         .dropdown-content {
             display: none;
             position: absolute;
-            background-color: #34495e;
+            background-color: #2b5199;
             min-width: 200px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
             z-index: 1;
             border-radius: 3px;
             left: 0;
         }
-        
+
         .dropdown-content a {
             color: white;
             padding: 12px 16px;
@@ -85,231 +112,318 @@
             display: block;
             text-align: left;
         }
-        
+
         .dropdown-content a:hover {
-            background-color: #1abc9c;
+            background-color: #40a6d8;
         }
-        
+
         .dropdown:hover .dropdown-content {
             display: block;
         }
-        
-        /* Indicateur de menu déroulant */
+
+        a {
+            color: #40a6d8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #2b5199;
+        }
+
+        header h1 {
+            color: #2b5199;
+            border-bottom: none;
+        }
+
         .dropdown > a:after {
             content: " ▾";
         }
-        
+
+        h3 {
+            color: #40a6d8;
+        }
+
+        header, nav, main {
+            position: relative;
+            z-index: 2;
+        }
+
         main {
             background-color: white;
             padding: 20px;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(43, 81, 153, 0.1);
         }
-        
+
         h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #1abc9c;
+            color: #2b5199;
+            border-bottom: 2px solid #16a085;
             padding-bottom: 10px;
         }
-        
+
         h2 {
-            color: #2c3e50;
+            color: #40a6d8;
             margin-top: 30px;
         }
-        
+
         .highlight {
-            background-color: #e8f8f5;
+            background-color: #e6eeff;
             padding: 15px;
-            border-left: 4px solid #1abc9c;
+            border-left: 4px solid #40a6d8;
             margin: 20px 0;
         }
-        
+
         .resources {
-            background-color: #f7f9fa;
+            background-color: #edf1fa;
             padding: 15px;
             border-radius: 5px;
             margin-top: 30px;
+            border-top: 2px solid #40a6d8;
         }
-        
+
         .map-container {
             text-align: center;
             margin: 20px 0;
         }
-        
+
         .map-container img {
             max-width: 100%;
             border-radius: 5px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 10px rgba(64, 166, 216, 0.2);
+            border: 1px solid #e6eeff;
         }
-        
+
         .key-points {
-            background-color: #f2f2f2;
+            background-color: #e6eeff;
             padding: 15px;
             border-radius: 5px;
             margin: 20px 0;
+            border-left: 4px solid #2b5199;
         }
-        
+
         .key-points ul {
             margin: 10px 0;
             padding-left: 20px;
         }
-        
+
         .key-points li {
             margin-bottom: 8px;
         }
-        
+
         footer {
             text-align: center;
             margin-top: 30px;
             padding: 15px;
-            background-color: #2c3e50;
-            color: white;
-            border-radius: 5px;
+            color: #40a6d8;
+            border-top: 1px solid #e6eeff;
         }
-        
+
         .two-columns {
             display: flex;
             gap: 20px;
             margin-top: 20px;
         }
-        
+
         .column {
             flex: 1;
         }
-        
+
+        .title-line {
+            border-bottom: 3px solid #40a6d8;
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+        }
+
         @media (max-width: 768px) {
             .two-columns {
                 flex-direction: column;
             }
-            
+
             nav ul {
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             nav li {
                 margin: 5px 0;
             }
-            
+
             .dropdown-content {
                 position: static;
                 box-shadow: none;
                 width: 100%;
             }
+
+            .logo {
+                max-height: 60px;
+            }
+        }
+
+        #loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
         }
     </style>
+    <!-- Inclure Marked.js pour le parsing du markdown -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Notes de Questions Internationales</h1>
-    </header>
-    
-    <nav>
-        <ul>
-            <li class="dropdown">
-                <a href="#">Espaces Stratégiques</a>
-                <div class="dropdown-content">
-                    <a href="#" class="active">Arctique</a>
-                    <a href="#">Antarctique</a>
-                    <a href="#">Mer de Chine</a>
-                    <a href="#">Espace</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="#">Conflits</a>
-                <div class="dropdown-content">
-                    <a href="#">Guerre d'Irak</a>
-                    <a href="#">Conflit Israélo-Palestinien</a>
-                    <a href="#">Ukraine</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="#">Régions</a>
-                <div class="dropdown-content">
-                    <a href="#">Moyen-Orient</a>
-                    <a href="#">Europe</a>
-                    <a href="#">Asie</a>
-                    <a href="#">Afrique</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="#">Organisations</a>
-                <div class="dropdown-content">
-                    <a href="#">ONU</a>
-                    <a href="#">OTAN</a>
-                    <a href="#">Union Européenne</a>
-                </div>
-            </li>
-        </ul>
-    </nav>
-    
-    <main>
-        <h1>L'Arctique : Espace Stratégique</h1>
-        
-        <div class="two-columns">
-            <div class="column">
-                <div class="key-points">
-                    <h3>Points clés :</h3>
-                    <ul>
-                        <li>L'Arctique a longtemps constitué un espace de règlement pacifique des différends</li>
-                        <li>Les enjeux stratégiques et économiques se multiplient autour de l'Arctique</li>
-                        <li>Espace riche en ressources naturelles : charbon, pétrole, fer, zinc, plomb et uranium</li>
-                        <li>Le US Geological Survey estime que 30% des réserves de gaz et 10% des réserves de pétrole qui restent à découvrir se trouveraient en Arctique</li>
-                        <li>Espace militaire stratégique depuis la Seconde Guerre mondiale</li>
-                    </ul>
-                </div>
-                
-                <h2>Problématique</h2>
-                <div class="highlight">
-                    <p>Dans quelle mesure le regain des tensions en Arctique menace-t-il la stabilité de la région ?</p>
-                </div>
-                
-                <h2>Enjeux stratégiques</h2>
-                <p>Le réchauffement climatique, qui ouvre de nouvelles routes maritimes et permet l'exploitation de plateformes pétrolières sur le territoire, a relancé depuis quelques années la « course à l'Arctique ».</p>
-            </div>
-            
-            <div class="column">
-                <div class="map-container">
-                    <img src="/api/placeholder/600/400" alt="Carte de l'Arctique montrant les revendications territoriales">
-                    <p><em>Les riverains d'une zone très convoitée : L'Arctique abriterait 22% des ressources énergétiques non découvertes de la planète</em></p>
-                </div>
-                
-                <h2>Pays riverains</h2>
-                <ul>
-                    <li><strong>États-Unis</strong> (Alaska)</li>
-                    <li><strong>Canada</strong></li>
-                    <li><strong>Danemark</strong> (Groenland)</li>
-                    <li><strong>Norvège</strong></li>
-                    <li><strong>Russie</strong></li>
-                    <li><strong>Islande</strong></li>
-                </ul>
-                
-                <p>La limite des 200 miles (370 km) au large des côtes délimite les zones économiques exclusives.</p>
-            </div>
+    <div class="logo-wrapper">
+        <div class="logo-container">
+            <img src="nestorlogo.png" alt="Nestor Logo" class="logo">
         </div>
-        
-        <div class="highlight">
-            <p>L'Arctique est une <strong>simple zone maritime</strong>, contrairement à l'Antarctique qui est un continent. Les prétentions de souveraineté sur ce territoire relèvent donc du <strong>droit de la mer</strong>. Il mêle des <strong>enjeux juridiques, économiques (pêche, pétrole, gaz), environnementaux et politiques</strong>.</p>
-        </div>
-        
-        <h2>Historique</h2>
-        <p>Jusqu'à la moitié du XXe siècle : espace plutôt conquis par l'imaginaire (passage du Nord-Ouest : Chateaubriand, expédition Franklin, R. Amundsen premier à découvrir véritablement le pôle nord, survol en dirigeable en 1926).</p>
-        
-        <h2>Contexte récent</h2>
-        <p>Le 5 mai 2020 : 3 bâtiments de guerre américains ont sillonné l'Arctique le long des côtes russes, pour la première fois en 3 décennies. Les autorités américaines ont annoncé vouloir renforcer la liberté de navigation, ce qui n'a pas manqué de rappeler que la région est traversée par des intérêts divergents à l'heure du réchauffement climatique.</p>
-        
-        <div class="resources">
-            <h3>Ressources supplémentaires</h3>
+    </div>
+
+    <div class="content-wrapper">
+        <header>
+            <h1>Notes de Questions Internationales</h1>
+        </header>
+
+        <nav>
             <ul>
-                <li>Conseil de l'Arctique</li>
-                <li>Convention des Nations Unies sur le droit de la mer (1982)</li>
-                <li>Études sur l'impact du changement climatique en Arctique</li>
+                <li class="dropdown">
+                    <a href="#">Espaces Stratégiques</a>
+                    <div class="dropdown-content">
+                        <a href="?page=arctique" class="active">Arctique</a>
+                        <a href="?page=antarctique">Antarctique</a>
+                        <a href="?page=mer-de-chine">Mer de Chine</a>
+                        <a href="?page=espace">Espace</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Conflits</a>
+                    <div class="dropdown-content">
+                        <a href="?page=irak">Guerre d'Irak</a>
+                        <a href="?page=israel-palestine">Conflit Israélo-Palestinien</a>
+                        <a href="?page=ukraine">Ukraine</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Régions</a>
+                    <div class="dropdown-content">
+                        <a href="?page=moyen-orient">Moyen-Orient</a>
+                        <a href="?page=europe">Europe</a>
+                        <a href="?page=asie">Asie</a>
+                        <a href="?page=afrique">Afrique</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Organisations</a>
+                    <div class="dropdown-content">
+                        <a href="?page=onu">ONU</a>
+                        <a href="?page=otan">OTAN</a>
+                        <a href="?page=union-europeenne">Union Européenne</a>
+                    </div>
+                </li>
             </ul>
-        </div>
-    </main>
-    
-    <footer>
-        <p>Notes de Questions Internationales - Créé en 2025</p>
-    </footer>
+        </nav>
+
+        <main id="content">
+            <div id="loading">Chargement en cours...</div>
+        </main>
+
+        <footer>
+            <p>Notes de Questions Internationales - Créé en 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fonction pour extraire les paramètres de l'URL
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+
+            // Fonction pour charger et afficher le markdown
+            function loadMarkdownContent(page) {
+                const contentElement = document.getElementById('content');
+                const loadingElement = document.getElementById('loading');
+
+                // Si aucune page n'est spécifiée, charger la page par défaut
+                if (!page) {
+                    page = 'arctique'; // Page par défaut
+                }
+
+                // Chemin vers le fichier markdown
+                const markdownPath = `./content/${page}.md`;
+
+                // Mettre à jour l'élément actif dans le menu
+                document.querySelectorAll('.dropdown-content a').forEach(link => {
+                    if (link.getAttribute('href') === `?page=${page}`) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+
+                // Charger le fichier markdown
+                fetch(markdownPath)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Page non trouvée');
+                        }
+                        return response.text();
+                    })
+                    .then(markdownText => {
+                        // Convertir le markdown en HTML avec marked.js
+                        const htmlContent = marked.parse(markdownText);
+
+                        // Injecter le HTML dans la page
+                        loadingElement.style.display = 'none';
+                        contentElement.innerHTML = htmlContent;
+
+                        // Appliquer des classes personnalisées après le rendu
+                        applyCustomStylesAfterRender();
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors du chargement du contenu:', error);
+                        loadingElement.style.display = 'none';
+                        contentElement.innerHTML = `
+                            <div class="title-line">
+                                <h1>Page non trouvée</h1>
+                            </div>
+                            <p>Désolé, la page demandée n'a pas été trouvée.</p>
+                        `;
+                    });
+            }
+
+            // Fonction pour appliquer des styles personnalisés après le rendu du markdown
+            function applyCustomStylesAfterRender() {
+                // Ajouter la classe title-line au premier h1
+                const firstH1 = document.querySelector('main h1');
+                if (firstH1) {
+                    const titleLine = document.createElement('div');
+                    titleLine.className = 'title-line';
+                    firstH1.parentNode.insertBefore(titleLine, firstH1);
+                    titleLine.appendChild(firstH1);
+                }
+
+                // Rechercher les éléments avec des classes spéciales définies dans le markdown
+                // Format: [DEBUT_CLASSE:nom-de-classe]contenu[FIN_CLASSE]
+                const contentHtml = document.getElementById('content').innerHTML;
+                let processedHtml = contentHtml;
+
+                // Traiter toutes les occurrences de balises personnalisées
+                processedHtml = processedHtml.replace(/\[DEBUT_CLASSE:([^\]]+)\]([\s\S]*?)\[FIN_CLASSE\]/g, (match, className, content) => {
+                    return `<div class="${className}">${content}</div>`;
+                });
+
+                // Traiter les colonnes
+                processedHtml = processedHtml.replace(/\[DEBUT_COLONNES\]([\s\S]*?)\[COLONNE\]([\s\S]*?)\[FIN_COLONNES\]/g,
+                    '<div class="two-columns"><div class="column">$1</div><div class="column">$2</div></div>');
+
+                document.getElementById('content').innerHTML = processedHtml;
+            }
+
+            // Charger la page demandée ou la page par défaut
+            const pageName = getUrlParameter('page');
+            loadMarkdownContent(pageName);
+        });
+    </script>
 </body>
 </html>
