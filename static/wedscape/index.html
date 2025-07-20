@@ -398,6 +398,10 @@
             text-transform: uppercase;
             background-color: white;
             transition: all 0.3s;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
         .letter-box.filled {
             border-color: #878a8c;
@@ -573,7 +577,7 @@
             <div class="message" id="message"></div>
 
             <div class="input-instructions">
-                Utilisez votre clavier pour taper les lettres. Appuyez sur Entrée pour valider votre mot.
+                Tapez sur la case active pour faire apparaître le clavier. Utilisez Entrée pour valider votre mot.
             </div>
 
             <div id="resultContainer" class="result-container">
@@ -733,6 +737,16 @@
                     box.classList.add('filled', 'correct');
                 }
 
+                // Make boxes clickable on mobile
+                box.addEventListener('click', function() {
+                    if (gameSectionElem.style.display === 'none' || gameOver) return;
+                    
+                    // Only allow clicking on current row
+                    if (i === currentRow && j === currentTile) {
+                        focusCurrentBox();
+                    }
+                });
+
                 row.appendChild(box);
             }
 
@@ -891,6 +905,63 @@
         const tableBtn = document.getElementById("tableBtn");
 
         let selectedGuest = null;
+
+        // Create hidden input for mobile keyboard
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'text';
+        hiddenInput.style.position = 'absolute';
+        hiddenInput.style.left = '-9999px';
+        hiddenInput.style.opacity = '0';
+        hiddenInput.setAttribute('autocomplete', 'off');
+        hiddenInput.setAttribute('autocorrect', 'off');
+        hiddenInput.setAttribute('autocapitalize', 'off');
+        hiddenInput.setAttribute('spellcheck', 'false');
+        document.body.appendChild(hiddenInput);
+
+        // Function to focus current box and show keyboard
+        window.focusCurrentBox = function() {
+            if (gameSectionElem.style.display === 'none' || gameOver) return;
+            
+            // Focus hidden input to trigger mobile keyboard
+            hiddenInput.focus();
+            hiddenInput.value = '';
+            
+            // Highlight current box
+            const currentBox = document.getElementById(`box-${currentRow}-${currentTile}`);
+            if (currentBox) {
+                currentBox.style.border = '3px solid #7C8D69';
+                // Remove highlight from other boxes
+                document.querySelectorAll('.letter-box').forEach(box => {
+                    if (box !== currentBox) {
+                        box.style.border = '2px solid #d3d6da';
+                    }
+                });
+            }
+        }
+
+        // Handle input from hidden field (mobile)
+        hiddenInput.addEventListener('input', function(e) {
+            if (gameSectionElem.style.display === 'none') return;
+            
+            const value = e.target.value.toUpperCase();
+            if (value && value.match(/^[A-Z]$/)) {
+                handleKey(value.toLowerCase());
+                e.target.value = '';
+            }
+        });
+
+        // Handle special keys
+        hiddenInput.addEventListener('keydown', function(e) {
+            if (gameSectionElem.style.display === 'none') return;
+            
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleKey('enter');
+            } else if (e.key === 'Backspace') {
+                e.preventDefault();
+                handleKey('backspace');
+            }
+        });
 
         // Filter names as user types
         nameInputElem.addEventListener("input", function() {
@@ -1088,7 +1159,7 @@
             debug("Revealed group name");
         });
 
-        // Physical keyboard input for Wordle (seulement quand le jeu est visible)
+        // Physical keyboard input for desktop
         document.addEventListener('keydown', function(e) {
             if (gameSectionElem.style.display === 'none') return;
 
