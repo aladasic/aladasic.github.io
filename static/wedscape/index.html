@@ -577,7 +577,7 @@
             <div class="message" id="message"></div>
 
             <div class="input-instructions">
-                Tapez sur la case active pour faire apparaître le clavier. Utilisez Entrée pour valider votre mot.
+                Sur mobile : tapez sur la case active pour saisir une lettre. Sur ordinateur : utilisez votre clavier. Appuyez sur Entrée pour valider.
             </div>
 
             <div id="resultContainer" class="result-container">
@@ -737,11 +737,21 @@
                     box.classList.add('filled', 'correct');
                 }
 
-                // Make boxes clickable on mobile
+                // Make boxes clickable/touchable on mobile
                 box.addEventListener('click', function() {
                     if (gameSectionElem.style.display === 'none' || gameOver) return;
-                    
-                    // Only allow clicking on current row
+
+                    // Only allow clicking on current row and current tile
+                    if (i === currentRow && j === currentTile) {
+                        focusCurrentBox();
+                    }
+                });
+
+                // Add touch events for better mobile support
+                box.addEventListener('touchstart', function(e) {
+                    e.preventDefault(); // Prevent double-tap zoom
+                    if (gameSectionElem.style.display === 'none' || gameOver) return;
+
                     if (i === currentRow && j === currentTile) {
                         focusCurrentBox();
                     }
@@ -906,61 +916,116 @@
 
         let selectedGuest = null;
 
-        // Create hidden input for mobile keyboard
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'text';
-        hiddenInput.style.position = 'absolute';
-        hiddenInput.style.left = '-9999px';
-        hiddenInput.style.opacity = '0';
-        hiddenInput.setAttribute('autocomplete', 'off');
-        hiddenInput.setAttribute('autocorrect', 'off');
-        hiddenInput.setAttribute('autocapitalize', 'off');
-        hiddenInput.setAttribute('spellcheck', 'false');
-        document.body.appendChild(hiddenInput);
+        // Create mobile input overlay
+        const mobileInput = document.createElement('input');
+        mobileInput.type = 'text';
+        mobileInput.id = 'mobileInput';
+        mobileInput.style.position = 'fixed';
+        mobileInput.style.top = '50%';
+        mobileInput.style.left = '50%';
+        mobileInput.style.transform = 'translate(-50%, -50%)';
+        mobileInput.style.width = '300px';
+        mobileInput.style.height = '50px';
+        mobileInput.style.fontSize = '18px';
+        mobileInput.style.textAlign = 'center';
+        mobileInput.style.border = '2px solid #7C8D69';
+        mobileInput.style.borderRadius = '8px';
+        mobileInput.style.backgroundColor = 'white';
+        mobileInput.style.zIndex = '1000';
+        mobileInput.style.display = 'none';
+        mobileInput.setAttribute('autocomplete', 'off');
+        mobileInput.setAttribute('autocorrect', 'off');
+        mobileInput.setAttribute('autocapitalize', 'off');
+        mobileInput.setAttribute('spellcheck', 'false');
+        mobileInput.setAttribute('maxlength', '1');
+        mobileInput.placeholder = 'Tapez une lettre';
+        document.body.appendChild(mobileInput);
 
-        // Function to focus current box and show keyboard
+        // Create overlay background
+        const overlay = document.createElement('div');
+        overlay.id = 'mobileOverlay';
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+        overlay.style.zIndex = '999';
+        overlay.style.display = 'none';
+        document.body.appendChild(overlay);
+
+        // Detect if device is mobile
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                   ('ontouchstart' in window) ||
+                   (window.innerWidth <= 768);
+        }
+
+        // Function to show mobile input
         window.focusCurrentBox = function() {
             if (gameSectionElem.style.display === 'none' || gameOver) return;
-            
-            // Focus hidden input to trigger mobile keyboard
-            hiddenInput.focus();
-            hiddenInput.value = '';
-            
+
             // Highlight current box
             const currentBox = document.getElementById(`box-${currentRow}-${currentTile}`);
             if (currentBox) {
-                currentBox.style.border = '3px solid #7C8D69';
-                // Remove highlight from other boxes
+                // Remove highlight from all boxes first
                 document.querySelectorAll('.letter-box').forEach(box => {
-                    if (box !== currentBox) {
-                        box.style.border = '2px solid #d3d6da';
-                    }
+                    box.style.border = '2px solid #d3d6da';
+                    box.style.backgroundColor = 'white';
                 });
+
+                // Highlight current box
+                currentBox.style.border = '3px solid #7C8D69';
+                currentBox.style.backgroundColor = '#f0f7e8';
+            }
+
+            // Show mobile input if on mobile device
+            if (isMobile()) {
+                overlay.style.display = 'block';
+                mobileInput.style.display = 'block';
+                mobileInput.value = '';
+                mobileInput.focus();
             }
         }
 
-        // Handle input from hidden field (mobile)
-        hiddenInput.addEventListener('input', function(e) {
+        // Hide mobile input
+        function hideMobileInput() {
+            overlay.style.display = 'none';
+            mobileInput.style.display = 'none';
+            mobileInput.blur();
+        }
+
+        // Handle mobile input
+        mobileInput.addEventListener('input', function(e) {
             if (gameSectionElem.style.display === 'none') return;
-            
+
             const value = e.target.value.toUpperCase();
             if (value && value.match(/^[A-Z]$/)) {
                 handleKey(value.toLowerCase());
-                e.target.value = '';
+                hideMobileInput();
             }
         });
 
-        // Handle special keys
-        hiddenInput.addEventListener('keydown', function(e) {
+        // Handle mobile input keydown
+        mobileInput.addEventListener('keydown', function(e) {
             if (gameSectionElem.style.display === 'none') return;
-            
+
             if (e.key === 'Enter') {
                 e.preventDefault();
                 handleKey('enter');
+                hideMobileInput();
             } else if (e.key === 'Backspace') {
                 e.preventDefault();
                 handleKey('backspace');
+                hideMobileInput();
+            } else if (e.key === 'Escape') {
+                hideMobileInput();
             }
+        });
+
+        // Close mobile input when clicking overlay
+        overlay.addEventListener('click', function() {
+            hideMobileInput();
         });
 
         // Filter names as user types
