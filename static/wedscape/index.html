@@ -759,7 +759,7 @@
                 // Add touch events for better mobile support
                 box.addEventListener('touchstart', function(e) {
                     console.log("Box touched:", i, j);
-                    e.preventDefault(); // Prevent double-tap zoom
+                    // e.preventDefault(); // disabled for keyboard support // Prevent double-tap zoom
 
                     if (gameSectionElem.style.display === 'none' || gameOver) return;
 
@@ -927,43 +927,9 @@
 
         let selectedGuest = null;
 
-        // Create mobile input overlay
-        const mobileInput = document.createElement('input');
-        mobileInput.type = 'text';
-        mobileInput.id = 'mobileInput';
-        mobileInput.style.position = 'fixed';
-        mobileInput.style.top = '50%';
-        mobileInput.style.left = '50%';
-        mobileInput.style.transform = 'translate(-50%, -50%)';
-        mobileInput.style.width = '300px';
-        mobileInput.style.height = '50px';
-        mobileInput.style.fontSize = '18px';
-        mobileInput.style.textAlign = 'center';
-        mobileInput.style.border = '2px solid #7C8D69';
-        mobileInput.style.borderRadius = '8px';
-        mobileInput.style.backgroundColor = 'white';
-        mobileInput.style.zIndex = '1000';
-        mobileInput.style.display = 'none';
-        mobileInput.setAttribute('autocomplete', 'off');
-        mobileInput.setAttribute('autocorrect', 'off');
-        mobileInput.setAttribute('autocapitalize', 'off');
-        mobileInput.setAttribute('spellcheck', 'false');
-        mobileInput.setAttribute('maxlength', '1');
-        mobileInput.placeholder = 'Tapez une lettre';
-        document.body.appendChild(mobileInput);
+        // Removed dynamic mobileInput creation for static input inclusion.
 
-        // Create overlay background
-        const overlay = document.createElement('div');
-        overlay.id = 'mobileOverlay';
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
-        overlay.style.zIndex = '999';
-        overlay.style.display = 'none';
-        document.body.appendChild(overlay);
+        // Removed dynamic overlay creation for static input inclusion.
 
         // Detect if device is mobile
         function isMobile() {
@@ -994,10 +960,10 @@
             if (isMobile()) {
                 overlay.style.display = 'block';
                 mobileInput.style.display = 'block';
-                mobileInput.value = '';
-                setTimeout(() => {
+mobileInput.value = '';
+requestAnimationFrame(() => {
     mobileInput.focus();
-}, 100);
+});
             }
         }
 
@@ -1256,6 +1222,16 @@
         debug("Setup complete!");
     });
 </script>
+
+
+<!-- Static mobile input for better keyboard support -->
+<input type="text" id="mobileInput" maxlength="1"
+       placeholder="Lettre"
+       inputmode="text" autocapitalize="off" autocomplete="off" spellcheck="false"
+       style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+              width: 80px; height: 50px; font-size: 24px; text-align: center;
+              border: 2px solid #7C8D69; border-radius: 8px; background-color: white;
+              z-index: 9999; display: none;" />
 
 </body>
 </html>
