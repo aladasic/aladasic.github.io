@@ -738,18 +738,29 @@
                 }
 
                 // Make boxes clickable/touchable on mobile
-                box.addEventListener('click', function() {
-                    if (gameSectionElem.style.display === 'none' || gameOver) return;
+                box.addEventListener('click', function(e) {
+                    console.log("Box clicked:", i, j, "Current:", currentRow, currentTile);
+                    e.preventDefault();
+
+                    if (gameSectionElem.style.display === 'none' || gameOver) {
+                        console.log("Game not active");
+                        return;
+                    }
 
                     // Only allow clicking on current row and current tile
                     if (i === currentRow && j === currentTile) {
+                        console.log("Calling focusCurrentBox");
                         focusCurrentBox();
+                    } else {
+                        console.log("Wrong box clicked. Expected:", currentRow, currentTile);
                     }
                 });
 
                 // Add touch events for better mobile support
                 box.addEventListener('touchstart', function(e) {
+                    console.log("Box touched:", i, j);
                     e.preventDefault(); // Prevent double-tap zoom
+
                     if (gameSectionElem.style.display === 'none' || gameOver) return;
 
                     if (i === currentRow && j === currentTile) {
