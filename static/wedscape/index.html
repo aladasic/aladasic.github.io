@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mariage de Cécile & Alexis</title>
+
+    <!-- Add Playfair Display Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #7C8D69;
+        }
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            color: #7C8D69;
+        }
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            color: #CB7B58;
+        }
+        .date {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #CB7B58;
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background-color: #eaeaea;
+            margin: 2rem 0;
+        }
+        .shape {
+            margin: 0 auto;
+            width: 100px;
+            height: 100px;
+        }
+        .diamond {
+            transform: rotate(45deg);
+        }
+        .circle {
+            border-radius: 50%;
+        }
+        .square {
+            border-radius: 0;
+        }
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid currentColor;
+            background-color: transparent !important;
+        }
+        .hexagon {
+            position: relative;
+            width: 86px;
+            height: 50px;
+            background-color: currentColor;
+            margin: 25px 0;
+        }
+        .hexagon:before,
+        .hexagon:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            border-left: 43px solid transparent;
+            border-right: 43px solid transparent;
+        }
+        .hexagon:before {
+            bottom: 100%;
+            border-bottom: 25px solid currentColor;
+        }
+        .hexagon:after {
+            top: 100%;
+            width: 0;
+            border-top: 25px solid currentColor;
+        }
+        .group-info {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .instructions {
+            text-align: left;
+            margin-top: 2rem;
+        }
+        .instructions ol {
+            padding-left: 1.5rem;
+        }
+        .instructions li {
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        .clue-button {
+            background-color: #e7e7e7;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background-color 0.3s;
+        }
+        .clue-button:hover {
+            background-color: #d0d0d0;
+        }
+        .clue {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            border-left: 3px solid #333;
+            display: none;
+        }
+        .group-name {
+            display: none;
+            margin-top: 1.5rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* New styles for name input section */
+        .welcome-section {
+            text-align: center;
+        }
+        .input-section {
+            margin-top: 2rem;
+        }
+        #nameInput {
+            padding: 0.8rem;
+            width: 80%;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .search-button {
+            background-color: #7C8D69;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .search-button:hover {
+            background-color: #6a7a57;
+        }
+        .name-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            text-align: left;
+        }
+        .name-item {
+            padding: 0.8rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .name-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Back button */
+        .back-button {
+            background-color: #CB7B58;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #b56c4a;
+        }
+
+        /* Card flip animation - Tarot style */
+        .card-container {
+            perspective: 1000px;
+            width: 200px;
+            height: 320px;
+            margin: 2rem auto;
+        }
+        .card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .card-front {
+            color: #4c5e3d;
+            background-color: #cfd6c4;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 80 80'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='church-on-sunday' fill='%237c8d69' fill-opacity='0.3'%3E%3Cpath d='M77.17 0H80v2.83l-.1.1A39.9 39.9 0 0 1 74.64 20a39.9 39.9 0 0 1 5.24 17.06l.11.11v2.89c-.01 6.9-1.8 13.79-5.35 19.94A39.96 39.96 0 0 1 80 79.94V80h-2.83L66.84 69.66a39.83 39.83 0 0 1-24.1 10.25l.09.09h-5.66l.1-.1c-8.7-.58-17.22-4-24.1-10.23L2.82 80H0V79.94c.01-6.9 1.8-13.8 5.35-19.94A39.96 39.96 0 0 1 0 40.06V37.17l.1-.1A39.9 39.9 0 0 1 5.36 20 39.9 39.9 0 0 1 .1 2.94L0 2.83V0h2.83l-.1.1a39.83 39.83 0 0 1 24.1 10.24L37.18 0H40c0 6.92-1.78 13.83-5.35 20A39.96 39.96 0 0 1 40 40c0-6.92 1.78-13.83 5.35-20A39.96 39.96 0 0 1 40 0h2.83l10.33 10.34A39.83 39.83 0 0 1 77.26.09L77.17 0zm.77 77.94c-.3-5.52-1.8-11-4.49-16a40.18 40.18 0 0 1-5.17 6.34l9.66 9.66zm-12.52-9.7l-6.83-6.83-5.46 5.46-1.41 1.41-9.66 9.66c8.4-.45 16.69-3.68 23.36-9.7zm-23.07 6.58l7.99-7.98a40.05 40.05 0 0 1-3.79-4.9 37.88 37.88 0 0 0-4.2 12.88zM47.68 60a37.98 37.98 0 0 0 4.07 5.42L57.17 60l-5.42-5.42A38 38 0 0 0 47.68 60zm2.66-6.84a40.06 40.06 0 0 0-3.79 4.9 37.88 37.88 0 0 1-4.2-12.88l7.99 7.98zm1.38-1.44l1.41 1.41 5.46 5.46 6.83-6.84a37.85 37.85 0 0 0-23.36-9.7l9.66 9.67zM60 60l6.87 6.87A38.1 38.1 0 0 0 72.32 60a38.11 38.11 0 0 0-5.45-6.87L60 60zm-14.65 0a39.9 39.9 0 0 0-5.24 17.06l-.11.11-.1-.1A39.9 39.9 0 0 0 34.64 60a39.9 39.9 0 0 0 5.24-17.06l.11-.11.1.1A39.9 39.9 0 0 0 45.36 60zm9.23-48.25a37.85 37.85 0 0 1 23.36-9.7l-9.66 9.67-1.41 1.41-5.46 5.46-6.83-6.84zm13.67 13.67L62.83 20l5.42-5.42A38 38 0 0 1 72.32 20a37.98 37.98 0 0 1-4.07 5.42zm5.2-3.47a40.05 40.05 0 0 1-3.79 4.89l7.99 7.98c-.61-4.45-2.01-8.82-4.2-12.87zm-6.58 4.92l1.41 1.41 9.66 9.66a37.85 37.85 0 0 1-23.36-9.7l6.83-6.83 5.46 5.46zM53.13 13.13L60 20l-6.87 6.87A38.11 38.11 0 0 1 47.68 20a38.1 38.1 0 0 1 5.45-6.87zm-1.41-1.41l-9.66-9.66c.3 5.52 1.8 11 4.49 16a40.18 40.18 0 0 1 5.17-6.34zm-9.66 26.22c.3-5.52 1.8-11 4.49-16a40.18 40.18 0 0 0 5.17 6.34l-9.66 9.66zm26.22 13.78l9.66-9.66c-.3 5.52-1.8 11-4.49 16a40.18 40.18 0 0 0-5.17-6.34zm8.98-11.81L66.84 50.34a39.83 39.83 0 0 0-24.1-10.25l10.42-10.43a39.83 39.83 0 0 0 24.1 10.25zm-7.6-26.75a40.06 40.06 0 0 1 3.79 4.9 37.88 37.88 0 0 0 4.2-12.88l-7.99 7.98zm-31.72 28.9c-8.4.45-16.69 3.68-23.36 9.7l6.83 6.83 5.46-5.46 1.41-1.41 9.66-9.66zM22.83 60l5.42 5.42c1.54-1.7 2.9-3.52 4.07-5.42a38 38 0 0 0-4.07-5.42L22.83 60zm5.45 8.28l-1.41-1.41-5.46-5.46-6.83 6.84a37.85 37.85 0 0 0 23.36 9.7l-9.66-9.67zm9.37 6.54l-7.99-7.98a40.05 40.05 0 0 0 3.79-4.9 37.88 37.88 0 0 1 4.2 12.88zM20 60l-6.87-6.87A38.11 38.11 0 0 0 7.68 60a38.11 38.11 0 0 0 5.45 6.87L20 60zm17.26-19.9L26.84 29.65a39.83 39.83 0 0 1-24.1 10.25l10.42 10.43a39.83 39.83 0 0 1 24.1-10.25zm-35.2 1.96l9.66 9.66a40.18 40.18 0 0 0-5.17 6.33c-2.7-5-4.2-10.47-4.5-16zm4.49 19.89c-2.7 5-4.2 10.47-4.5 16l9.67-9.67a40.18 40.18 0 0 1-5.17-6.33zm31.1-16.77c-.61 4.45-2.01 8.82-4.2 12.87a40.06 40.06 0 0 0-3.79-4.89l7.99-7.98zm-4.2-23.23c2.7 5 4.2 10.47 4.5 16l-9.67-9.67c1.97-1.97 3.7-4.1 5.17-6.33zm-14.86-.54l6.83 6.84a37.85 37.85 0 0 1-23.36 9.7l9.66-9.67 1.41-1.41 5.46-5.46zm-8.25 5.43l-7.99 7.98c.61-4.45 2.01-8.82 4.2-12.87a40.04 40.04 0 0 0 3.79 4.89zm1.41-1.42A37.99 37.99 0 0 1 7.68 20a38 38 0 0 1 4.07-5.42L17.17 20l-5.42 5.42zm-5.2-7.37a40.04 40.04 0 0 1 3.79-4.89L2.35 5.18c.61 4.45 2.01 8.82 4.2 12.87zm6.58-4.92l-1.41-1.41-9.66-9.66a37.85 37.85 0 0 1 23.36 9.7l-6.83 6.83-5.46-5.46zm13.74 13.74L20 20l6.87-6.87A38.1 38.1 0 0 1 32.32 20a38.1 38.1 0 0 1-5.45 6.87zm6.58-8.82a40.18 40.18 0 0 0-5.17-6.33l9.66-9.66c-.3 5.52-1.8 11-4.49 16z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            border: 8px solid #4c5e3d;
+        }
+        .card-front::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+        .card-back {
+            background-color: #f8f8f8;
+            background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23dcdcdc' fill-opacity='0.7' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+            transform: rotateY(180deg);
+            border: 8px solid #4c5e3d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .shape-wrapper {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card-label {
+            position: absolute;
+            bottom: 15px;
+            width: 80%;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .card-instruction {
+            font-family: 'Arial', sans-serif;
+            font-size: 0.8rem;
+            text-align: center;
+            max-width: 80%;
+            margin-top: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Larger shapes for the card back */
+        .card-back .shape {
+            width: 80px;
+            height: 80px;
+        }
+        .card-back .triangle {
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 80px solid currentColor;
+        }
+        .card-back .hexagon {
+            width: 70px;
+            height: 40px;
+            margin: 20px 0;
+        }
+        .card-back .hexagon:before,
+        .card-back .hexagon:after {
+            border-left: 35px solid transparent;
+            border-right: 35px solid transparent;
+        }
+        .card-back .hexagon:before {
+            border-bottom: 20px solid currentColor;
+        }
+        .card-back .hexagon:after {
+            border-top: 20px solid currentColor;
+        }
+
+        /* Group details section */
+        .group-details {
+            display: none;
+        }
+
+        .button {
+            background-color: #7C8D69;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .button:hover {
+            background-color: #6a7a57;
+        }
+        .button:disabled {
+            background-color: #a8b599;
+            cursor: not-allowed;
+        }
+        .secondary-button {
+            background-color: #CB7B58;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+        .secondary-button:hover {
+            background-color: #b56c4a;
+        }
+
+        /* Wordle styles */
+        .game-board {
+            margin: 2rem auto;
+            display: inline-block;
+        }
+        .guess-row {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+            justify-content: center;
+        }
+        .letter-box {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #d3d6da;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            background-color: white;
+            transition: all 0.3s;
+        }
+        .letter-box.filled {
+            border-color: #878a8c;
+        }
+        .letter-box.correct {
+            background-color: #2ecc71;
+            border-color: #2ecc71;
+            color: white;
+            animation: flip 0.5s;
+        }
+        .letter-box.present {
+            background-color: #f39c12;
+            border-color: #f39c12;
+            color: white;
+            animation: flip 0.5s;
+        }
+        .letter-box.absent {
+            background-color: #878a8c;
+            border-color: #878a8c;
+            color: white;
+            animation: flip 0.5s;
+        }
+        @keyframes flip {
+            0% { transform: rotateX(0); }
+            50% { transform: rotateX(90deg); }
+            100% { transform: rotateX(0); }
+        }
+
+        /* Result display */
+        .result-container {
+            margin-top: 2rem;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        .result-label {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #CB7B58;
+            margin-bottom: 0.5rem;
+        }
+        .result-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #7C8D69;
+            margin-bottom: 1rem;
+        }
+        .welcome-section, .game-section {
+            width: 100%;
+        }
+        .game-section {
+            display: none;
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f0f;
+            animation: fall linear forwards;
+            z-index: -1;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        /* Message display */
+        .message {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #CB7B58;
+            margin: 1rem 0;
+            min-height: 1.5rem;
+        }
+
+        .hint {
+            font-style: italic;
+            color: #7C8D69;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Instructions pour saisie mobile */
+        .input-instructions {
+            font-family: 'Arial', sans-serif;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mariage de Cécile & Alexis</h1>
+        <div class="date">Le 13 Septembre 2025</div>
+
+        <div class="divider"></div>
+
+        <!-- Welcome Section (initially visible) -->
+        <div id="welcomeSection" class="welcome-section">
+            <h2>Bienvenue !</h2>
+            <p>Veuillez entrer votre prénom</p>
+
+            <div class="input-section">
+                <input type="text" id="nameInput" placeholder="Entrez votre prénom">
+                <div id="nameList" class="name-list"></div>
+
+                <!-- Two buttons for navigation -->
+                <button id="gameBtn" class="button" style="display: none; margin: 10px;">Fancy a game</button>
+                <button id="tableBtn" class="button" style="display: none; margin: 10px;">Find my table</button>
+            </div>
+        </div>
+
+        <!-- Group Details Section (initially hidden) -->
+        <div id="groupDetails" class="group-details">
+            <div class="card-container">
+                <div id="card" class="card">
+                    <div class="card-front">
+                        <div class="card-title">C & A</div>
+                        <div class="card-instruction">Cliquez pour découvrir</div>
+                        <div class="card-label" id="guestName">Invité</div>
+                    </div>
+                    <div class="card-back">
+                        <div class="shape-wrapper">
+                            <div id="shape" class="shape"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="instructions">
+                <h3>Instructions :</h3>
+                <ol>
+                    <li>Rejoignez les personnes de votre couleur pour la cérémonie</li>
+                    <li>Trouvez ensuite les personnes qui ont la même forme que vous pour le cocktail</li>
+                    <li>Ensemble, découvrez le point commun de votre groupe (indices ci-dessous si besoin)</li>
+                </ol>
+            </div>
+
+            <!-- Boutons d'indices uniquement pour le jeu de cartes -->
+            <button class="clue-button" id="clueBtn">Besoin d'un indice ?</button>
+            <div class="clue" id="clue1">
+                <strong>Indice 1 :</strong> <span id="clue1Text"></span>
+            </div>
+
+            <button class="clue-button" id="clue2Btn" style="display: none;">Encore un indice</button>
+            <div class="clue" id="clue2">
+                <strong>Indice 2 :</strong> <span id="clue2Text"></span>
+            </div>
+
+            <button class="clue-button" id="revealBtn" style="display: none;">Révéler le nom du groupe</button>
+            <div class="group-name" id="groupName"></div>
+
+            <button id="cardBackBtn" class="back-button">Revenir à l'accueil</button>
+        </div>
+
+        <!-- Game Section (initially hidden) -->
+        <div id="gameSection" class="game-section">
+            <h2 id="guestGreeting">Bonjour,</h2>
+            <p>Devinez le nom de l'auteur de votre table en 7 essais</p>
+
+            <div class="hint">Indice : C'est un auteur classique (la première lettre vous est donnée)</div>
+
+            <div class="game-board" id="gameBoard"></div>
+
+            <div class="message" id="message"></div>
+
+            <div class="input-instructions">
+                Utilisez votre clavier pour taper les lettres. Appuyez sur Entrée pour valider votre mot.
+            </div>
+
+            <div id="resultContainer" class="result-container">
+                <div class="result-label">Votre table sera :</div>
+                <div id="resultValue" class="result-value"></div>
+            </div>
+
+            <button id="wordleBackBtn" class="back-button">Revenir à l'accueil</button>
+        </div>
+    </div>
+
+<script>
+    // Configuration des groupes (for card game)
+    const groups = [
+        {
+            id: "redDiamond",
+            color: "#c23616",
+            colorName: "Rouge",
+            shape: "diamond",
+            shapeName: "Losange",
+            groupTheme: "Avocat",
+            clue1: "La veuve et l'orphelin.",
+            clue2: "L'article du code"
+        },
+        {
+            id: "blueCircle",
+            color: "#2c3e50",
+            colorName: "Bleu",
+            shape: "circle",
+            shapeName: "Cercle",
+            groupTheme: "Book Club",
+            clue1: "Chateaux de papier",
+            clue2: "Best friend when one's alone."
+        },
+        {
+            id: "greenSquare",
+            color: "#4c5e3d",
+            colorName: "Vert",
+            shape: "square",
+            shapeName: "Carré",
+            groupTheme: "Cats or Dogs?",
+            clue1: "Des amis qui vous veulent du bien",
+            clue2: "Certains veulent sortir souvent, d'autres rester a la maison."
+        },
+        {
+            id: "purpleTriangle",
+            color: "#8e44ad",
+            colorName: "Violet",
+            shape: "triangle",
+            shapeName: "Triangle",
+            groupTheme: "Conor McGregor",
+            clue1: "I'm a machiiine",
+            clue2: "Nate Diaz is not too fond of the lad"
+        },
+        {
+            id: "orangeHexagon",
+            color: "#e67e22",
+            colorName: "Orange",
+            shape: "hexagon",
+            shapeName: "Hexagone",
+            groupTheme: "Danse",
+            clue1: "Vos corps vous revelent",
+            clue2: "a 4 temps ou a 1000 temps"
+        }
+    ];
+
+    // Authors for tables (for Wordle game)
+    const authors = [
+        { fullName: "Victor Hugo", wordleName: "HUGO" },
+        { fullName: "Émile Zola", wordleName: "ZOLA" },
+        { fullName: "Jane Austen", wordleName: "AUSTEN" },
+        { fullName: "Albert Camus", wordleName: "CAMUS" },
+        { fullName: "Marcel Proust", wordleName: "PROUST" },
+        { fullName: "Franz Kafka", wordleName: "KAFKA" },
+        { fullName: "George Sand", wordleName: "SAND" },
+        { fullName: "Colette", wordleName: "COLETTE" },
+        { fullName: "Alexandre Dumas", wordleName: "DUMAS" },
+        { fullName: "Virginia Woolf", wordleName: "WOOLF" }
+    ];
+
+    // Combined guest list with both group and author assignments
+    const guestList = [
+        { name: "Marie", id: 1, group: "redDiamond" },
+        { name: "Jean", id: 2, group: "blueCircle" },
+        { name: "Sophie", id: 3, group: "greenSquare" },
+        { name: "Thomas", id: 4, group: "purpleTriangle" },
+        { name: "Lucie", id: 5, group: "orangeHexagon" },
+        { name: "Pierre", id: 6, group: "redDiamond" },
+        { name: "Emma", id: 7, group: "greenSquare" },
+        { name: "Nicolas", id: 8, group: "greenSquare" },
+        { name: "Clara", id: 9, group: "purpleTriangle" },
+        { name: "Antoine", id: 10, group: "orangeHexagon" },
+        { name: "Élise", id: 11, group: "blueCircle" },
+        { name: "Michel", id: 12, group: "redDiamond" },
+        { name: "Camille", id: 13, group: "greenSquare" },
+        { name: "Paul", id: 14, group: "purpleTriangle" },
+        { name: "Julie", id: 15, group: "orangeHexagon" }
+    ];
+
+    // Define guest table assignments (for Wordle)
+    const guestTableAssignments = {};
+    guestList.forEach((guest, index) => {
+        guestTableAssignments[guest.id] = authors[index % authors.length];
+    });
+
+    // Wordle game state
+    let currentGuest = null;
+    let targetWord = '';
+    let targetFullName = '';
+    let currentRow = 0;
+    let currentTile = 0;
+    let gameOver = false;
+    let guesses = [];
+
+    // Function to log debugging info
+    function debug(message) {
+        console.log("DEBUG: " + message);
+    }
+
+    // Function to create confetti
+    function createConfetti() {
+        const confettiCount = 100;
+        const colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#e67e22', '#f39c12'];
+
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(confetti);
+
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
+        }
+    }
+
+    // Initialize game board
+    function initializeBoard() {
+        const board = document.getElementById('gameBoard');
+        board.innerHTML = '';
+
+        const wordLength = targetWord ? targetWord.length : 5;
+
+        for (let i = 0; i < 7; i++) {
+            const row = document.createElement('div');
+            row.classList.add('guess-row');
+
+            for (let j = 0; j < wordLength; j++) {
+                const box = document.createElement('div');
+                box.classList.add('letter-box');
+                box.setAttribute('id', `box-${i}-${j}`);
+
+                if (i === 0 && j === 0 && targetWord) {
+                    box.textContent = targetWord[0];
+                    box.classList.add('filled', 'correct');
+                }
+
+                row.appendChild(box);
+            }
+
+            board.appendChild(row);
+        }
+
+        if (currentRow === 0 && targetWord) {
+            currentTile = 1;
+            if (!guesses[0]) {
+                guesses[0] = targetWord[0];
+            }
+        }
+    }
+
+    // Handle keyboard input for Wordle
+    function handleKey(key) {
+        if (gameOver) return;
+
+        const messageEl = document.getElementById('message');
+        messageEl.textContent = '';
+
+        if (key === 'enter') {
+            if (currentTile === targetWord.length) {
+                checkGuess();
+            }
+            return;
+        }
+
+        if (key === 'backspace') {
+            if (currentRow === 0 && currentTile <= 1) {
+                return;
+            }
+
+            if (currentTile > 0) {
+                currentTile--;
+                const box = document.getElementById(`box-${currentRow}-${currentTile}`);
+                box.textContent = '';
+                box.classList.remove('filled');
+                guesses[currentRow] = guesses[currentRow].slice(0, -1);
+            }
+            return;
+        }
+
+        if (currentTile < targetWord.length && key.match(/^[a-z]$/)) {
+            const box = document.getElementById(`box-${currentRow}-${currentTile}`);
+            box.textContent = key.toUpperCase();
+            box.classList.add('filled');
+
+            if (!guesses[currentRow]) {
+                guesses[currentRow] = '';
+            }
+            guesses[currentRow] += key.toUpperCase();
+            currentTile++;
+        }
+    }
+
+    // Check the guess
+    function checkGuess() {
+        const guess = guesses[currentRow];
+        const messageEl = document.getElementById('message');
+
+        if (guess.length !== targetWord.length) {
+            messageEl.textContent = `Le mot doit contenir ${targetWord.length} lettres`;
+            return;
+        }
+
+        let targetCopy = targetWord.split('');
+        let guessCopy = guess.split('');
+        let states = new Array(targetWord.length).fill('absent');
+
+        for (let i = 0; i < targetWord.length; i++) {
+            if (guessCopy[i] === targetCopy[i]) {
+                states[i] = 'correct';
+                targetCopy[i] = null;
+                guessCopy[i] = null;
+            }
+        }
+
+        for (let i = 0; i < targetWord.length; i++) {
+            if (guessCopy[i] && targetCopy.includes(guessCopy[i])) {
+                states[i] = 'present';
+                targetCopy[targetCopy.indexOf(guessCopy[i])] = null;
+            }
+        }
+
+        for (let i = 0; i < targetWord.length; i++) {
+            const box = document.getElementById(`box-${currentRow}-${i}`);
+            setTimeout(() => {
+                box.classList.add(states[i]);
+            }, i * 100);
+        }
+
+        if (guess === targetWord) {
+            gameOver = true;
+            setTimeout(() => {
+                messageEl.textContent = 'Félicitations!';
+                document.getElementById('resultValue').textContent = targetFullName;
+                document.getElementById('resultContainer').style.opacity = '1';
+                createConfetti();
+            }, targetWord.length * 100 + 100);
+            return;
+        }
+
+        currentRow++;
+        currentTile = 0;
+
+        if (currentRow < 7) {
+            const firstBox = document.getElementById(`box-${currentRow}-0`);
+            firstBox.textContent = targetWord[0];
+            firstBox.classList.add('filled', 'correct');
+            currentTile = 1;
+            guesses[currentRow] = targetWord[0];
+        }
+
+        if (currentRow === 7) {
+            gameOver = true;
+            setTimeout(() => {
+                messageEl.textContent = `Dommage! Le mot était ${targetWord}. Nouvelle partie...`;
+                setTimeout(() => {
+                    resetGame();
+                }, 3000);
+            }, targetWord.length * 100 + 100);
+        }
+    }
+
+    // Reset the Wordle game
+    function resetGame() {
+        currentRow = 0;
+        currentTile = 0;
+        gameOver = false;
+        guesses = [];
+
+        const boxes = document.querySelectorAll('.letter-box');
+        boxes.forEach(box => {
+            box.textContent = '';
+            box.className = 'letter-box';
+        });
+
+        document.getElementById('message').textContent = '';
+        document.getElementById('resultContainer').style.opacity = '0';
+
+        initializeBoard();
+    }
+
+    // Run when the page loads
+    document.addEventListener("DOMContentLoaded", function() {
+        debug("Page loaded, starting script");
+
+        // Get DOM elements
+        const nameInputElem = document.getElementById("nameInput");
+        const nameListElem = document.getElementById("nameList");
+        const welcomeSectionElem = document.getElementById("welcomeSection");
+        const groupDetailsElem = document.getElementById("groupDetails");
+        const gameSectionElem = document.getElementById("gameSection");
+        const gameBtn = document.getElementById("gameBtn");
+        const tableBtn = document.getElementById("tableBtn");
+
+        let selectedGuest = null;
+
+        // Filter names as user types
+        nameInputElem.addEventListener("input", function() {
+            const searchText = nameInputElem.value.trim().toLowerCase();
+            debug("Filtering for: " + searchText);
+
+            // Clear the list if input is empty
+            if (searchText.length === 0) {
+                nameListElem.innerHTML = "";
+                gameBtn.style.display = "none";
+                tableBtn.style.display = "none";
+                selectedGuest = null;
+                return;
+            }
+
+            // Filter guest list based on search text
+            const matchingGuests = guestList.filter(guest =>
+                guest.name.toLowerCase().includes(searchText)
+            );
+
+            debug("Found " + matchingGuests.length + " matching guests");
+
+            // Display matching guests
+            nameListElem.innerHTML = "";
+
+            if (matchingGuests.length > 0) {
+                matchingGuests.forEach(guest => {
+                    const nameItem = document.createElement("div");
+                    nameItem.classList.add("name-item");
+                    nameItem.textContent = guest.name;
+
+                    // When a name is clicked, select it
+                    nameItem.addEventListener("click", function() {
+                        selectGuestFromList(guest);
+                    });
+
+                    nameListElem.appendChild(nameItem);
+                });
+            }
+        });
+
+        // Function to handle guest selection from list
+        function selectGuestFromList(guest) {
+            selectedGuest = guest;
+            nameInputElem.value = guest.name;
+            nameListElem.innerHTML = "";
+
+            // Show the two buttons
+            gameBtn.style.display = "inline-block";
+            tableBtn.style.display = "inline-block";
+
+            debug("Selected guest: " + guest.name);
+        }
+
+        // Game button - goes to card game
+        gameBtn.addEventListener("click", function() {
+            if (selectedGuest) {
+                selectGuestForCardGame(selectedGuest);
+            }
+        });
+
+        // Table button - goes to wordle
+        tableBtn.addEventListener("click", function() {
+            if (selectedGuest) {
+                selectGuestForWordle(selectedGuest);
+            }
+        });
+
+        // Function for card game (existing functionality)
+        function selectGuestForCardGame(guest) {
+            debug("Selected guest for card game: " + guest.name + ", group: " + guest.group);
+
+            // Find the group
+            const assignedGroup = groups.find(g => g.id === guest.group);
+
+            if (!assignedGroup) {
+                debug("Group not found for: " + guest.group);
+                return;
+            }
+
+            // Update guest name
+            document.getElementById("guestName").textContent = guest.name;
+
+            // Set shape class and color
+            const shapeElem = document.getElementById("shape");
+            shapeElem.className = "shape"; // Reset classes
+            shapeElem.classList.add(assignedGroup.shape);
+            shapeElem.style.backgroundColor = assignedGroup.color;
+            shapeElem.style.color = assignedGroup.color;
+
+            // Set clue text
+            document.getElementById("clue1Text").textContent = assignedGroup.clue1;
+            document.getElementById("clue2Text").textContent = assignedGroup.clue2;
+
+            // Hide welcome section and show group details
+            welcomeSectionElem.style.display = "none";
+            groupDetailsElem.style.display = "block";
+
+            // Reset card to front position
+            document.getElementById("card").classList.remove("flipped");
+
+            debug("Displayed group details for: " + guest.name);
+        }
+
+        // Function for wordle game
+        function selectGuestForWordle(guest) {
+            currentGuest = guest;
+            document.getElementById("guestGreeting").textContent = `Bonjour, ${guest.name}`;
+
+            // Get assigned author
+            const assignedAuthor = guestTableAssignments[guest.id];
+            targetWord = assignedAuthor.wordleName;
+            targetFullName = assignedAuthor.fullName;
+
+            // Reset and initialize game
+            resetGame();
+
+            // Switch views
+            welcomeSectionElem.style.display = 'none';
+            gameSectionElem.style.display = 'block';
+        }
+
+        // Set up card flip functionality
+        document.getElementById("card").addEventListener("click", function() {
+            this.classList.toggle("flipped");
+        });
+
+        // Card game back button functionality
+        const cardBackBtn = document.getElementById("cardBackBtn");
+        if (cardBackBtn) {
+            cardBackBtn.addEventListener("click", function() {
+                // Hide group details and show welcome section
+                groupDetailsElem.style.display = "none";
+                welcomeSectionElem.style.display = "block";
+
+                // Reset input and buttons
+                nameInputElem.value = "";
+                nameListElem.innerHTML = "";
+                gameBtn.style.display = "none";
+                tableBtn.style.display = "none";
+                selectedGuest = null;
+
+                // Reset clues
+                document.getElementById("clue1").style.display = "none";
+                document.getElementById("clue2").style.display = "none";
+                document.getElementById("clueBtn").style.display = "block";
+                document.getElementById("clue2Btn").style.display = "none";
+                document.getElementById("revealBtn").style.display = "none";
+                document.getElementById("groupName").style.display = "none";
+
+                debug("Returned to welcome screen from card game");
+            });
+        }
+
+        // Wordle game back button functionality
+        const wordleBackBtn = document.getElementById("wordleBackBtn");
+        if (wordleBackBtn) {
+            wordleBackBtn.addEventListener("click", function() {
+                gameSectionElem.style.display = 'none';
+                welcomeSectionElem.style.display = 'block';
+
+                // Reset input and buttons
+                nameInputElem.value = '';
+                nameListElem.innerHTML = '';
+                gameBtn.style.display = "none";
+                tableBtn.style.display = "none";
+                selectedGuest = null;
+                currentGuest = null;
+
+                debug("Returned to welcome screen from Wordle game");
+            });
+        }
+
+        // Clue button handlers for card game
+        document.getElementById("clueBtn").addEventListener("click", function() {
+            document.getElementById("clue1").style.display = "block";
+            document.getElementById("clueBtn").style.display = "none";
+            document.getElementById("clue2Btn").style.display = "block";
+            debug("Showed first clue");
+        });
+
+        document.getElementById("clue2Btn").addEventListener("click", function() {
+            document.getElementById("clue2").style.display = "block";
+            document.getElementById("clue2Btn").style.display = "none";
+            document.getElementById("revealBtn").style.display = "block";
+            debug("Showed second clue");
+        });
+
+        document.getElementById("revealBtn").addEventListener("click", function() {
+            const shapeElem = document.getElementById("shape");
+            const groupTheme = groups.find(g => g.shape === shapeElem.classList[1]).groupTheme;
+            document.getElementById("groupName").textContent = "Le nom de votre groupe est : " + groupTheme;
+            document.getElementById("groupName").style.display = "block";
+            document.getElementById("revealBtn").style.display = "none";
+            debug("Revealed group name");
+        });
+
+        // Physical keyboard input for Wordle (seulement quand le jeu est visible)
+        document.addEventListener('keydown', function(e) {
+            if (gameSectionElem.style.display === 'none') return;
+
+            if (e.key === 'Enter') {
+                handleKey('enter');
+            } else if (e.key === 'Backspace') {
+                handleKey('backspace');
+            } else if (e.key.match(/^[a-zA-Z]$/)) {
+                handleKey(e.key.toLowerCase());
+            }
+        });
+
+        // Initialize board on first load
+        initializeBoard();
+
+        debug("Setup complete!");
+    });
+</script>
+
+</body>
+</html>
