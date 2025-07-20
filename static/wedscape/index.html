@@ -995,7 +995,9 @@
                 overlay.style.display = 'block';
                 mobileInput.style.display = 'block';
                 mobileInput.value = '';
-                mobileInput.focus();
+                setTimeout(() => {
+    mobileInput.focus();
+}, 100);
             }
         }
 
