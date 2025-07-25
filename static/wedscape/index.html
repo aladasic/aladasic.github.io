@@ -769,38 +769,6 @@
                 const box = document.createElement('div');
                 box.classList.add('letter-box');
                 box.setAttribute('id', `box-${i}-${j}`);
-
-                // Make boxes clickable/touchable on mobile
-                box.addEventListener('click', function(e) {
-                    console.log("Box clicked:", i, j, "Current:", currentRow, currentTile);
-                    e.preventDefault();
-
-                    if (document.getElementById('gameSection').style.display === 'none' || gameOver) {
-                        console.log("Game not active");
-                        return;
-                    }
-
-                    // Only allow clicking on current row and current tile
-                    if (i === currentRow && j === currentTile) {
-                        console.log("Calling focusCurrentBox");
-                        focusCurrentBox();
-                    } else {
-                        console.log("Wrong box clicked. Expected:", currentRow, currentTile);
-                    }
-                });
-
-                // Add touch events for better mobile support
-                box.addEventListener('touchstart', function(e) {
-                    console.log("Box touched:", i, j);
-                    e.preventDefault(); // Prevent double-tap zoom
-
-                    if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
-
-                    if (i === currentRow && j === currentTile) {
-                        focusCurrentBox();
-                    }
-                });
-
                 row.appendChild(box);
             }
 
@@ -821,6 +789,67 @@
                 guesses[0] = targetWord[0];
             }
         }
+
+        // Setup mobile-specific handlers after board is created
+        if (isMobile()) {
+            setupMobileBoxHandlers();
+        } else {
+            setupDesktopBoxHandlers();
+        }
+    }
+
+    // Desktop box handlers (original behavior)
+    function setupDesktopBoxHandlers() {
+        document.querySelectorAll('.letter-box').forEach((box, index) => {
+            const wordLength = targetWord ? targetWord.length : 5;
+            const row = Math.floor(index / wordLength);
+            const col = index % wordLength;
+
+            box.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
+
+                // Only allow clicking on current row and current tile
+                if (row === currentRow && col === currentTile) {
+                    focusCurrentBox();
+                }
+            });
+        });
+    }
+
+    // Mobile box handlers (enhanced behavior)
+    function setupMobileBoxHandlers() {
+        document.querySelectorAll('.letter-box').forEach((box, index) => {
+            const wordLength = targetWord ? targetWord.length : 5;
+            const row = Math.floor(index / wordLength);
+            const col = index % wordLength;
+
+            box.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
+
+                // On mobile, allow clicking any empty box in current row
+                if (row === currentRow && !box.classList.contains('correct')) {
+                    // Set currentTile to this position
+                    currentTile = col;
+                    focusCurrentBox();
+                }
+            });
+
+            box.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+
+                if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
+
+                // Same logic for touch
+                if (row === currentRow && !box.classList.contains('correct')) {
+                    currentTile = col;
+                    focusCurrentBox();
+                }
+            });
+        });
     }
 
     // Detect if device is mobile
@@ -894,30 +923,55 @@
         }
 
         if (key === 'backspace') {
-            if (currentRow === 0 && currentTile <= 1) {
-                return;
-            }
-
-            if (currentTile > 0) {
+            // Skip over green (correct) letters when backspacing
+            while (currentTile > 0) {
                 currentTile--;
                 const box = document.getElementById(`box-${currentRow}-${currentTile}`);
-                box.textContent = '';
-                box.classList.remove('filled');
-                guesses[currentRow] = guesses[currentRow].slice(0, -1);
+                if (!box.classList.contains('correct')) {
+                    box.textContent = '';
+                    box.classList.remove('filled');
+                    // Rebuild the guess string
+                    rebuildGuessString();
+                    break;
+                }
             }
             return;
         }
 
         if (currentTile < targetWord.length && key.match(/^[a-z]$/)) {
-            const box = document.getElementById(`box-${currentRow}-${currentTile}`);
-            box.textContent = key.toUpperCase();
-            box.classList.add('filled');
+            // Skip over green (correct) letters when typing
+            while (currentTile < targetWord.length) {
+                const box = document.getElementById(`box-${currentRow}-${currentTile}`);
+                if (!box.classList.contains('correct')) {
+                    box.textContent = key.toUpperCase();
+                    box.classList.add('filled');
 
-            if (!guesses[currentRow]) {
-                guesses[currentRow] = '';
+                    // Rebuild the guess string
+                    rebuildGuessString();
+                    currentTile++;
+
+                    // Auto-submit on mobile when row is complete
+                    if (isMobile() && currentTile === targetWord.length) {
+                        setTimeout(() => {
+                            checkGuess();
+                        }, 300);
+                    }
+                    break;
+                } else {
+                    currentTile++; // Skip this position
+                }
             }
-            guesses[currentRow] += key.toUpperCase();
-            currentTile++;
+        }
+    }
+
+    // Helper function to rebuild the guess string from the current row
+    function rebuildGuessString() {
+        guesses[currentRow] = '';
+        for (let i = 0; i < targetWord.length; i++) {
+            const box = document.getElementById(`box-${currentRow}-${i}`);
+            if (box && box.textContent) {
+                guesses[currentRow] += box.textContent;
+            }
         }
     }
 
@@ -1125,7 +1179,7 @@
 
             if (e.key === 'Enter') {
                 e.preventDefault();
-                handleKey('enter');
+                // On mobile, don't manually trigger enter - auto-submit handles it
                 hideMobileInput();
             } else if (e.key === 'Backspace') {
                 e.preventDefault();
@@ -1135,6 +1189,35 @@
                 hideMobileInput();
             }
         });
+
+        // Enhanced mobile handling - tap any box in current row to input
+        function setupMobileBoxHandlers() {
+            document.querySelectorAll('.letter-box').forEach((box, index) => {
+                const row = Math.floor(index / (targetWord ? targetWord.length : 5));
+                const col = index % (targetWord ? targetWord.length : 5);
+
+                box.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
+
+                    // On mobile, allow clicking any empty box in current row
+                    if (isMobile() && row === currentRow) {
+                        const targetBox = document.getElementById(`box-${row}-${col}`);
+                        if (targetBox && !targetBox.classList.contains('correct')) {
+                            // Set currentTile to this position
+                            currentTile = col;
+                            focusCurrentBox();
+                        }
+                    } else if (!isMobile()) {
+                        // Desktop behavior - only current tile
+                        if (row === currentRow && col === currentTile) {
+                            focusCurrentBox();
+                        }
+                    }
+                });
+            });
+        }
 
         // Close mobile input when clicking overlay
         mobileOverlay.addEventListener('click', function() {
