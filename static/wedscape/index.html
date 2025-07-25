@@ -915,6 +915,8 @@
         const messageEl = document.getElementById('message');
         messageEl.textContent = '';
 
+        console.log("HandleKey called with:", key, "CurrentTile:", currentTile, "TargetLength:", targetWord.length);
+
         if (key === 'enter') {
             if (currentTile === targetWord.length) {
                 checkGuess();
@@ -950,8 +952,15 @@
                     rebuildGuessString();
                     currentTile++;
 
+                    console.log("Letter added. New currentTile:", currentTile, "Word length:", targetWord.length);
+
+                    // Check if row is complete
+                    const isRowComplete = checkIfRowComplete();
+                    console.log("Row complete?", isRowComplete);
+
                     // Auto-submit on mobile when row is complete
-                    if (isMobile() && currentTile === targetWord.length) {
+                    if (isMobile() && isRowComplete) {
+                        console.log("Auto-submitting on mobile");
                         setTimeout(() => {
                             checkGuess();
                         }, 300);
@@ -964,6 +973,19 @@
         }
     }
 
+    // Helper function to check if current row is complete
+    function checkIfRowComplete() {
+        let filledCount = 0;
+        for (let i = 0; i < targetWord.length; i++) {
+            const box = document.getElementById(`box-${currentRow}-${i}`);
+            if (box && box.textContent) {
+                filledCount++;
+            }
+        }
+        console.log("Filled count:", filledCount, "Target length:", targetWord.length);
+        return filledCount === targetWord.length;
+    }
+
     // Helper function to rebuild the guess string from the current row
     function rebuildGuessString() {
         guesses[currentRow] = '';
@@ -973,6 +995,7 @@
                 guesses[currentRow] += box.textContent;
             }
         }
+        console.log("Rebuilt guess:", guesses[currentRow]);
     }
 
     // Check the guess
@@ -1164,30 +1187,36 @@
 
         // Handle mobile input
         mobileInput.addEventListener('input', function(e) {
-            if (gameSectionElem.style.display === 'none') return;
+            if (gameSectionElem.style.display === 'none' || gameOver) return;
 
             const value = e.target.value.toUpperCase();
             if (value && value.match(/^[A-Z]$/)) {
+                console.log("Mobile input received:", value);
                 handleKey(value.toLowerCase());
+                // Clear the input immediately to prevent double input
+                e.target.value = '';
                 hideMobileInput();
             }
         });
 
-        // Handle mobile input keydown
+        // Handle mobile input keydown - prevent default behavior to avoid double input
         mobileInput.addEventListener('keydown', function(e) {
             if (gameSectionElem.style.display === 'none') return;
 
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                // On mobile, don't manually trigger enter - auto-submit handles it
-                hideMobileInput();
-            } else if (e.key === 'Backspace') {
+            console.log("Mobile keydown:", e.key);
+
+            if (e.key === 'Backspace') {
                 e.preventDefault();
                 handleKey('backspace');
                 hideMobileInput();
             } else if (e.key === 'Escape') {
+                e.preventDefault();
+                hideMobileInput();
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
                 hideMobileInput();
             }
+            // For letter keys, let the input event handle it to avoid double processing
         });
 
         // Enhanced mobile handling - tap any box in current row to input
