@@ -910,29 +910,41 @@
 
     // Handle keyboard input for Wordle
     function handleKey(key) {
-        if (gameOver) return;
+        if (gameOver) {
+            console.log("Game over, ignoring key:", key);
+            return;
+        }
 
         const messageEl = document.getElementById('message');
         messageEl.textContent = '';
 
-        console.log("HandleKey called with:", key, "CurrentTile:", currentTile, "TargetLength:", targetWord.length);
+        console.log("=== HandleKey ===");
+        console.log("Key:", key);
+        console.log("Current row:", currentRow);
+        console.log("Current tile:", currentTile);
+        console.log("Target word:", targetWord);
 
         if (key === 'enter') {
-            if (currentTile === targetWord.length) {
+            console.log("Enter pressed - checking if row complete");
+            if (checkIfRowComplete()) {
+                console.log("Row is complete, checking guess");
                 checkGuess();
+            } else {
+                console.log("Row not complete, cannot submit");
             }
             return;
         }
 
         if (key === 'backspace') {
-            // Skip over green (correct) letters when backspacing
-            while (currentTile > 0) {
-                currentTile--;
-                const box = document.getElementById(`box-${currentRow}-${currentTile}`);
-                if (!box.classList.contains('correct')) {
+            console.log("Backspace pressed");
+            // Find the last filled non-green box and clear it
+            for (let i = targetWord.length - 1; i >= 0; i--) {
+                const box = document.getElementById(`box-${currentRow}-${i}`);
+                if (box && box.textContent && !box.classList.contains('correct')) {
+                    console.log("Clearing box at position:", i);
                     box.textContent = '';
                     box.classList.remove('filled');
-                    // Rebuild the guess string
+                    currentTile = i;
                     rebuildGuessString();
                     break;
                 }
@@ -940,50 +952,59 @@
             return;
         }
 
-        if (currentTile < targetWord.length && key.match(/^[a-z]$/)) {
-            // Skip over green (correct) letters when typing
-            while (currentTile < targetWord.length) {
-                const box = document.getElementById(`box-${currentRow}-${currentTile}`);
-                if (!box.classList.contains('correct')) {
-                    box.textContent = key.toUpperCase();
-                    box.classList.add('filled');
+        if (key.match(/^[a-z]$/)) {
+            console.log("Letter key pressed:", key);
 
-                    // Rebuild the guess string
-                    rebuildGuessString();
-                    currentTile++;
+            // Find the target box (the one that was clicked)
+            const targetBox = document.getElementById(`box-${currentRow}-${currentTile}`);
 
-                    console.log("Letter added. New currentTile:", currentTile, "Word length:", targetWord.length);
+            if (targetBox && !targetBox.classList.contains('correct')) {
+                console.log("Placing letter in box:", currentRow, currentTile);
 
-                    // Check if row is complete
-                    const isRowComplete = checkIfRowComplete();
-                    console.log("Row complete?", isRowComplete);
+                targetBox.textContent = key.toUpperCase();
+                targetBox.classList.add('filled');
 
-                    // Auto-submit on mobile when row is complete
-                    if (isMobile() && isRowComplete) {
-                        console.log("Auto-submitting on mobile");
-                        setTimeout(() => {
-                            checkGuess();
-                        }, 300);
-                    }
-                    break;
-                } else {
-                    currentTile++; // Skip this position
+                // Rebuild the guess string
+                rebuildGuessString();
+
+                // Check if row is now complete
+                const isComplete = checkIfRowComplete();
+                console.log("Row complete after adding letter?", isComplete);
+
+                // Auto-submit on mobile when row is complete
+                if (isMobile() && isComplete) {
+                    console.log("🚀 AUTO-SUBMITTING on mobile!");
+                    setTimeout(() => {
+                        console.log("Auto-submit timeout triggered");
+                        checkGuess();
+                    }, 500);
                 }
+            } else {
+                console.log("Cannot place letter - box is green or invalid");
             }
         }
     }
 
-    // Helper function to check if current row is complete
+    // Improved function to check if current row is complete
     function checkIfRowComplete() {
+        console.log("--- Checking if row complete ---");
         let filledCount = 0;
-        for (let i = 0; i < targetWord.length; i++) {
+        let totalBoxes = targetWord.length;
+
+        for (let i = 0; i < totalBoxes; i++) {
             const box = document.getElementById(`box-${currentRow}-${i}`);
-            if (box && box.textContent) {
+            if (box && box.textContent && box.textContent.trim() !== '') {
                 filledCount++;
+                console.log(`Box ${i}: "${box.textContent}" ✓`);
+            } else {
+                console.log(`Box ${i}: empty ✗`);
             }
         }
-        console.log("Filled count:", filledCount, "Target length:", targetWord.length);
-        return filledCount === targetWord.length;
+
+        console.log(`Filled: ${filledCount}/${totalBoxes}`);
+        const isComplete = filledCount === totalBoxes;
+        console.log("Row complete:", isComplete);
+        return isComplete;
     }
 
     // Helper function to rebuild the guess string from the current row
@@ -995,7 +1016,7 @@
                 guesses[currentRow] += box.textContent;
             }
         }
-        console.log("Rebuilt guess:", guesses[currentRow]);
+        console.log("Rebuilt guess for row", currentRow, ":", guesses[currentRow]);
     }
 
     // Check the guess
@@ -1185,28 +1206,46 @@
 
         let selectedGuest = null;
 
-        // Handle mobile input
+        // Handle mobile input with better control
         mobileInput.addEventListener('input', function(e) {
-            if (gameSectionElem.style.display === 'none' || gameOver) return;
+            console.log("Mobile input event triggered, value:", e.target.value);
+
+            if (gameSectionElem.style.display === 'none' || gameOver) {
+                console.log("Game not active, ignoring input");
+                return;
+            }
 
             const value = e.target.value.toUpperCase();
+            console.log("Processed value:", value);
+
             if (value && value.match(/^[A-Z]$/)) {
-                console.log("Mobile input received:", value);
+                console.log("Valid letter detected:", value);
+
+                // Clear input FIRST to prevent any re-triggering
+                this.value = '';
+
+                // Handle the key
                 handleKey(value.toLowerCase());
-                // Clear the input immediately to prevent double input
-                e.target.value = '';
-                hideMobileInput();
+
+                // Hide mobile input after processing
+                setTimeout(() => {
+                    hideMobileInput();
+                }, 100);
+            } else {
+                console.log("Invalid input, clearing");
+                this.value = '';
             }
         });
 
-        // Handle mobile input keydown - prevent default behavior to avoid double input
+        // Simplified mobile keydown handler
         mobileInput.addEventListener('keydown', function(e) {
-            if (gameSectionElem.style.display === 'none') return;
+            console.log("Mobile keydown event:", e.key);
 
-            console.log("Mobile keydown:", e.key);
+            if (gameSectionElem.style.display === 'none') return;
 
             if (e.key === 'Backspace') {
                 e.preventDefault();
+                console.log("Backspace pressed on mobile");
                 handleKey('backspace');
                 hideMobileInput();
             } else if (e.key === 'Escape') {
@@ -1216,7 +1255,7 @@
                 e.preventDefault();
                 hideMobileInput();
             }
-            // For letter keys, let the input event handle it to avoid double processing
+            // Don't handle letter keys here - let input event handle them
         });
 
         // Enhanced mobile handling - tap any box in current row to input
