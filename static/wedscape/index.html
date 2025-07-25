@@ -496,9 +496,43 @@
             margin-top: 1rem;
             font-style: italic;
         }
+
+        /* Mobile overlay and input */
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9998;
+            display: none;
+        }
+
+        .mobile-input {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 50px;
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #7C8D69;
+            border-radius: 8px;
+            background-color: white;
+            z-index: 9999;
+            display: none;
+        }
     </style>
 </head>
 <body>
+    <!-- Mobile overlay and input for better touch support -->
+    <div id="mobileOverlay" class="mobile-overlay"></div>
+    <input type="text" id="mobileInput" class="mobile-input" maxlength="1"
+           placeholder="Lettre"
+           inputmode="text" autocapitalize="off" autocomplete="off" spellcheck="false" />
+
     <div class="container">
         <h1>Mariage de Cécile & Alexis</h1>
         <div class="date">Le 13 Septembre 2025</div>
@@ -692,6 +726,10 @@
     let gameOver = false;
     let guesses = [];
 
+    // DOM elements for mobile input
+    let mobileOverlay;
+    let mobileInput;
+
     // Function to log debugging info
     function debug(message) {
         console.log("DEBUG: " + message);
@@ -732,17 +770,12 @@
                 box.classList.add('letter-box');
                 box.setAttribute('id', `box-${i}-${j}`);
 
-                if (i === 0 && j === 0 && targetWord) {
-                    box.textContent = targetWord[0];
-                    box.classList.add('filled', 'correct');
-                }
-
                 // Make boxes clickable/touchable on mobile
                 box.addEventListener('click', function(e) {
                     console.log("Box clicked:", i, j, "Current:", currentRow, currentTile);
                     e.preventDefault();
 
-                    if (gameSectionElem.style.display === 'none' || gameOver) {
+                    if (document.getElementById('gameSection').style.display === 'none' || gameOver) {
                         console.log("Game not active");
                         return;
                     }
@@ -759,9 +792,9 @@
                 // Add touch events for better mobile support
                 box.addEventListener('touchstart', function(e) {
                     console.log("Box touched:", i, j);
-                    // e.preventDefault(); // disabled for keyboard support // Prevent double-tap zoom
+                    e.preventDefault(); // Prevent double-tap zoom
 
-                    if (gameSectionElem.style.display === 'none' || gameOver) return;
+                    if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
 
                     if (i === currentRow && j === currentTile) {
                         focusCurrentBox();
@@ -774,11 +807,75 @@
             board.appendChild(row);
         }
 
-        if (currentRow === 0 && targetWord) {
+        // Set up the first letter only for the current row (row 0)
+        if (targetWord && currentRow === 0) {
+            const firstBox = document.getElementById(`box-0-0`);
+            if (firstBox) {
+                firstBox.textContent = targetWord[0];
+                firstBox.classList.add('filled', 'correct');
+            }
+
+            // Initialize first guess with the first letter
             currentTile = 1;
             if (!guesses[0]) {
                 guesses[0] = targetWord[0];
             }
+        }
+    }
+
+    // Detect if device is mobile
+    function isMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+               ('ontouchstart' in window) ||
+               (window.innerWidth <= 768);
+    }
+
+    // Function to show mobile input
+    function focusCurrentBox() {
+        if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
+
+        // Highlight current box WITHOUT removing existing content
+        const currentBox = document.getElementById(`box-${currentRow}-${currentTile}`);
+        if (currentBox) {
+            // Remove highlight from all boxes first but preserve their content and classes
+            document.querySelectorAll('.letter-box').forEach(box => {
+                if (box.classList.contains('correct') || box.classList.contains('present') || box.classList.contains('absent')) {
+                    // Keep the colored boxes as they are
+                    return;
+                }
+                // Only reset border for non-colored boxes
+                box.style.border = '2px solid #d3d6da';
+                if (!box.textContent) {
+                    box.style.backgroundColor = 'white';
+                }
+            });
+
+            // Highlight current box only if it's not already colored from a previous guess
+            if (!currentBox.classList.contains('correct') && !currentBox.classList.contains('present') && !currentBox.classList.contains('absent')) {
+                currentBox.style.border = '3px solid #7C8D69';
+                currentBox.style.backgroundColor = '#f0f7e8';
+            }
+        }
+
+        // Show mobile input if on mobile device
+        if (isMobile()) {
+            mobileOverlay.style.display = 'block';
+            mobileInput.style.display = 'block';
+            mobileInput.value = '';
+
+            // Use setTimeout to ensure the input is visible before focusing
+            setTimeout(() => {
+                mobileInput.focus();
+            }, 50);
+        }
+    }
+
+    // Hide mobile input
+    function hideMobileInput() {
+        if (mobileOverlay && mobileInput) {
+            mobileOverlay.style.display = 'none';
+            mobileInput.style.display = 'none';
+            mobileInput.blur();
         }
     }
 
@@ -829,37 +926,74 @@
         const guess = guesses[currentRow];
         const messageEl = document.getElementById('message');
 
+        console.log("Checking guess:", guess, "Target:", targetWord);
+
         if (guess.length !== targetWord.length) {
             messageEl.textContent = `Le mot doit contenir ${targetWord.length} lettres`;
             return;
         }
 
+        // Create arrays to track which letters have been matched
         let targetCopy = targetWord.split('');
         let guessCopy = guess.split('');
         let states = new Array(targetWord.length).fill('absent');
 
+        console.log("Target copy:", targetCopy);
+        console.log("Guess copy:", guessCopy);
+
+        // First pass: mark correct letters (green)
         for (let i = 0; i < targetWord.length; i++) {
             if (guessCopy[i] === targetCopy[i]) {
                 states[i] = 'correct';
-                targetCopy[i] = null;
-                guessCopy[i] = null;
+                targetCopy[i] = null; // Mark as used
+                guessCopy[i] = null; // Mark as used
             }
         }
 
+        // Second pass: mark present letters (orange/yellow)
         for (let i = 0; i < targetWord.length; i++) {
             if (guessCopy[i] && targetCopy.includes(guessCopy[i])) {
                 states[i] = 'present';
-                targetCopy[targetCopy.indexOf(guessCopy[i])] = null;
+                targetCopy[targetCopy.indexOf(guessCopy[i])] = null; // Mark as used
             }
         }
 
+        console.log("States:", states);
+
+        // Apply colors to boxes with animation
         for (let i = 0; i < targetWord.length; i++) {
             const box = document.getElementById(`box-${currentRow}-${i}`);
-            setTimeout(() => {
-                box.classList.add(states[i]);
-            }, i * 100);
+            if (box) {
+                setTimeout(() => {
+                    console.log(`Applying ${states[i]} to box ${currentRow}-${i}`);
+                    // Remove existing state classes and any custom styling
+                    box.classList.remove('correct', 'present', 'absent');
+                    box.style.backgroundColor = '';
+                    box.style.borderColor = '';
+                    box.style.color = '';
+
+                    // Add the new state
+                    box.classList.add(states[i]);
+
+                    // Force the styles to ensure they apply
+                    if (states[i] === 'correct') {
+                        box.style.backgroundColor = '#2ecc71';
+                        box.style.borderColor = '#2ecc71';
+                        box.style.color = 'white';
+                    } else if (states[i] === 'present') {
+                        box.style.backgroundColor = '#f39c12';
+                        box.style.borderColor = '#f39c12';
+                        box.style.color = 'white';
+                    } else if (states[i] === 'absent') {
+                        box.style.backgroundColor = '#878a8c';
+                        box.style.borderColor = '#878a8c';
+                        box.style.color = 'white';
+                    }
+                }, i * 100);
+            }
         }
 
+        // Check if the word was guessed correctly
         if (guess === targetWord) {
             gameOver = true;
             setTimeout(() => {
@@ -867,21 +1001,62 @@
                 document.getElementById('resultValue').textContent = targetFullName;
                 document.getElementById('resultContainer').style.opacity = '1';
                 createConfetti();
-            }, targetWord.length * 100 + 100);
+            }, targetWord.length * 100 + 500);
             return;
         }
 
+        // Move to next row
         currentRow++;
         currentTile = 0;
 
+        // Set up the next row with correct letters in their positions
         if (currentRow < 7) {
-            const firstBox = document.getElementById(`box-${currentRow}-0`);
-            firstBox.textContent = targetWord[0];
-            firstBox.classList.add('filled', 'correct');
-            currentTile = 1;
-            guesses[currentRow] = targetWord[0];
+            setTimeout(() => {
+                // First, set up all the green (correct) letters from this guess
+                for (let i = 0; i < targetWord.length; i++) {
+                    if (states[i] === 'correct') {
+                        const nextBox = document.getElementById(`box-${currentRow}-${i}`);
+                        if (nextBox) {
+                            nextBox.textContent = guess[i];
+                            nextBox.classList.add('filled', 'correct');
+                            nextBox.style.backgroundColor = '#2ecc71';
+                            nextBox.style.borderColor = '#2ecc71';
+                            nextBox.style.color = 'white';
+                        }
+                    }
+                }
+
+                // Initialize the guess for the new row with known correct letters
+                guesses[currentRow] = '';
+                for (let i = 0; i < targetWord.length; i++) {
+                    if (states[i] === 'correct') {
+                        guesses[currentRow] += guess[i];
+                    } else {
+                        guesses[currentRow] += '';
+                        break; // Stop at the first empty position
+                    }
+                }
+
+                // Find the next empty position to set currentTile
+                currentTile = 0;
+                for (let i = 0; i < targetWord.length; i++) {
+                    if (states[i] === 'correct') {
+                        currentTile = i + 1;
+                    } else {
+                        currentTile = i;
+                        break;
+                    }
+                }
+
+                // Make sure currentTile doesn't exceed word length
+                if (currentTile >= targetWord.length) {
+                    currentTile = targetWord.length - 1;
+                }
+
+            }, targetWord.length * 100 + 200);
         }
 
+        // Check if game is over (no more rows)
         if (currentRow === 7) {
             gameOver = true;
             setTimeout(() => {
@@ -889,7 +1064,7 @@
                 setTimeout(() => {
                     resetGame();
                 }, 3000);
-            }, targetWord.length * 100 + 100);
+            }, targetWord.length * 100 + 500);
         }
     }
 
@@ -904,6 +1079,8 @@
         boxes.forEach(box => {
             box.textContent = '';
             box.className = 'letter-box';
+            box.style.border = '2px solid #d3d6da';
+            box.style.backgroundColor = 'white';
         });
 
         document.getElementById('message').textContent = '';
@@ -925,54 +1102,11 @@
         const gameBtn = document.getElementById("gameBtn");
         const tableBtn = document.getElementById("tableBtn");
 
+        // Get mobile input elements
+        mobileOverlay = document.getElementById("mobileOverlay");
+        mobileInput = document.getElementById("mobileInput");
+
         let selectedGuest = null;
-
-        // Removed dynamic mobileInput creation for static input inclusion.
-
-        // Removed dynamic overlay creation for static input inclusion.
-
-        // Detect if device is mobile
-        function isMobile() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                   ('ontouchstart' in window) ||
-                   (window.innerWidth <= 768);
-        }
-
-        // Function to show mobile input
-        window.focusCurrentBox = function() {
-            if (gameSectionElem.style.display === 'none' || gameOver) return;
-
-            // Highlight current box
-            const currentBox = document.getElementById(`box-${currentRow}-${currentTile}`);
-            if (currentBox) {
-                // Remove highlight from all boxes first
-                document.querySelectorAll('.letter-box').forEach(box => {
-                    box.style.border = '2px solid #d3d6da';
-                    box.style.backgroundColor = 'white';
-                });
-
-                // Highlight current box
-                currentBox.style.border = '3px solid #7C8D69';
-                currentBox.style.backgroundColor = '#f0f7e8';
-            }
-
-            // Show mobile input if on mobile device
-            if (isMobile()) {
-                overlay.style.display = 'block';
-                mobileInput.style.display = 'block';
-mobileInput.value = '';
-requestAnimationFrame(() => {
-    mobileInput.focus();
-});
-            }
-        }
-
-        // Hide mobile input
-        function hideMobileInput() {
-            overlay.style.display = 'none';
-            mobileInput.style.display = 'none';
-            mobileInput.blur();
-        }
 
         // Handle mobile input
         mobileInput.addEventListener('input', function(e) {
@@ -1003,7 +1137,7 @@ requestAnimationFrame(() => {
         });
 
         // Close mobile input when clicking overlay
-        overlay.addEventListener('click', function() {
+        mobileOverlay.addEventListener('click', function() {
             hideMobileInput();
         });
 
@@ -1222,16 +1356,6 @@ requestAnimationFrame(() => {
         debug("Setup complete!");
     });
 </script>
-
-
-<!-- Static mobile input for better keyboard support -->
-<input type="text" id="mobileInput" maxlength="1"
-       placeholder="Lettre"
-       inputmode="text" autocapitalize="off" autocomplete="off" spellcheck="false"
-       style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-              width: 80px; height: 50px; font-size: 24px; text-align: center;
-              border: 2px solid #7C8D69; border-radius: 8px; background-color: white;
-              z-index: 9999; display: none;" />
 
 </body>
 </html>
