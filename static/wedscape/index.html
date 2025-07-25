@@ -830,11 +830,16 @@
 
                 if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
 
+                console.log("Mobile box clicked:", row, col, "Current row:", currentRow);
+
                 // On mobile, allow clicking any empty box in current row
-                if (row === currentRow && !box.classList.contains('correct')) {
+                if (row === currentRow && !box.classList.contains('correct') && !box.textContent) {
+                    console.log("Setting target box to:", col);
                     // Set currentTile to this position
                     currentTile = col;
                     focusCurrentBox();
+                } else {
+                    console.log("Box not available - row:", row, "has correct class:", box.classList.contains('correct'), "has text:", !!box.textContent);
                 }
             });
 
@@ -844,7 +849,7 @@
                 if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
 
                 // Same logic for touch
-                if (row === currentRow && !box.classList.contains('correct')) {
+                if (row === currentRow && !box.classList.contains('correct') && !box.textContent) {
                     currentTile = col;
                     focusCurrentBox();
                 }
@@ -958,11 +963,15 @@
             // Find the target box (the one that was clicked)
             const targetBox = document.getElementById(`box-${currentRow}-${currentTile}`);
 
-            if (targetBox && !targetBox.classList.contains('correct')) {
-                console.log("Placing letter in box:", currentRow, currentTile);
+            if (targetBox && !targetBox.classList.contains('correct') && !targetBox.textContent) {
+                console.log("Placing letter", key.toUpperCase(), "in box:", currentRow, currentTile);
 
+                // Place the letter ONLY in the target box
                 targetBox.textContent = key.toUpperCase();
                 targetBox.classList.add('filled');
+
+                // DON'T advance currentTile - let the user click the next box they want
+                console.log("Letter placed, NOT advancing currentTile");
 
                 // Rebuild the guess string
                 rebuildGuessString();
@@ -980,7 +989,10 @@
                     }, 500);
                 }
             } else {
-                console.log("Cannot place letter - box is green or invalid");
+                console.log("Cannot place letter - box is green, invalid, or already filled");
+                console.log("Box exists:", !!targetBox);
+                console.log("Has correct class:", targetBox?.classList.contains('correct'));
+                console.log("Has text:", !!targetBox?.textContent);
             }
         }
     }
