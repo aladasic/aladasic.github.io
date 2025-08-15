@@ -83,8 +83,9 @@
             height: 0;
             border-left: 50px solid transparent;
             border-right: 50px solid transparent;
-            border-bottom: 100px solid currentColor;
+            border-bottom: 86px solid currentColor;
             background-color: transparent !important;
+            margin: 7px auto;
         }
         .pentagon {
             position: relative;
@@ -202,6 +203,7 @@
         }
         .input-section {
             margin-top: 2rem;
+            position: relative;
         }
         #nameInput {
             padding: 0.8rem;
@@ -229,6 +231,15 @@
             overflow-y: auto;
             margin-top: 1rem;
             text-align: left;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
         .name-item {
             padding: 0.8rem;
@@ -291,7 +302,7 @@
         .card-front {
             color: #4c5e3d;
             background-color: #cfd6c4;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 80 80'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='church-on-sunday' fill='%237c8d69' fill-opacity='0.3'%3E%3Cpath d='M77.17 0H80v2.83l-.1.1A39.9 39.9 0 0 1 74.64 20a39.9 39.9 0 0 1 5.24 17.06l.11.11v2.89c-.01 6.9-1.8 13.79-5.35 19.94A39.96 39.96 0 0 1 80 79.94V80h-2.83L66.84 69.66a39.83 39.83 0 0 1-24.1 10.25l.09.09h-5.66l.1-.1c-8.7-.58-17.22-4-24.1-10.23L2.82 80H0V79.94c.01-6.9 1.8-13.8 5.35-19.94A39.96 39.96 0 0 1 0 40.06V37.17l.1-.1A39.9 39.9 0 0 1 5.36 20 39.9 39.9 0 0 1 .1 2.94L0 2.83V0h2.83l-.1.1a39.83 39.83 0 0 1 24.1 10.24L37.18 0H40c0 6.92-1.78 13.83-5.35 20A39.96 39.96 0 0 1 40 40c0-6.92 1.78-13.83 5.35-20A39.96 39.96 0 0 1 40 0h2.83l10.33 10.34A39.83 39.83 0 0 1 77.26.09L77.17 0zm.77 77.94c-.3-5.52-1.8-11-4.49-16a40.18 40.18 0 0 1-5.17 6.34l9.66 9.66zm-12.52-9.7l-6.83-6.83-5.46 5.46-1.41 1.41-9.66 9.66c8.4-.45 16.69-3.68 23.36-9.7zm-23.07 6.58l7.99-7.98a40.05 40.05 0 0 1-3.79-4.9 37.88 37.88 0 0 0-4.2 12.88zM47.68 60a37.98 37.98 0 0 0 4.07 5.42L57.17 60l-5.42-5.42A38 38 0 0 0 47.68 60zm2.66-6.84a40.06 40.06 0 0 0-3.79 4.9 37.88 37.88 0 0 1-4.2-12.88l7.99 7.98zm1.38-1.44l1.41 1.41 5.46 5.46 6.83-6.84a37.85 37.85 0 0 0-23.36-9.7l9.66 9.67zM60 60l6.87 6.87A38.1 38.1 0 0 0 72.32 60a38.11 38.11 0 0 0-5.45-6.87L60 60zm-14.65 0a39.9 39.9 0 0 0-5.24 17.06l-.11.11-.1-.1A39.9 39.9 0 0 0 34.64 60a39.9 39.9 0 0 0 5.24-17.06l.11-.11.1.1A39.9 39.9 0 0 0 45.36 60zm9.23-48.25a37.85 37.85 0 0 1 23.36-9.7l-9.66 9.67-1.41 1.41-5.46 5.46-6.83-6.84zm13.67 13.67L62.83 20l5.42-5.42A38 38 0 0 1 72.32 20a37.98 37.98 0 0 1-4.07 5.42zm5.2-3.47a40.05 40.05 0 0 1-3.79 4.89l7.99 7.98c-.61-4.45-2.01-8.82-4.2-12.87zm-6.58 4.92l1.41 1.41 9.66 9.66a37.85 37.85 0 0 1-23.36-9.7l6.83-6.83 5.46 5.46zM53.13 13.13L60 20l-6.87 6.87A38.11 38.11 0 0 1 47.68 20a38.1 38.1 0 0 1 5.45-6.87zm-1.41-1.41l-9.66-9.66c.3 5.52 1.8 11 4.49 16a40.18 40.18 0 0 1 5.17-6.34zm-9.66 26.22c.3-5.52 1.8-11 4.49-16a40.18 40.18 0 0 0 5.17 6.34l-9.66 9.66zm26.22 13.78l9.66-9.66c-.3 5.52-1.8-11 4.49-16a40.18 40.18 0 0 0-5.17-6.34zm8.98-11.81L66.84 50.34a39.83 39.83 0 0 0-24.1-10.25l10.42-10.43a39.83 39.83 0 0 0 24.1 10.25zm-7.6-26.75a40.06 40.06 0 0 1 3.79 4.9 37.88 37.88 0 0 0 4.2-12.88l-7.99 7.98zm-31.72 28.9c-8.4.45-16.69 3.68-23.36 9.7l6.83 6.83 5.46-5.46 1.41-1.41 9.66-9.66zM22.83 60l5.42 5.42c1.54-1.7 2.9-3.52 4.07-5.42a38 38 0 0 0-4.07-5.42L22.83 60zm5.45 8.28l-1.41-1.41-5.46-5.46-6.83 6.84a37.85 37.85 0 0 0 23.36 9.7l-9.66-9.67zm9.37 6.54l-7.99-7.98a40.05 40.05 0 0 0 3.79-4.9 37.88 37.88 0 0 1 4.2 12.88zM20 60l-6.87-6.87A38.11 38.11 0 0 0 7.68 60a38.11 38.11 0 0 0 5.45 6.87L20 60zm17.26-19.9L26.84 29.65a39.83 39.83 0 0 1-24.1 10.25l10.42 10.43a39.83 39.83 0 0 1 24.1-10.25zm-35.2 1.96l9.66 9.66a40.18 40.18 0 0 0-5.17 6.33c-2.7-5-4.2-10.47-4.5-16zm4.49 19.89c-2.7 5-4.2 10.47-4.5 16l9.67-9.67a40.18 40.18 0 0 1-5.17-6.33zm31.1-16.77c-.61 4.45-2.01 8.82-4.2 12.87a40.06 40.06 0 0 0-3.79-4.89l7.99-7.98zm-4.2-23.23c2.7 5 4.2 10.47 4.5 16l-9.67-9.67c1.97-1.97 3.7-4.1 5.17-6.33zm-14.86-.54l6.83 6.84a37.85 37.85 0 0 1-23.36 9.7l9.66-9.67 1.41-1.41 5.46-5.46zm-8.25 5.43l-7.99 7.98c.61-4.45 2.01-8.82 4.2-12.87a40.04 40.04 0 0 0 3.79 4.89zm1.41-1.42A37.99 37.99 0 0 1 7.68 20a38 38 0 0 1 4.07-5.42L17.17 20l-5.42 5.42zm-5.2-7.37a40.04 40.04 0 0 1 3.79-4.89L2.35 5.18c.61 4.45 2.01 8.82 4.2 12.87zm6.58-4.92l-1.41-1.41-9.66-9.66a37.85 37.85 0 0 1 23.36 9.7l-6.83 6.83-5.46-5.46zm13.74 13.74L20 20l6.87-6.87A38.1 38.1 0 0 1 32.32 20a38.1 38.1 0 0 1-5.45 6.87zm6.58-8.82a40.18 40.18 0 0 0-5.17-6.33l9.66-9.66c-.3 5.52-1.8 11-4.49 16z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 80 80'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='church-on-sunday' fill='%237c8d69' fill-opacity='0.3'%3E%3Cpath d='M77.17 0H80v2.83l-.1.1A39.9 39.9 0 0 1 74.64 20a39.9 39.9 0 0 1 5.24 17.06l.11.11v2.89c-.01 6.9-1.8 13.79-5.35 19.94A39.96 39.96 0 0 1 80 79.94V80h-2.83L66.84 69.66a39.83 39.83 0 0 1-24.1 10.25l.09.09h-5.66l.1-.1c-8.7-.58-17.22-4-24.1-10.23L2.82 80H0V79.94c.01-6.9 1.8-13.8 5.35-19.94A39.96 39.96 0 0 1 0 40.06V37.17l.1-.1A39.9 39.9 0 0 1 5.36 20 39.9 39.9 0 0 1 .1 2.94L0 2.83V0h2.83l-.1.1a39.83 39.83 0 0 1 24.1 10.24L37.18 0H40c0 6.92-1.78 13.83-5.35 20A39.96 39.96 0 0 1 40 40c0-6.92 1.78-13.83 5.35-20A39.96 39.96 0 0 1 40 0h2.83l10.33 10.34A39.83 39.83 0 0 1 77.26.09L77.17 0zm.77 77.94c-.3-5.52-1.8-11-4.49-16a40.18 40.18 0 0 1-5.17 6.34l9.66 9.66zm-12.52-9.7l-6.83-6.83-5.46 5.46-1.41 1.41-9.66 9.66c8.4-.45 16.69-3.68 23.36-9.7zm-23.07 6.58l7.99-7.98a40.05 40.05 0 0 1-3.79-4.9 37.88 37.88 0 0 0-4.2 12.88zM47.68 60a37.98 37.98 0 0 0 4.07 5.42L57.17 60l-5.42-5.42A38 38 0 0 0 47.68 60zm2.66-6.84a40.06 40.06 0 0 0-3.79 4.9 37.88 37.88 0 0 1-4.2-12.88l7.99 7.98zm1.38-1.44l1.41 1.41 5.46 5.46 6.83-6.84a37.85 37.85 0 0 0-23.36-9.7l9.66 9.67zM60 60l6.87 6.87A38.1 38.1 0 0 0 72.32 60a38.11 38.11 0 0 0-5.45-6.87L60 60zm-14.65 0a39.9 39.9 0 0 0-5.24 17.06l-.11.11-.1-.1A39.9 39.9 0 0 0 34.64 60a39.9 39.9 0 0 0 5.24-17.06l.11-.11.1.1A39.9 39.9 0 0 0 45.36 60zm9.23-48.25a37.85 37.85 0 0 1 23.36-9.7l-9.66 9.67-1.41 1.41-5.46 5.46-6.83-6.84zm13.67 13.67L62.83 20l5.42-5.42A38 38 0 0 1 72.32 20a37.98 37.98 0 0 1-4.07 5.42zm5.2-3.47a40.05 40.05 0 0 1-3.79 4.89l7.99 7.98c-.61-4.45-2.01-8.82-4.2-12.87zm-6.58 4.92l1.41 1.41 9.66 9.66a37.85 37.85 0 0 1-23.36-9.7l6.83-6.83 5.46 5.46zM53.13 13.13L60 20l-6.87 6.87A38.11 38.11 0 0 1 47.68 20a38.1 38.1 0 0 1 5.45-6.87zm-1.41-1.41l-9.66-9.66c.3 5.52 1.8 11 4.49 16a40.18 40.18 0 0 1 5.17-6.34zm-9.66 26.22c.3-5.52 1.8-11 4.49-16a40.18 40.18 0 0 0 5.17 6.34l-9.66 9.66zm26.22 13.78l9.66-9.66c-.3 5.52-1.8 11-4.49 16a40.18 40.18 0 0 0-5.17-6.34zm8.98-11.81L66.84 50.34a39.83 39.83 0 0 0-24.1-10.25l10.42-10.43a39.83 39.83 0 0 0 24.1 10.25zm-7.6-26.75a40.06 40.06 0 0 1 3.79 4.9 37.88 37.88 0 0 0 4.2-12.88l-7.99 7.98zm-31.72 28.9c-8.4.45-16.69 3.68-23.36 9.7l6.83 6.83 5.46-5.46 1.41-1.41 9.66-9.66zM22.83 60l5.42 5.42c1.54-1.7 2.9-3.52 4.07-5.42a38 38 0 0 0-4.07-5.42L22.83 60zm5.45 8.28l-1.41-1.41-5.46-5.46-6.83 6.84a37.85 37.85 0 0 0 23.36 9.7l-9.66-9.67zm9.37 6.54l-7.99-7.98a40.05 40.05 0 0 0 3.79-4.9 37.88 37.88 0 0 1 4.2 12.88zM20 60l-6.87-6.87A38.11 38.11 0 0 0 7.68 60a38.11 38.11 0 0 0 5.45 6.87L20 60zm17.26-19.9L26.84 29.65a39.83 39.83 0 0 1-24.1 10.25l10.42 10.43a39.83 39.83 0 0 1 24.1-10.25zm-35.2 1.96l9.66 9.66a40.18 40.18 0 0 0-5.17 6.33c-2.7-5-4.2-10.47-4.5-16zm4.49 19.89c-2.7 5-4.2 10.47-4.5 16l9.67-9.67a40.18 40.18 0 0 1-5.17-6.33zm31.1-16.77c-.61 4.45-2.01 8.82-4.2 12.87a40.06 40.06 0 0 0-3.79-4.89l7.99-7.98zm-4.2-23.23c2.7 5 4.2 10.47 4.5 16l-9.67-9.67c1.97-1.97 3.7-4.1 5.17-6.33zm-14.86-.54l6.83 6.84a37.85 37.85 0 0 1-23.36 9.7l9.66-9.67 1.41-1.41 5.46-5.46zm-8.25 5.43l-7.99 7.98c.61-4.45 2.01-8.82 4.2-12.87a40.04 40.04 0 0 0 3.79 4.89zm1.41-1.42A37.99 37.99 0 0 1 7.68 20a38 38 0 0 1 4.07-5.42L17.17 20l-5.42 5.42zm-5.2-7.37a40.04 40.04 0 0 1 3.79-4.89L2.35 5.18c.61 4.45 2.01 8.82 4.2 12.87zm6.58-4.92l-1.41-1.41-9.66-9.66a37.85 37.85 0 0 1 23.36 9.7l-6.83 6.83-5.46-5.46zm13.74 13.74L20 20l6.87-6.87A38.1 38.1 0 0 1 32.32 20a38.1 38.1 0 0 1-5.45 6.87zm6.58-8.82a40.18 40.18 0 0 0-5.17-6.33l9.66-9.66c-.3 5.52-1.8 11-4.49 16z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             border: 8px solid #4c5e3d;
         }
         .card-front::before {
@@ -356,9 +367,12 @@
             height: 80px;
         }
         .card-back .triangle {
+            width: 0;
+            height: 0;
             border-left: 40px solid transparent;
             border-right: 40px solid transparent;
-            border-bottom: 80px solid currentColor;
+            border-bottom: 69px solid currentColor;
+            margin: 5px auto;
         }
         .card-back .pentagon {
             width: 60px;
@@ -492,7 +506,9 @@
     </div>
 
 <script>
-    // Configuration des groupes
+console.log("Script started loading...");
+
+// Configuration des groupes
 const groups = [
     // RED TRIANGLE
     {
@@ -505,7 +521,17 @@ const groups = [
         clue1: "La justice est leur métier",
         clue2: "Ils défendent et plaident"
     },
-
+    // RED CIRCLE
+    {
+        id: "redCircle",
+        color: "#c23616",
+        colorName: "Rouge",
+        shape: "circle",
+        shapeName: "Cercle",
+        groupTheme: "Gourmet cuisine",
+        clue1: "Ils savent apprécier les bonnes choses",
+        clue2: "La gastronomie n'a pas de secret pour eux"
+    },
     // RED SQUARE
     {
         id: "redSquare",
@@ -513,45 +539,9 @@ const groups = [
         colorName: "Rouge",
         shape: "square",
         shapeName: "Carré",
-        groupTheme: "Gourmet cuisine",
-        clue1: "Ils savent apprécier les bonnes choses",
-        clue2: "La gastronomie n'a pas de secret pour eux"
-    },
-
-    // RED PENTAGON
-    {
-        id: "redPentagon",
-        color: "#c23616",
-        colorName: "Rouge",
-        shape: "pentagon",
-        shapeName: "Pentagone",
         groupTheme: "Green Tea(m)",
         clue1: "Une boisson qui les unit",
         clue2: "Entre tradition et modernité"
-    },
-
-    // RED HEXAGON
-    {
-        id: "redHexagon",
-        color: "#c23616",
-        colorName: "Rouge",
-        shape: "hexagon",
-        shapeName: "Hexagone",
-        groupTheme: "Le Petit Zizi",
-        clue1: "Un nom qui fait sourire",
-        clue2: "L'humour est leur force"
-    },
-
-    // RED OCTAGON
-    {
-        id: "redOctagon",
-        color: "#c23616",
-        colorName: "Rouge",
-        shape: "octagon",
-        shapeName: "Octogone",
-        groupTheme: "Les amis d'Antoine Dupont",
-        clue1: "Le rugby, c'est leur passion",
-        clue2: "Ils suivent le meilleur demi de mêlée"
     },
 
     // BLUE TRIANGLE
@@ -565,7 +555,17 @@ const groups = [
         clue1: "Ils aiment les histoires",
         clue2: "Entre les pages, ils trouvent l'évasion"
     },
-
+    // BLUE CIRCLE
+    {
+        id: "blueCircle",
+        color: "#2c3e50",
+        colorName: "Bleu",
+        shape: "circle",
+        shapeName: "Cercle",
+        groupTheme: "Les coureurs de fond",
+        clue1: "L'endurance est leur qualité",
+        clue2: "Ils courent des kilomètres"
+    },
     // BLUE SQUARE
     {
         id: "blueSquare",
@@ -573,45 +573,9 @@ const groups = [
         colorName: "Bleu",
         shape: "square",
         shapeName: "Carré",
-        groupTheme: "Les coureurs de fond",
-        clue1: "L'endurance est leur qualité",
-        clue2: "Ils courent des kilomètres"
-    },
-
-    // BLUE PENTAGON
-    {
-        id: "bluePentagon",
-        color: "#2c3e50",
-        colorName: "Bleu",
-        shape: "pentagon",
-        shapeName: "Pentagone",
         groupTheme: "Les créateurs de vrai contenu",
         clue1: "Ils créent et innovent",
         clue2: "Le contenu authentique, c'est eux"
-    },
-
-    // BLUE HEXAGON
-    {
-        id: "blueHexagon",
-        color: "#2c3e50",
-        colorName: "Bleu",
-        shape: "hexagon",
-        shapeName: "Hexagone",
-        groupTheme: "Grands Commis du Service Pub",
-        clue1: "Communication et créativité",
-        clue2: "Ils font parler des marques"
-    },
-
-    // BLUE OCTAGON
-    {
-        id: "blueOctagon",
-        color: "#2c3e50",
-        colorName: "Bleu",
-        shape: "octagon",
-        shapeName: "Octogone",
-        groupTheme: "Les Fabriquants",
-        clue1: "De leurs mains naissent les objets",
-        clue2: "Créer et fabriquer, c'est leur art"
     },
 
     // GREEN TRIANGLE
@@ -625,7 +589,17 @@ const groups = [
         clue1: "Ils écoutent avec attention",
         clue2: "La musique est leur passion"
     },
-
+    // GREEN CIRCLE
+    {
+        id: "greenCircle",
+        color: "#27ae60",
+        colorName: "Vert",
+        shape: "circle",
+        shapeName: "Cercle",
+        groupTheme: "Les Patissiers",
+        clue1: "La douceur est leur spécialité",
+        clue2: "Ils créent des merveilles sucrées"
+    },
     // GREEN SQUARE
     {
         id: "greenSquare",
@@ -633,45 +607,9 @@ const groups = [
         colorName: "Vert",
         shape: "square",
         shapeName: "Carré",
-        groupTheme: "Les Patissiers",
-        clue1: "La douceur est leur spécialité",
-        clue2: "Ils créent des merveilles sucrées"
-    },
-
-    // GREEN PENTAGON
-    {
-        id: "greenPentagon",
-        color: "#27ae60",
-        colorName: "Vert",
-        shape: "pentagon",
-        shapeName: "Pentagone",
         groupTheme: "Les Quadrilles",
         clue1: "La danse traditionnelle les anime",
         clue2: "En cadence, ils évoluent"
-    },
-
-    // GREEN HEXAGON
-    {
-        id: "greenHexagon",
-        color: "#27ae60",
-        colorName: "Vert",
-        shape: "hexagon",
-        shapeName: "Hexagone",
-        groupTheme: "Nos cavaliers préférés",
-        clue1: "L'équitation est leur passion",
-        clue2: "Avec les chevaux, ils sont complices"
-    },
-
-    // GREEN OCTAGON
-    {
-        id: "greenOctagon",
-        color: "#27ae60",
-        colorName: "Vert",
-        shape: "octagon",
-        shapeName: "Octogone",
-        groupTheme: "Nos coachs sportifs",
-        clue1: "Le sport, ils l'enseignent",
-        clue2: "Ils motivent et accompagnent"
     },
 
     // PURPLE TRIANGLE
@@ -685,7 +623,17 @@ const groups = [
         clue1: "Le style, c'est leur affaire",
         clue2: "Ils savent ce qui est tendance"
     },
-
+    // PURPLE CIRCLE
+    {
+        id: "purpleCircle",
+        color: "#8e44ad",
+        colorName: "Violet",
+        shape: "circle",
+        shapeName: "Cercle",
+        groupTheme: "Pet lovers <3",
+        clue1: "Les animaux sont leur faiblesse",
+        clue2: "Chiens, chats... ils les adorent tous"
+    },
     // PURPLE SQUARE
     {
         id: "purpleSquare",
@@ -693,93 +641,145 @@ const groups = [
         colorName: "Violet",
         shape: "square",
         shapeName: "Carré",
-        groupTheme: "Pet lovers <3",
-        clue1: "Les animaux sont leur faiblesse",
-        clue2: "Chiens, chats... ils les adorent tous"
-    },
-
-    // PURPLE PENTAGON
-    {
-        id: "purplePentagon",
-        color: "#8e44ad",
-        colorName: "Violet",
-        shape: "pentagon",
-        shapeName: "Pentagone",
         groupTheme: "Skieurs alpins",
         clue1: "La montagne les appelle",
         clue2: "Sur les pistes, ils dévalent"
     },
 
-    // PURPLE HEXAGON
+    // ORANGE TRIANGLE
     {
-        id: "purpleHexagon",
-        color: "#8e44ad",
-        colorName: "Violet",
-        shape: "hexagon",
-        shapeName: "Hexagone",
+        id: "orangeTriangle",
+        color: "#f39c12",
+        colorName: "Orange",
+        shape: "triangle",
+        shapeName: "Triangle",
         groupTheme: "Start-up nation",
         clue1: "L'entrepreneuriat les anime",
         clue2: "Ils innovent et entreprennent"
     },
-
-    // PURPLE OCTAGON
+    // ORANGE CIRCLE
     {
-        id: "purpleOctagon",
-        color: "#8e44ad",
-        colorName: "Violet",
-        shape: "octagon",
-        shapeName: "Octogone",
+        id: "orangeCircle",
+        color: "#f39c12",
+        colorName: "Orange",
+        shape: "circle",
+        shapeName: "Cercle",
         groupTheme: "The Conor McGregor FanClub",
         clue1: "Un combattant les inspire",
         clue2: "L'Irlandais au style flamboyant"
     },
-
-    // BLACK TRIANGLE
+    // ORANGE SQUARE
     {
-        id: "blackTriangle",
-        color: "#2c2c2c",
-        colorName: "Noir",
-        shape: "triangle",
-        shapeName: "Triangle",
+        id: "orangeSquare",
+        color: "#f39c12",
+        colorName: "Orange",
+        shape: "square",
+        shapeName: "Carré",
         groupTheme: "The Finance Club",
         clue1: "Les chiffres, c'est leur domaine",
         clue2: "L'économie n'a pas de secret pour eux"
     },
 
-    // BLACK SQUARE
+    // PINK TRIANGLE
     {
-        id: "blackSquare",
-        color: "#2c2c2c",
-        colorName: "Noir",
-        shape: "square",
-        shapeName: "Carré",
+        id: "pinkTriangle",
+        color: "#e91e63",
+        colorName: "Rose",
+        shape: "triangle",
+        shapeName: "Triangle",
         groupTheme: "Русские связи (The Russian Connexion)",
         clue1: "De l'Est, ils viennent",
         clue2: "Une culture riche les unit"
     },
-
-    // BLACK PENTAGON
+    // PINK CIRCLE
     {
-        id: "blackPentagon",
-        color: "#2c2c2c",
-        colorName: "Noir",
-        shape: "pentagon",
-        shapeName: "Pentagone",
+        id: "pinkCircle",
+        color: "#e91e63",
+        colorName: "Rose",
+        shape: "circle",
+        shapeName: "Cercle",
         groupTheme: "Ricard & Pétanque",
         clue1: "L'apéritif et le jeu traditionnel",
         clue2: "Sous le soleil du Midi"
     },
-
-    // BLACK HEXAGON
+    // PINK SQUARE
     {
-        id: "blackHexagon",
-        color: "#2c2c2c",
-        colorName: "Noir",
-        shape: "hexagon",
-        shapeName: "Hexagone",
+        id: "pinkSquare",
+        color: "#e91e63",
+        colorName: "Rose",
+        shape: "square",
+        shapeName: "Carré",
         groupTheme: "Footix",
         clue1: "Le sport, c'est la vie",
         clue2: "Ils encouragent leurs équipes"
+    },
+
+    // YELLOW TRIANGLE
+    {
+        id: "yellowTriangle",
+        color: "#f1c40f",
+        colorName: "Jaune",
+        shape: "triangle",
+        shapeName: "Triangle",
+        groupTheme: "Grands Commis du Service Pub",
+        clue1: "Communication et créativité",
+        clue2: "Ils font parler des marques"
+    },
+    // YELLOW CIRCLE
+    {
+        id: "yellowCircle",
+        color: "#f1c40f",
+        colorName: "Jaune",
+        shape: "circle",
+        shapeName: "Cercle",
+        groupTheme: "Les Fabriquants",
+        clue1: "De leurs mains naissent les objets",
+        clue2: "Créer et fabriquer, c'est leur art"
+    },
+    // YELLOW SQUARE
+    {
+        id: "yellowSquare",
+        color: "#f1c40f",
+        colorName: "Jaune",
+        shape: "square",
+        shapeName: "Carré",
+        groupTheme: "Nos cavaliers préférés",
+        clue1: "L'équitation est leur passion",
+        clue2: "Avec les chevaux, ils sont complices"
+    },
+
+    // TEAL TRIANGLE
+    {
+        id: "tealTriangle",
+        color: "#1abc9c",
+        colorName: "Turquoise",
+        shape: "triangle",
+        shapeName: "Triangle",
+        groupTheme: "Nos coachs sportifs",
+        clue1: "Le sport, ils l'enseignent",
+        clue2: "Ils motivent et accompagnent"
+    },
+    // TEAL CIRCLE
+    {
+        id: "tealCircle",
+        color: "#1abc9c",
+        colorName: "Turquoise",
+        shape: "circle",
+        shapeName: "Cercle",
+        groupTheme: "Le Petit Zizi",
+        clue1: "Un nom qui fait sourire",
+        clue2: "L'humour est leur force"
+    },
+    // TEAL SQUARE
+    {
+        id: "tealSquare",
+        color: "#1abc9c",
+        colorName: "Turquoise",
+        shape: "square",
+        shapeName: "Carré",
+        groupTheme: "Les amis d'Antoine Dupont",
+        clue1: "Le rugby, c'est leur passion",
+        clue2: "Ils suivent le meilleur demi de mêlée"
     }
 ];
 
@@ -792,40 +792,47 @@ const guestList = [
     { name: "Antoine G.", id: 4, group: "redTriangle" },
     { name: "Anaïs", id: 5, group: "redTriangle" },
 
+    // Gourmet cuisine (Red Circle)
+    { name: "Petia", id: 6, group: "redCircle" },
+    { name: "Mathilde SDS.", id: 7, group: "redCircle" },
+    { name: "Nadia A.", id: 8, group: "redCircle" },
+    { name: "Baptiste M.", id: 9, group: "redCircle" },
+    { name: "Alexandra B.", id: 10, group: "redCircle" },
+
+    // Green Tea(m) (Red Square)
+    { name: "François", id: 24, group: "redSquare" },
+    { name: "Clovis", id: 25, group: "redSquare" },
+
     // Fashion Police (Purple Triangle)
-    { name: "Petia", id: 6, group: "purpleTriangle" },
-    { name: "Mathilde SDS.", id: 7, group: "purpleTriangle" },
-    { name: "Nadia A.", id: 8, group: "purpleTriangle" },
-    { name: "Baptiste M.", id: 9, group: "purpleTriangle" },
-    { name: "Alexandra B.", id: 10, group: "purpleTriangle" },
+    { name: "Rebecca", id: 65, group: "purpleTriangle" },
+    { name: "Laura", id: 66, group: "purpleTriangle" },
+    { name: "Fanny", id: 67, group: "purpleTriangle" },
+    { name: "Hugo", id: 68, group: "purpleTriangle" },
+    { name: "Audrey", id: 69, group: "purpleTriangle" },
 
-    // Footix (Black Hexagon)
-    { name: "Pauline", id: 11, group: "blackHexagon" },
-    { name: "Donald", id: 12, group: "blackHexagon" },
-    { name: "Ilan", id: 13, group: "blackHexagon" },
-    { name: "Maxime L.", id: 14, group: "blackHexagon" },
-    { name: "Shane", id: 15, group: "blackHexagon" },
-    { name: "Kévin", id: 16, group: "blackHexagon" },
+    // Footix (Pink Square)
+    { name: "Pauline", id: 11, group: "pinkSquare" },
+    { name: "Donald", id: 12, group: "pinkSquare" },
+    { name: "Ilan", id: 13, group: "pinkSquare" },
+    { name: "Maxime L.", id: 14, group: "pinkSquare" },
+    { name: "Shane", id: 15, group: "pinkSquare" },
+    { name: "Kévin", id: 16, group: "pinkSquare" },
 
-    // Grands Commis du Service Pub (Blue Hexagon)
-    { name: "Brigitte", id: 17, group: "blueHexagon" },
-    { name: "Alice", id: 18, group: "blueHexagon" },
-    { name: "Thanh-Bao", id: 19, group: "blueHexagon" },
-    { name: "Thiago", id: 20, group: "blueHexagon" },
-    { name: "Louise-Adélie", id: 21, group: "blueHexagon" },
-    { name: "Suzanne", id: 22, group: "blueHexagon" },
-    { name: "Pierre-Louis", id: 23, group: "blueHexagon" },
+    // Grands Commis du Service Pub (Yellow Triangle)
+    { name: "Brigitte", id: 17, group: "yellowTriangle" },
+    { name: "Alice", id: 18, group: "yellowTriangle" },
+    { name: "Thanh-Bao", id: 19, group: "yellowTriangle" },
+    { name: "Thiago", id: 20, group: "yellowTriangle" },
+    { name: "Louise-Adélie", id: 21, group: "yellowTriangle" },
+    { name: "Suzanne", id: 22, group: "yellowTriangle" },
+    { name: "Pierre-Louis", id: 23, group: "yellowTriangle" },
 
-    // Le Petit Zizi (Red Hexagon)
-    { name: "François", id: 24, group: "redHexagon" },
-    { name: "Clovis", id: 25, group: "redHexagon" },
-
-    // Les amis d'Antoine Dupont (Red Octagon)
-    { name: "Quentin", id: 26, group: "redOctagon" },
-    { name: "Guillaume S.", id: 27, group: "redOctagon" },
-    { name: "Thomas", id: 28, group: "redOctagon" },
-    { name: "Alix", id: 29, group: "redOctagon" },
-    { name: "Pauric", id: 30, group: "redOctagon" },
+    // Les amis d'Antoine Dupont (Teal Square)
+    { name: "Quentin", id: 26, group: "tealSquare" },
+    { name: "Guillaume S.", id: 27, group: "tealSquare" },
+    { name: "Thomas", id: 28, group: "tealSquare" },
+    { name: "Alix", id: 29, group: "tealSquare" },
+    { name: "Pauric", id: 30, group: "tealSquare" },
 
     // Les Bibliophiles (Blue Triangle)
     { name: "Germain", id: 31, group: "blueTriangle" },
@@ -834,24 +841,24 @@ const guestList = [
     { name: "Guillaume D.", id: 34, group: "blueTriangle" },
     { name: "Igor", id: 35, group: "blueTriangle" },
 
-    // Les coureurs de fond (Blue Square)
-    { name: "Anne", id: 36, group: "blueSquare" },
-    { name: "Jeanne-Lise", id: 37, group: "blueSquare" },
-    { name: "Guillaume RV.", id: 38, group: "blueSquare" },
-    { name: "Emmanuel", id: 39, group: "blueSquare" },
+    // Les coureurs de fond (Blue Circle)
+    { name: "Anne", id: 36, group: "blueCircle" },
+    { name: "Jeanne-Lise", id: 37, group: "blueCircle" },
+    { name: "Guillaume RV.", id: 38, group: "blueCircle" },
+    { name: "Emmanuel", id: 39, group: "blueCircle" },
 
-    // Les créateurs de vrai contenu (Blue Pentagon)
-    { name: "Laurent", id: 40, group: "bluePentagon" },
-    { name: "Arthur", id: 41, group: "bluePentagon" },
-    { name: "David", id: 42, group: "bluePentagon" },
-    { name: "Marie-Alix", id: 43, group: "bluePentagon" },
-    { name: "Rowan", id: 44, group: "bluePentagon" },
+    // Les créateurs de vrai contenu (Blue Square)
+    { name: "Laurent", id: 40, group: "blueSquare" },
+    { name: "Arthur", id: 41, group: "blueSquare" },
+    { name: "David", id: 42, group: "blueSquare" },
+    { name: "Marie-Alix", id: 43, group: "blueSquare" },
+    { name: "Rowan", id: 44, group: "blueSquare" },
 
-    // Les Fabriquants (Blue Octagon)
-    { name: "Solène", id: 45, group: "blueOctagon" },
-    { name: "Théo", id: 46, group: "blueOctagon" },
-    { name: "Manon", id: 47, group: "blueOctagon" },
-    { name: "Amélie", id: 48, group: "blueOctagon" },
+    // Les Fabriquants (Yellow Circle)
+    { name: "Solène", id: 45, group: "yellowCircle" },
+    { name: "Théo", id: 46, group: "yellowCircle" },
+    { name: "Manon", id: 47, group: "yellowCircle" },
+    { name: "Amélie", id: 48, group: "yellowCircle" },
 
     // Les oreilles fines (Green Triangle)
     { name: "Katharina", id: 49, group: "greenTriangle" },
@@ -861,234 +868,228 @@ const guestList = [
     { name: "Rémi", id: 53, group: "greenTriangle" },
     { name: "Laureen", id: 54, group: "greenTriangle" },
 
-    // Les Patissiers (Green Square)
-    { name: "Willy", id: 55, group: "greenSquare" },
-    { name: "Elvire", id: 56, group: "greenSquare" },
-    { name: "Agathe", id: 57, group: "greenSquare" },
-    { name: "Naomi", id: 58, group: "greenSquare" },
+    // Les Patissiers (Green Circle)
+    { name: "Willy", id: 55, group: "greenCircle" },
+    { name: "Elvire", id: 56, group: "greenCircle" },
+    { name: "Agathe", id: 57, group: "greenCircle" },
+    { name: "Naomi", id: 58, group: "greenCircle" },
 
-    // Les Quadrilles (Green Pentagon)
-    { name: "Jacques", id: 59, group: "greenPentagon" },
-    { name: "Amandine", id: 60, group: "greenPentagon" },
-    { name: "Stefano", id: 61, group: "greenPentagon" },
-    { name: "Charlotte", id: 62, group: "greenPentagon" },
-    { name: "Alexandra O.", id: 63, group: "greenPentagon" },
-    { name: "Estelle", id: 64, group: "greenPentagon" },
+    // Les Quadrilles (Green Square)
+    { name: "Jacques", id: 59, group: "greenSquare" },
+    { name: "Amandine", id: 60, group: "greenSquare" },
+    { name: "Stefano", id: 61, group: "greenSquare" },
+    { name: "Charlotte", id: 62, group: "greenSquare" },
+    { name: "Alexandra O.", id: 63, group: "greenSquare" },
+    { name: "Estelle", id: 64, group: "greenSquare" },
 
-    // Nos cavaliers préférés (Green Hexagon)
-    { name: "Rebecca", id: 65, group: "greenHexagon" },
-    { name: "Laura", id: 66, group: "greenHexagon" },
-    { name: "Fanny", id: 67, group: "greenHexagon" },
-    { name: "Hugo", id: 68, group: "greenHexagon" },
-    { name: "Audrey", id: 69, group: "greenHexagon" },
+    // Nos coachs sportifs (Teal Triangle)
+    { name: "Orane", id: 70, group: "tealTriangle" },
+    { name: "Bo", id: 71, group: "tealTriangle" },
+    { name: "Graham", id: 72, group: "tealTriangle" },
+    { name: "Félix", id: 73, group: "tealTriangle" },
+    { name: "Baptiste P.", id: 74, group: "tealTriangle" },
+    { name: "Ciaran", id: 75, group: "tealTriangle" },
 
-    // Nos coachs sportifs (Green Octagon)
-    { name: "Orane", id: 70, group: "greenOctagon" },
-    { name: "Bo", id: 71, group: "greenOctagon" },
-    { name: "Graham", id: 72, group: "greenOctagon" },
-    { name: "Félix", id: 73, group: "greenOctagon" },
-    { name: "Baptiste P.", id: 74, group: "greenOctagon" },
-    { name: "Ciaran", id: 75, group: "greenOctagon" },
+    // Pet lovers <3 (Purple Circle)
+    { name: "Perla", id: 76, group: "purpleCircle" },
+    { name: "Mikhaël", id: 77, group: "purpleCircle" },
+    { name: "Tiziana", id: 78, group: "purpleCircle" },
+    { name: "Magdalena", id: 79, group: "purpleCircle" },
+    { name: "Jessica", id: 80, group: "purpleCircle" },
+    { name: "Claire", id: 81, group: "purpleCircle" },
 
-    // Pet lovers <3 (Purple Square)
-    { name: "Perla", id: 76, group: "purpleSquare" },
-    { name: "Mikhaël", id: 77, group: "purpleSquare" },
-    { name: "Tiziana", id: 78, group: "purpleSquare" },
-    { name: "Magdalena", id: 79, group: "purpleSquare" },
-    { name: "Jessica", id: 80, group: "purpleSquare" },
-    { name: "Claire", id: 81, group: "purpleSquare" },
+    // Ricard & Pétanque (Pink Circle)
+    { name: "Patrick", id: 82, group: "pinkCircle" },
+    { name: "Morin", id: 83, group: "pinkCircle" },
+    { name: "Joël", id: 84, group: "pinkCircle" },
+    { name: "Victor", id: 85, group: "pinkCircle" },
 
-    // Ricard & Pétanque (Black Pentagon)
-    { name: "Patrick", id: 82, group: "blackPentagon" },
-    { name: "Morin", id: 83, group: "blackPentagon" },
-    { name: "Joël", id: 84, group: "blackPentagon" },
-    { name: "Victor", id: 85, group: "blackPentagon" },
+    // Skieurs alpins (Purple Square)
+    { name: "Marie", id: 86, group: "purpleSquare" },
+    { name: "Christine", id: 87, group: "purpleSquare" },
+    { name: "Camille", id: 88, group: "purpleSquare" },
+    { name: "Marianne", id: 89, group: "purpleSquare" },
+    { name: "John", id: 90, group: "purpleSquare" },
 
-    // Skieurs alpins (Purple Pentagon)
-    { name: "Marie", id: 86, group: "purplePentagon" },
-    { name: "Christine", id: 87, group: "purplePentagon" },
-    { name: "Camille", id: 88, group: "purplePentagon" },
-    { name: "Marianne", id: 89, group: "purplePentagon" },
-    { name: "John", id: 90, group: "purplePentagon" },
+    // The Conor McGregor FanClub (Orange Circle)
+    { name: "Jonathan", id: 91, group: "orangeCircle" },
+    { name: "Noé", id: 92, group: "orangeCircle" },
+    { name: "Antoine R.", id: 93, group: "orangeCircle" },
+    { name: "Matthieu", id: 94, group: "orangeCircle" },
 
-    // The Conor McGregor FanClub (Purple Octagon)
-    { name: "Jonathan", id: 91, group: "purpleOctagon" },
-    { name: "Noé", id: 92, group: "purpleOctagon" },
-    { name: "Antoine R.", id: 93, group: "purpleOctagon" },
-    { name: "Matthieu", id: 94, group: "purpleOctagon" },
+    // The Finance Club (Orange Square)
+    { name: "Yasmina", id: 95, group: "orangeSquare" },
+    { name: "Mathieu", id: 96, group: "orangeSquare" },
+    { name: "Alexis G.", id: 97, group: "orangeSquare" },
+    { name: "Chris", id: 98, group: "orangeSquare" },
+    { name: "Dan", id: 99, group: "orangeSquare" },
 
-    // The Finance Club (Black Triangle)
-    { name: "Yasmina", id: 95, group: "blackTriangle" },
-    { name: "Mathieu", id: 96, group: "blackTriangle" },
-    { name: "Alexis G.", id: 97, group: "blackTriangle" },
-    { name: "Chris", id: 98, group: "blackTriangle" },
-    { name: "Dan", id: 99, group: "blackTriangle" },
+    // Русские связи (Pink Triangle)
+    { name: "Gyuzel", id: 100, group: "pinkTriangle" },
+    { name: "Nadia B.", id: 101, group: "pinkTriangle" },
+    { name: "Gabriel", id: 102, group: "pinkTriangle" },
+    { name: "Anastasiia", id: 103, group: "pinkTriangle" },
 
-    // Русские связи (The Russian Connexion) (Black Square)
-    { name: "Gyuzel", id: 100, group: "blackSquare" },
-    { name: "Nadia B.", id: 101, group: "blackSquare" },
-    { name: "Gabriel", id: 102, group: "blackSquare" },
-    { name: "Anastasiia", id: 103, group: "blackSquare" },
+    // Start-up nation (Orange Triangle)
+    { name: "Tristan", id: 104, group: "orangeTriangle" },
+    { name: "Jules", id: 105, group: "orangeTriangle" },
+    { name: "Maxime H.", id: 106, group: "orangeTriangle" },
+    { name: "Cédric", id: 107, group: "orangeTriangle" },
 
-    // Guests without groups assigned (need assignment)
-    { name: "Tristan", id: 104, group: "unassigned" },
-    { name: "Jules", id: 105, group: "unassigned" },
-    { name: "Maxime H.", id: 106, group: "unassigned" },
-    { name: "Cédric", id: 107, group: "unassigned" },
-    { name: "Léa", id: 108, group: "unassigned" },
-    { name: "Alexis", id: 109, group: "unassigned" },
-    { name: "Cécile", id: 110, group: "unassigned" },
-    { name: "Hélène", id: 111, group: "unassigned" },
-    { name: "Marwan", id: 112, group: "unassigned" },
-    { name: "Sarah", id: 113, group: "unassigned" },
-    { name: "Nathalie", id: 114, group: "unassigned" },
-    { name: "Alexis B.", id: 115, group: "unassigned" }
+    // Le Petit Zizi (Teal Circle)
+    { name: "Léa", id: 108, group: "tealCircle" },
+    { name: "Alexis", id: 109, group: "tealCircle" },
+    { name: "Cécile", id: 110, group: "tealCircle" },
+    { name: "Hélène", id: 111, group: "tealCircle" },
+    { name: "Marwan", id: 112, group: "tealCircle" },
+    { name: "Sarah", id: 113, group: "tealCircle" },
+    { name: "Nathalie", id: 114, group: "tealCircle" },
+    { name: "Alexis B.", id: 115, group: "tealCircle" }
 ];
 
-    // Store the current guest's group for easy access
-    let currentGuestGroup = null;
+console.log("Data loaded, guest count:", guestList.length);
 
-    // Run when the page loads
-    document.addEventListener("DOMContentLoaded", function() {
-        // Get DOM elements
-        const nameInputElem = document.getElementById("nameInput");
-        const nameListElem = document.getElementById("nameList");
-        const welcomeSectionElem = document.getElementById("welcomeSection");
-        const groupDetailsElem = document.getElementById("groupDetails");
+let currentGuestGroup = null;
 
-        let selectedGuest = null;
+// Wait for page to load
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOM loaded!");
 
-        // Filter names as user types
-        nameInputElem.addEventListener("input", function() {
-            const searchText = nameInputElem.value.trim().toLowerCase();
+    const nameInput = document.getElementById("nameInput");
+    const nameList = document.getElementById("nameList");
+    const welcomeSection = document.getElementById("welcomeSection");
+    const groupDetails = document.getElementById("groupDetails");
 
-            // Clear the list if input is empty
-            if (searchText.length === 0) {
-                nameListElem.innerHTML = "";
-                selectedGuest = null;
-                return;
-            }
+    if (!nameInput || !nameList) {
+        console.error("Required elements not found!");
+        return;
+    }
 
-            // Filter guest list based on search text
-            const matchingGuests = guestList.filter(guest =>
-                guest.name.toLowerCase().includes(searchText)
-            );
+    console.log("Elements found successfully");
 
-            // Display matching guests
-            nameListElem.innerHTML = "";
+    // Search functionality
+    nameInput.addEventListener("input", function() {
+        const searchText = this.value.toLowerCase().trim();
 
-            if (matchingGuests.length > 0) {
-                matchingGuests.forEach(guest => {
-                    const nameItem = document.createElement("div");
-                    nameItem.classList.add("name-item");
-                    nameItem.textContent = guest.name;
-
-                    // When a name is clicked, select it
-                    nameItem.addEventListener("click", function() {
-                        selectGuest(guest);
-                    });
-
-                    nameListElem.appendChild(nameItem);
-                });
-            }
-        });
-
-        // Function to handle guest selection
-        function selectGuest(guest) {
-            selectedGuest = guest;
-            nameInputElem.value = guest.name;
-            nameListElem.innerHTML = "";
-
-            // Find the group
-            const assignedGroup = groups.find(g => g.id === guest.group);
-
-            if (!assignedGroup) {
-                console.log("Group not found for: " + guest.group);
-                return;
-            }
-
-            // Store the current guest's group for later use
-            currentGuestGroup = assignedGroup;
-
-            // Update guest name
-            document.getElementById("guestName").textContent = guest.name;
-
-            // Set shape class and color
-            const shapeElem = document.getElementById("shape");
-            shapeElem.className = "shape"; // Reset classes
-            shapeElem.classList.add(assignedGroup.shape);
-            shapeElem.style.backgroundColor = assignedGroup.color;
-            shapeElem.style.color = assignedGroup.color;
-
-            // Set clue text
-            document.getElementById("clue1Text").textContent = assignedGroup.clue1;
-            document.getElementById("clue2Text").textContent = assignedGroup.clue2;
-
-            // Hide welcome section and show group details
-            welcomeSectionElem.style.display = "none";
-            groupDetailsElem.style.display = "block";
-
-            // Reset card to front position
-            document.getElementById("card").classList.remove("flipped");
-
-            console.log("Displayed group details for: " + guest.name);
+        if (searchText.length === 0) {
+            nameList.style.display = "none";
+            nameList.innerHTML = "";
+            return;
         }
 
-        // Set up card flip functionality
-        document.getElementById("card").addEventListener("click", function() {
-            this.classList.toggle("flipped");
-        });
+        const matches = guestList.filter(guest =>
+            guest.name.toLowerCase().includes(searchText)
+        );
 
-        // Back button functionality
-        const cardBackBtn = document.getElementById("cardBackBtn");
-        if (cardBackBtn) {
-            cardBackBtn.addEventListener("click", function() {
-                // Hide group details and show welcome section
-                groupDetailsElem.style.display = "none";
-                welcomeSectionElem.style.display = "block";
+        nameList.innerHTML = "";
 
-                // Reset input
-                nameInputElem.value = "";
-                nameListElem.innerHTML = "";
-                selectedGuest = null;
-                currentGuestGroup = null;
-
-                // Reset clues
-                document.getElementById("clue1").style.display = "none";
-                document.getElementById("clue2").style.display = "none";
-                document.getElementById("clueBtn").style.display = "block";
-                document.getElementById("clue2Btn").style.display = "none";
-                document.getElementById("revealBtn").style.display = "none";
-                document.getElementById("groupName").style.display = "none";
-
-                console.log("Returned to welcome screen");
+        if (matches.length > 0) {
+            nameList.style.display = "block";
+            matches.forEach(guest => {
+                const item = document.createElement("div");
+                item.className = "name-item";
+                item.textContent = guest.name;
+                item.onclick = function() {
+                    selectGuest(guest);
+                };
+                nameList.appendChild(item);
             });
+        } else {
+            nameList.style.display = "none";
+        }
+    });
+
+    // Function to select a guest and show their group
+    function selectGuest(guest) {
+        console.log("Selected:", guest.name);
+        nameInput.value = guest.name;
+        nameList.style.display = "none";
+
+        // Find the group
+        const assignedGroup = groups.find(g => g.id === guest.group);
+
+        if (!assignedGroup) {
+            console.log("Group not found for:", guest.group);
+            alert("Désolé, ce groupe n'est pas encore configuré pour " + guest.name);
+            return;
         }
 
-        // Clue button handlers
-        document.getElementById("clueBtn").addEventListener("click", function() {
-            document.getElementById("clue1").style.display = "block";
-            document.getElementById("clueBtn").style.display = "none";
-            document.getElementById("clue2Btn").style.display = "block";
-            console.log("Showed first clue");
-        });
+        // Store current group
+        currentGuestGroup = assignedGroup;
 
-        document.getElementById("clue2Btn").addEventListener("click", function() {
-            document.getElementById("clue2").style.display = "block";
-            document.getElementById("clue2Btn").style.display = "none";
-            document.getElementById("revealBtn").style.display = "block";
-            console.log("Showed second clue");
-        });
+        // Update UI
+        document.getElementById("guestName").textContent = guest.name;
 
-        document.getElementById("revealBtn").addEventListener("click", function() {
-            // Use the stored currentGuestGroup instead of trying to find by shape
-            if (currentGuestGroup) {
-                document.getElementById("groupName").textContent = "Le nom de votre groupe est : " + currentGuestGroup.groupTheme;
-                document.getElementById("groupName").style.display = "block";
-                document.getElementById("revealBtn").style.display = "none";
-                console.log("Revealed group name: " + currentGuestGroup.groupTheme);
-            }
-        });
+        // Set shape and color
+        const shapeElem = document.getElementById("shape");
+        shapeElem.className = "shape " + assignedGroup.shape;
+        shapeElem.style.backgroundColor = assignedGroup.color;
+        shapeElem.style.color = assignedGroup.color;
 
-        console.log("Setup complete!");
+        // Set clue text
+        document.getElementById("clue1Text").textContent = assignedGroup.clue1;
+        document.getElementById("clue2Text").textContent = assignedGroup.clue2;
+
+        // Show group details section
+        welcomeSection.style.display = "none";
+        groupDetails.style.display = "block";
+
+        // Reset card and clues
+        document.getElementById("card").classList.remove("flipped");
+        resetClues();
+    }
+
+    // Reset clues to initial state
+    function resetClues() {
+        document.getElementById("clue1").style.display = "none";
+        document.getElementById("clue2").style.display = "none";
+        document.getElementById("clueBtn").style.display = "block";
+        document.getElementById("clue2Btn").style.display = "none";
+        document.getElementById("revealBtn").style.display = "none";
+        document.getElementById("groupName").style.display = "none";
+    }
+
+    // Card flip
+    document.getElementById("card").addEventListener("click", function() {
+        this.classList.toggle("flipped");
     });
+
+    // Back button
+    document.getElementById("cardBackBtn").addEventListener("click", function() {
+        groupDetails.style.display = "none";
+        welcomeSection.style.display = "block";
+        nameInput.value = "";
+        nameList.innerHTML = "";
+        nameList.style.display = "none";
+        currentGuestGroup = null;
+    });
+
+    // Clue buttons
+    document.getElementById("clueBtn").addEventListener("click", function() {
+        document.getElementById("clue1").style.display = "block";
+        this.style.display = "none";
+        document.getElementById("clue2Btn").style.display = "block";
+    });
+
+    document.getElementById("clue2Btn").addEventListener("click", function() {
+        document.getElementById("clue2").style.display = "block";
+        this.style.display = "none";
+        document.getElementById("revealBtn").style.display = "block";
+    });
+
+    document.getElementById("revealBtn").addEventListener("click", function() {
+        if (currentGuestGroup) {
+            document.getElementById("groupName").textContent = "Le nom de votre groupe est : " + currentGuestGroup.groupTheme;
+            document.getElementById("groupName").style.display = "block";
+            this.style.display = "none";
+        }
+    });
+
+    console.log("Event listeners added successfully");
+});
+
+console.log("Script finished loading");
+</script>
+
+</body>
+</html>
