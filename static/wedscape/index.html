@@ -110,11 +110,6 @@
             width: 0;
             border-top: 25px solid currentColor;
         }
-        .group-info {
-            margin-top: 1rem;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
         .instructions {
             text-align: left;
             margin-top: 2rem;
@@ -154,7 +149,7 @@
             font-size: 1.2rem;
         }
 
-        /* New styles for name input section */
+        /* Name input section */
         .welcome-section {
             text-align: center;
         }
@@ -356,183 +351,9 @@
         .button:hover {
             background-color: #6a7a57;
         }
-        .button:disabled {
-            background-color: #a8b599;
-            cursor: not-allowed;
-        }
-        .secondary-button {
-            background-color: #CB7B58;
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 1rem;
-            transition: background-color 0.3s;
-        }
-        .secondary-button:hover {
-            background-color: #b56c4a;
-        }
-
-        /* Wordle styles */
-        .game-board {
-            margin: 2rem auto;
-            display: inline-block;
-        }
-        .guess-row {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 5px;
-            justify-content: center;
-        }
-        .letter-box {
-            width: 50px;
-            height: 50px;
-            border: 2px solid #d3d6da;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            background-color: white;
-            transition: all 0.3s;
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .letter-box.filled {
-            border-color: #878a8c;
-        }
-        .letter-box.correct {
-            background-color: #2ecc71;
-            border-color: #2ecc71;
-            color: white;
-            animation: flip 0.5s;
-        }
-        .letter-box.present {
-            background-color: #f39c12;
-            border-color: #f39c12;
-            color: white;
-            animation: flip 0.5s;
-        }
-        .letter-box.absent {
-            background-color: #878a8c;
-            border-color: #878a8c;
-            color: white;
-            animation: flip 0.5s;
-        }
-        @keyframes flip {
-            0% { transform: rotateX(0); }
-            50% { transform: rotateX(90deg); }
-            100% { transform: rotateX(0); }
-        }
-
-        /* Result display */
-        .result-container {
-            margin-top: 2rem;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 1s;
-        }
-        .result-label {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            color: #CB7B58;
-            margin-bottom: 0.5rem;
-        }
-        .result-value {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #7C8D69;
-            margin-bottom: 1rem;
-        }
-        .welcome-section, .game-section {
-            width: 100%;
-        }
-        .game-section {
-            display: none;
-        }
-
-        /* Confetti animation */
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #f0f;
-            animation: fall linear forwards;
-            z-index: -1;
-        }
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(720deg);
-            }
-        }
-
-        /* Message display */
-        .message {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            color: #CB7B58;
-            margin: 1rem 0;
-            min-height: 1.5rem;
-        }
-
-        .hint {
-            font-style: italic;
-            color: #7C8D69;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-
-        /* Instructions pour saisie mobile */
-        .input-instructions {
-            font-family: 'Arial', sans-serif;
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 1rem;
-            font-style: italic;
-        }
-
-        /* Mobile overlay and input */
-        .mobile-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 9998;
-            display: none;
-        }
-
-        .mobile-input {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 50px;
-            font-size: 24px;
-            text-align: center;
-            border: 2px solid #7C8D69;
-            border-radius: 8px;
-            background-color: white;
-            z-index: 9999;
-            display: none;
-        }
     </style>
 </head>
 <body>
-    <!-- Mobile overlay and input for better touch support -->
-    <div id="mobileOverlay" class="mobile-overlay"></div>
-    <input type="text" id="mobileInput" class="mobile-input" maxlength="1"
-           placeholder="Lettre"
-           inputmode="text" autocapitalize="off" autocomplete="off" spellcheck="false" />
-
     <div class="container">
         <h1>Mariage de Cécile & Alexis</h1>
         <div class="date">Le 13 Septembre 2025</div>
@@ -547,10 +368,6 @@
             <div class="input-section">
                 <input type="text" id="nameInput" placeholder="Entrez votre prénom">
                 <div id="nameList" class="name-list"></div>
-
-                <!-- Two buttons for navigation -->
-                <button id="gameBtn" class="button" style="display: none; margin: 10px;">Fancy a game</button>
-                <button id="tableBtn" class="button" style="display: none; margin: 10px;">Find my table</button>
             </div>
         </div>
 
@@ -582,7 +399,6 @@
                 </ol>
             </div>
 
-            <!-- Boutons d'indices uniquement pour le jeu de cartes -->
             <button class="clue-button" id="clueBtn">Besoin d'un indice ?</button>
             <div class="clue" id="clue1">
                 <strong>Indice 1 :</strong> <span id="clue1Text"></span>
@@ -598,722 +414,479 @@
 
             <button id="cardBackBtn" class="back-button">Revenir à l'accueil</button>
         </div>
-
-        <!-- Game Section (initially hidden) -->
-        <div id="gameSection" class="game-section">
-            <h2 id="guestGreeting">Bonjour,</h2>
-            <p>Devinez le nom de l'auteur de votre table en 7 essais</p>
-
-            <div class="hint">Indice : C'est un auteur classique (la première lettre vous est donnée)</div>
-
-            <div class="game-board" id="gameBoard"></div>
-
-            <div class="message" id="message"></div>
-
-            <div class="input-instructions">
-                Sur mobile : tapez sur la case active pour saisir une lettre. Sur ordinateur : utilisez votre clavier. Appuyez sur Entrée pour valider.
-            </div>
-
-            <div id="resultContainer" class="result-container">
-                <div class="result-label">Votre table sera :</div>
-                <div id="resultValue" class="result-value"></div>
-            </div>
-
-            <button id="wordleBackBtn" class="back-button">Revenir à l'accueil</button>
-        </div>
     </div>
 
 <script>
-    // Configuration des groupes (for card game)
-    const groups = [
-        {
-            id: "redDiamond",
-            color: "#c23616",
-            colorName: "Rouge",
-            shape: "diamond",
-            shapeName: "Losange",
-            groupTheme: "Avocat",
-            clue1: "La veuve et l'orphelin.",
-            clue2: "L'article du code"
-        },
-        {
-            id: "blueCircle",
-            color: "#2c3e50",
-            colorName: "Bleu",
-            shape: "circle",
-            shapeName: "Cercle",
-            groupTheme: "Book Club",
-            clue1: "Chateaux de papier",
-            clue2: "Best friend when one's alone."
-        },
-        {
-            id: "greenSquare",
-            color: "#4c5e3d",
-            colorName: "Vert",
-            shape: "square",
-            shapeName: "Carré",
-            groupTheme: "Cats or Dogs?",
-            clue1: "Des amis qui vous veulent du bien",
-            clue2: "Certains veulent sortir souvent, d'autres rester a la maison."
-        },
-        {
-            id: "purpleTriangle",
-            color: "#8e44ad",
-            colorName: "Violet",
-            shape: "triangle",
-            shapeName: "Triangle",
-            groupTheme: "Conor McGregor",
-            clue1: "I'm a machiiine",
-            clue2: "Nate Diaz is not too fond of the lad"
-        },
-        {
-            id: "orangeHexagon",
-            color: "#e67e22",
-            colorName: "Orange",
-            shape: "hexagon",
-            shapeName: "Hexagone",
-            groupTheme: "Danse",
-            clue1: "Vos corps vous revelent",
-            clue2: "a 4 temps ou a 1000 temps"
-        }
-    ];
+    // Configuration des groupes
+const groups = [
+    // RED TRIANGLE
+    {
+        id: "redTriangle",
+        color: "#c23616",
+        colorName: "Rouge",
+        shape: "triangle",
+        shapeName: "Triangle",
+        groupTheme: "Ceux du Barreau...",
+        clue1: "La justice est leur métier",
+        clue2: "Ils défendent et plaident"
+    },
 
-    // Authors for tables (for Wordle game)
-    const authors = [
-        { fullName: "Victor Hugo", wordleName: "HUGO" },
-        { fullName: "Émile Zola", wordleName: "ZOLA" },
-        { fullName: "Jane Austen", wordleName: "AUSTEN" },
-        { fullName: "Albert Camus", wordleName: "CAMUS" },
-        { fullName: "Marcel Proust", wordleName: "PROUST" },
-        { fullName: "Franz Kafka", wordleName: "KAFKA" },
-        { fullName: "George Sand", wordleName: "SAND" },
-        { fullName: "Colette", wordleName: "COLETTE" },
-        { fullName: "Alexandre Dumas", wordleName: "DUMAS" },
-        { fullName: "Virginia Woolf", wordleName: "WOOLF" }
-    ];
+    // RED SQUARE
+    {
+        id: "redSquare",
+        color: "#c23616",
+        colorName: "Rouge",
+        shape: "square",
+        shapeName: "Carré",
+        groupTheme: "Gourmet cuisine",
+        clue1: "Ils savent apprécier les bonnes choses",
+        clue2: "La gastronomie n'a pas de secret pour eux"
+    },
 
-    // Combined guest list with both group and author assignments
-    const guestList = [
-        { name: "Marie", id: 1, group: "redDiamond" },
-        { name: "Jean", id: 2, group: "blueCircle" },
-        { name: "Sophie", id: 3, group: "greenSquare" },
-        { name: "Thomas", id: 4, group: "purpleTriangle" },
-        { name: "Lucie", id: 5, group: "orangeHexagon" },
-        { name: "Pierre", id: 6, group: "redDiamond" },
-        { name: "Emma", id: 7, group: "greenSquare" },
-        { name: "Nicolas", id: 8, group: "greenSquare" },
-        { name: "Clara", id: 9, group: "purpleTriangle" },
-        { name: "Antoine", id: 10, group: "orangeHexagon" },
-        { name: "Élise", id: 11, group: "blueCircle" },
-        { name: "Michel", id: 12, group: "redDiamond" },
-        { name: "Camille", id: 13, group: "greenSquare" },
-        { name: "Paul", id: 14, group: "purpleTriangle" },
-        { name: "Julie", id: 15, group: "orangeHexagon" }
-    ];
+    // RED PENTAGON
+    {
+        id: "redPentagon",
+        color: "#c23616",
+        colorName: "Rouge",
+        shape: "pentagon",
+        shapeName: "Pentagone",
+        groupTheme: "Green Tea(m)",
+        clue1: "Une boisson qui les unit",
+        clue2: "Entre tradition et modernité"
+    },
 
-    // Define guest table assignments (for Wordle)
-    const guestTableAssignments = {};
-    guestList.forEach((guest, index) => {
-        guestTableAssignments[guest.id] = authors[index % authors.length];
-    });
+    // RED HEXAGON
+    {
+        id: "redHexagon",
+        color: "#c23616",
+        colorName: "Rouge",
+        shape: "hexagon",
+        shapeName: "Hexagone",
+        groupTheme: "Le Petit Zizi",
+        clue1: "Un nom qui fait sourire",
+        clue2: "L'humour est leur force"
+    },
 
-    // Wordle game state
-    let currentGuest = null;
-    let targetWord = '';
-    let targetFullName = '';
-    let currentRow = 0;
-    let currentTile = 0;
-    let gameOver = false;
-    let guesses = [];
+    // RED OCTAGON
+    {
+        id: "redOctagon",
+        color: "#c23616",
+        colorName: "Rouge",
+        shape: "octagon",
+        shapeName: "Octogone",
+        groupTheme: "Les amis d'Antoine Dupont",
+        clue1: "Le rugby, c'est leur passion",
+        clue2: "Ils suivent le meilleur demi de mêlée"
+    },
 
-    // DOM elements for mobile input
-    let mobileOverlay;
-    let mobileInput;
+    // BLUE TRIANGLE
+    {
+        id: "blueTriangle",
+        color: "#2c3e50",
+        colorName: "Bleu",
+        shape: "triangle",
+        shapeName: "Triangle",
+        groupTheme: "Les Bibliophiles",
+        clue1: "Ils aiment les histoires",
+        clue2: "Entre les pages, ils trouvent l'évasion"
+    },
 
-    // Function to log debugging info
-    function debug(message) {
-        console.log("DEBUG: " + message);
+    // BLUE SQUARE
+    {
+        id: "blueSquare",
+        color: "#2c3e50",
+        colorName: "Bleu",
+        shape: "square",
+        shapeName: "Carré",
+        groupTheme: "Les coureurs de fond",
+        clue1: "L'endurance est leur qualité",
+        clue2: "Ils courent des kilomètres"
+    },
+
+    // BLUE PENTAGON
+    {
+        id: "bluePentagon",
+        color: "#2c3e50",
+        colorName: "Bleu",
+        shape: "pentagon",
+        shapeName: "Pentagone",
+        groupTheme: "Les créateurs de vrai contenu",
+        clue1: "Ils créent et innovent",
+        clue2: "Le contenu authentique, c'est eux"
+    },
+
+    // BLUE HEXAGON
+    {
+        id: "blueHexagon",
+        color: "#2c3e50",
+        colorName: "Bleu",
+        shape: "hexagon",
+        shapeName: "Hexagone",
+        groupTheme: "Grands Commis du Service Pub",
+        clue1: "Communication et créativité",
+        clue2: "Ils font parler des marques"
+    },
+
+    // BLUE OCTAGON
+    {
+        id: "blueOctagon",
+        color: "#2c3e50",
+        colorName: "Bleu",
+        shape: "octagon",
+        shapeName: "Octogone",
+        groupTheme: "Les Fabriquants",
+        clue1: "De leurs mains naissent les objets",
+        clue2: "Créer et fabriquer, c'est leur art"
+    },
+
+    // GREEN TRIANGLE
+    {
+        id: "greenTriangle",
+        color: "#27ae60",
+        colorName: "Vert",
+        shape: "triangle",
+        shapeName: "Triangle",
+        groupTheme: "Les oreilles fines",
+        clue1: "Ils écoutent avec attention",
+        clue2: "La musique est leur passion"
+    },
+
+    // GREEN SQUARE
+    {
+        id: "greenSquare",
+        color: "#27ae60",
+        colorName: "Vert",
+        shape: "square",
+        shapeName: "Carré",
+        groupTheme: "Les Patissiers",
+        clue1: "La douceur est leur spécialité",
+        clue2: "Ils créent des merveilles sucrées"
+    },
+
+    // GREEN PENTAGON
+    {
+        id: "greenPentagon",
+        color: "#27ae60",
+        colorName: "Vert",
+        shape: "pentagon",
+        shapeName: "Pentagone",
+        groupTheme: "Les Quadrilles",
+        clue1: "La danse traditionnelle les anime",
+        clue2: "En cadence, ils évoluent"
+    },
+
+    // GREEN HEXAGON
+    {
+        id: "greenHexagon",
+        color: "#27ae60",
+        colorName: "Vert",
+        shape: "hexagon",
+        shapeName: "Hexagone",
+        groupTheme: "Nos cavaliers préférés",
+        clue1: "L'équitation est leur passion",
+        clue2: "Avec les chevaux, ils sont complices"
+    },
+
+    // GREEN OCTAGON
+    {
+        id: "greenOctagon",
+        color: "#27ae60",
+        colorName: "Vert",
+        shape: "octagon",
+        shapeName: "Octogone",
+        groupTheme: "Nos coachs sportifs",
+        clue1: "Le sport, ils l'enseignent",
+        clue2: "Ils motivent et accompagnent"
+    },
+
+    // PURPLE TRIANGLE
+    {
+        id: "purpleTriangle",
+        color: "#8e44ad",
+        colorName: "Violet",
+        shape: "triangle",
+        shapeName: "Triangle",
+        groupTheme: "Fashion Police",
+        clue1: "Le style, c'est leur affaire",
+        clue2: "Ils savent ce qui est tendance"
+    },
+
+    // PURPLE SQUARE
+    {
+        id: "purpleSquare",
+        color: "#8e44ad",
+        colorName: "Violet",
+        shape: "square",
+        shapeName: "Carré",
+        groupTheme: "Pet lovers <3",
+        clue1: "Les animaux sont leur faiblesse",
+        clue2: "Chiens, chats... ils les adorent tous"
+    },
+
+    // PURPLE PENTAGON
+    {
+        id: "purplePentagon",
+        color: "#8e44ad",
+        colorName: "Violet",
+        shape: "pentagon",
+        shapeName: "Pentagone",
+        groupTheme: "Skieurs alpins",
+        clue1: "La montagne les appelle",
+        clue2: "Sur les pistes, ils dévalent"
+    },
+
+    // PURPLE HEXAGON
+    {
+        id: "purpleHexagon",
+        color: "#8e44ad",
+        colorName: "Violet",
+        shape: "hexagon",
+        shapeName: "Hexagone",
+        groupTheme: "Start-up nation",
+        clue1: "L'entrepreneuriat les anime",
+        clue2: "Ils innovent et entreprennent"
+    },
+
+    // PURPLE OCTAGON
+    {
+        id: "purpleOctagon",
+        color: "#8e44ad",
+        colorName: "Violet",
+        shape: "octagon",
+        shapeName: "Octogone",
+        groupTheme: "The Conor McGregor FanClub",
+        clue1: "Un combattant les inspire",
+        clue2: "L'Irlandais au style flamboyant"
+    },
+
+    // BLACK TRIANGLE
+    {
+        id: "blackTriangle",
+        color: "#2c2c2c",
+        colorName: "Noir",
+        shape: "triangle",
+        shapeName: "Triangle",
+        groupTheme: "The Finance Club",
+        clue1: "Les chiffres, c'est leur domaine",
+        clue2: "L'économie n'a pas de secret pour eux"
+    },
+
+    // BLACK SQUARE
+    {
+        id: "blackSquare",
+        color: "#2c2c2c",
+        colorName: "Noir",
+        shape: "square",
+        shapeName: "Carré",
+        groupTheme: "Русские связи (The Russian Connexion)",
+        clue1: "De l'Est, ils viennent",
+        clue2: "Une culture riche les unit"
+    },
+
+    // BLACK PENTAGON
+    {
+        id: "blackPentagon",
+        color: "#2c2c2c",
+        colorName: "Noir",
+        shape: "pentagon",
+        shapeName: "Pentagone",
+        groupTheme: "Ricard & Pétanque",
+        clue1: "L'apéritif et le jeu traditionnel",
+        clue2: "Sous le soleil du Midi"
+    },
+
+    // BLACK HEXAGON
+    {
+        id: "blackHexagon",
+        color: "#2c2c2c",
+        colorName: "Noir",
+        shape: "hexagon",
+        shapeName: "Hexagone",
+        groupTheme: "Footix",
+        clue1: "Le sport, c'est la vie",
+        clue2: "Ils encouragent leurs équipes"
     }
-
-    // Function to create confetti
-    function createConfetti() {
-        const confettiCount = 100;
-        const colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#e67e22', '#f39c12'];
-
-        for (let i = 0; i < confettiCount; i++) {
-            const confetti = document.createElement('div');
-            confetti.classList.add('confetti');
-            confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(confetti);
-
-            setTimeout(() => {
-                confetti.remove();
-            }, 5000);
-        }
-    }
-
-    // Initialize game board
-    function initializeBoard() {
-        const board = document.getElementById('gameBoard');
-        board.innerHTML = '';
-
-        const wordLength = targetWord ? targetWord.length : 5;
-
-        for (let i = 0; i < 7; i++) {
-            const row = document.createElement('div');
-            row.classList.add('guess-row');
-
-            for (let j = 0; j < wordLength; j++) {
-                const box = document.createElement('div');
-                box.classList.add('letter-box');
-                box.setAttribute('id', `box-${i}-${j}`);
-                row.appendChild(box);
-            }
-
-            board.appendChild(row);
-        }
-
-        // Set up the first letter only for the current row (row 0)
-        if (targetWord && currentRow === 0) {
-            const firstBox = document.getElementById(`box-0-0`);
-            if (firstBox) {
-                firstBox.textContent = targetWord[0];
-                firstBox.classList.add('filled', 'correct');
-            }
-
-            // Initialize first guess with the first letter
-            currentTile = 1;
-            if (!guesses[0]) {
-                guesses[0] = targetWord[0];
-            }
-        }
-
-        // Setup mobile-specific handlers after board is created
-        if (isMobile()) {
-            setupMobileBoxHandlers();
-        } else {
-            setupDesktopBoxHandlers();
-        }
-    }
-
-    // Desktop box handlers (original behavior)
-    function setupDesktopBoxHandlers() {
-        document.querySelectorAll('.letter-box').forEach((box, index) => {
-            const wordLength = targetWord ? targetWord.length : 5;
-            const row = Math.floor(index / wordLength);
-            const col = index % wordLength;
-
-            box.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
-
-                // Only allow clicking on current row and current tile
-                if (row === currentRow && col === currentTile) {
-                    focusCurrentBox();
-                }
-            });
-        });
-    }
-
-    // Mobile box handlers (enhanced behavior)
-    function setupMobileBoxHandlers() {
-        document.querySelectorAll('.letter-box').forEach((box, index) => {
-            const wordLength = targetWord ? targetWord.length : 5;
-            const row = Math.floor(index / wordLength);
-            const col = index % wordLength;
-
-            box.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
-
-                console.log("Mobile box clicked:", row, col, "Current row:", currentRow);
-
-                // On mobile, allow clicking any empty box in current row
-                if (row === currentRow && !box.classList.contains('correct') && !box.textContent) {
-                    console.log("Setting target box to:", col);
-                    // Set currentTile to this position
-                    currentTile = col;
-                    focusCurrentBox();
-                } else {
-                    console.log("Box not available - row:", row, "has correct class:", box.classList.contains('correct'), "has text:", !!box.textContent);
-                }
-            });
-
-            box.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-
-                if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
-
-                // Same logic for touch
-                if (row === currentRow && !box.classList.contains('correct') && !box.textContent) {
-                    currentTile = col;
-                    focusCurrentBox();
-                }
-            });
-        });
-    }
-
-    // Detect if device is mobile
-    function isMobile() {
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-               ('ontouchstart' in window) ||
-               (window.innerWidth <= 768);
-    }
-
-    // Function to show mobile input
-    function focusCurrentBox() {
-        if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
-
-        // Highlight current box WITHOUT removing existing content
-        const currentBox = document.getElementById(`box-${currentRow}-${currentTile}`);
-        if (currentBox) {
-            // Remove highlight from all boxes first but preserve their content and classes
-            document.querySelectorAll('.letter-box').forEach(box => {
-                if (box.classList.contains('correct') || box.classList.contains('present') || box.classList.contains('absent')) {
-                    // Keep the colored boxes as they are
-                    return;
-                }
-                // Only reset border for non-colored boxes
-                box.style.border = '2px solid #d3d6da';
-                if (!box.textContent) {
-                    box.style.backgroundColor = 'white';
-                }
-            });
-
-            // Highlight current box only if it's not already colored from a previous guess
-            if (!currentBox.classList.contains('correct') && !currentBox.classList.contains('present') && !currentBox.classList.contains('absent')) {
-                currentBox.style.border = '3px solid #7C8D69';
-                currentBox.style.backgroundColor = '#f0f7e8';
-            }
-        }
-
-        // Show mobile input if on mobile device
-        if (isMobile()) {
-            mobileOverlay.style.display = 'block';
-            mobileInput.style.display = 'block';
-            mobileInput.value = '';
-
-            // Use setTimeout to ensure the input is visible before focusing
-            setTimeout(() => {
-                mobileInput.focus();
-            }, 50);
-        }
-    }
-
-    // Hide mobile input
-    function hideMobileInput() {
-        if (mobileOverlay && mobileInput) {
-            mobileOverlay.style.display = 'none';
-            mobileInput.style.display = 'none';
-            mobileInput.blur();
-        }
-    }
-
-    // Handle keyboard input for Wordle
-    function handleKey(key) {
-        if (gameOver) {
-            console.log("Game over, ignoring key:", key);
-            return;
-        }
-
-        const messageEl = document.getElementById('message');
-        messageEl.textContent = '';
-
-        console.log("=== HandleKey ===");
-        console.log("Key:", key);
-        console.log("Current row:", currentRow);
-        console.log("Current tile:", currentTile);
-        console.log("Target word:", targetWord);
-
-        if (key === 'enter') {
-            console.log("Enter pressed - checking if row complete");
-            if (checkIfRowComplete()) {
-                console.log("Row is complete, checking guess");
-                checkGuess();
-            } else {
-                console.log("Row not complete, cannot submit");
-            }
-            return;
-        }
-
-        if (key === 'backspace') {
-            console.log("Backspace pressed");
-            // Find the last filled non-green box and clear it
-            for (let i = targetWord.length - 1; i >= 0; i--) {
-                const box = document.getElementById(`box-${currentRow}-${i}`);
-                if (box && box.textContent && !box.classList.contains('correct')) {
-                    console.log("Clearing box at position:", i);
-                    box.textContent = '';
-                    box.classList.remove('filled');
-                    currentTile = i;
-                    rebuildGuessString();
-                    break;
-                }
-            }
-            return;
-        }
-
-        if (key.match(/^[a-z]$/)) {
-            console.log("Letter key pressed:", key);
-
-            // Find the target box (the one that was clicked)
-            const targetBox = document.getElementById(`box-${currentRow}-${currentTile}`);
-
-            if (targetBox && !targetBox.classList.contains('correct') && !targetBox.textContent) {
-                console.log("Placing letter", key.toUpperCase(), "in box:", currentRow, currentTile);
-
-                // Place the letter ONLY in the target box
-                targetBox.textContent = key.toUpperCase();
-                targetBox.classList.add('filled');
-
-                // DON'T advance currentTile - let the user click the next box they want
-                console.log("Letter placed, NOT advancing currentTile");
-
-                // Rebuild the guess string
-                rebuildGuessString();
-
-                // Check if row is now complete
-                const isComplete = checkIfRowComplete();
-                console.log("Row complete after adding letter?", isComplete);
-
-                // Auto-submit on mobile when row is complete
-                if (isMobile() && isComplete) {
-                    console.log("🚀 AUTO-SUBMITTING on mobile!");
-                    setTimeout(() => {
-                        console.log("Auto-submit timeout triggered");
-                        checkGuess();
-                    }, 500);
-                }
-            } else {
-                console.log("Cannot place letter - box is green, invalid, or already filled");
-                console.log("Box exists:", !!targetBox);
-                console.log("Has correct class:", targetBox?.classList.contains('correct'));
-                console.log("Has text:", !!targetBox?.textContent);
-            }
-        }
-    }
-
-    // Improved function to check if current row is complete
-    function checkIfRowComplete() {
-        console.log("--- Checking if row complete ---");
-        let filledCount = 0;
-        let totalBoxes = targetWord.length;
-
-        for (let i = 0; i < totalBoxes; i++) {
-            const box = document.getElementById(`box-${currentRow}-${i}`);
-            if (box && box.textContent && box.textContent.trim() !== '') {
-                filledCount++;
-                console.log(`Box ${i}: "${box.textContent}" ✓`);
-            } else {
-                console.log(`Box ${i}: empty ✗`);
-            }
-        }
-
-        console.log(`Filled: ${filledCount}/${totalBoxes}`);
-        const isComplete = filledCount === totalBoxes;
-        console.log("Row complete:", isComplete);
-        return isComplete;
-    }
-
-    // Helper function to rebuild the guess string from the current row
-    function rebuildGuessString() {
-        guesses[currentRow] = '';
-        for (let i = 0; i < targetWord.length; i++) {
-            const box = document.getElementById(`box-${currentRow}-${i}`);
-            if (box && box.textContent) {
-                guesses[currentRow] += box.textContent;
-            }
-        }
-        console.log("Rebuilt guess for row", currentRow, ":", guesses[currentRow]);
-    }
-
-    // Check the guess
-    function checkGuess() {
-        const guess = guesses[currentRow];
-        const messageEl = document.getElementById('message');
-
-        console.log("Checking guess:", guess, "Target:", targetWord);
-
-        if (guess.length !== targetWord.length) {
-            messageEl.textContent = `Le mot doit contenir ${targetWord.length} lettres`;
-            return;
-        }
-
-        // Create arrays to track which letters have been matched
-        let targetCopy = targetWord.split('');
-        let guessCopy = guess.split('');
-        let states = new Array(targetWord.length).fill('absent');
-
-        console.log("Target copy:", targetCopy);
-        console.log("Guess copy:", guessCopy);
-
-        // First pass: mark correct letters (green)
-        for (let i = 0; i < targetWord.length; i++) {
-            if (guessCopy[i] === targetCopy[i]) {
-                states[i] = 'correct';
-                targetCopy[i] = null; // Mark as used
-                guessCopy[i] = null; // Mark as used
-            }
-        }
-
-        // Second pass: mark present letters (orange/yellow)
-        for (let i = 0; i < targetWord.length; i++) {
-            if (guessCopy[i] && targetCopy.includes(guessCopy[i])) {
-                states[i] = 'present';
-                targetCopy[targetCopy.indexOf(guessCopy[i])] = null; // Mark as used
-            }
-        }
-
-        console.log("States:", states);
-
-        // Apply colors to boxes with animation
-        for (let i = 0; i < targetWord.length; i++) {
-            const box = document.getElementById(`box-${currentRow}-${i}`);
-            if (box) {
-                setTimeout(() => {
-                    console.log(`Applying ${states[i]} to box ${currentRow}-${i}`);
-                    // Remove existing state classes and any custom styling
-                    box.classList.remove('correct', 'present', 'absent');
-                    box.style.backgroundColor = '';
-                    box.style.borderColor = '';
-                    box.style.color = '';
-
-                    // Add the new state
-                    box.classList.add(states[i]);
-
-                    // Force the styles to ensure they apply
-                    if (states[i] === 'correct') {
-                        box.style.backgroundColor = '#2ecc71';
-                        box.style.borderColor = '#2ecc71';
-                        box.style.color = 'white';
-                    } else if (states[i] === 'present') {
-                        box.style.backgroundColor = '#f39c12';
-                        box.style.borderColor = '#f39c12';
-                        box.style.color = 'white';
-                    } else if (states[i] === 'absent') {
-                        box.style.backgroundColor = '#878a8c';
-                        box.style.borderColor = '#878a8c';
-                        box.style.color = 'white';
-                    }
-                }, i * 100);
-            }
-        }
-
-        // Check if the word was guessed correctly
-        if (guess === targetWord) {
-            gameOver = true;
-            setTimeout(() => {
-                messageEl.textContent = 'Félicitations!';
-                document.getElementById('resultValue').textContent = targetFullName;
-                document.getElementById('resultContainer').style.opacity = '1';
-                createConfetti();
-            }, targetWord.length * 100 + 500);
-            return;
-        }
-
-        // Move to next row
-        currentRow++;
-        currentTile = 0;
-
-        // Set up the next row with correct letters in their positions
-        if (currentRow < 7) {
-            setTimeout(() => {
-                // First, set up all the green (correct) letters from this guess
-                for (let i = 0; i < targetWord.length; i++) {
-                    if (states[i] === 'correct') {
-                        const nextBox = document.getElementById(`box-${currentRow}-${i}`);
-                        if (nextBox) {
-                            nextBox.textContent = guess[i];
-                            nextBox.classList.add('filled', 'correct');
-                            nextBox.style.backgroundColor = '#2ecc71';
-                            nextBox.style.borderColor = '#2ecc71';
-                            nextBox.style.color = 'white';
-                        }
-                    }
-                }
-
-                // Initialize the guess for the new row with known correct letters
-                guesses[currentRow] = '';
-                for (let i = 0; i < targetWord.length; i++) {
-                    if (states[i] === 'correct') {
-                        guesses[currentRow] += guess[i];
-                    } else {
-                        guesses[currentRow] += '';
-                        break; // Stop at the first empty position
-                    }
-                }
-
-                // Find the next empty position to set currentTile
-                currentTile = 0;
-                for (let i = 0; i < targetWord.length; i++) {
-                    if (states[i] === 'correct') {
-                        currentTile = i + 1;
-                    } else {
-                        currentTile = i;
-                        break;
-                    }
-                }
-
-                // Make sure currentTile doesn't exceed word length
-                if (currentTile >= targetWord.length) {
-                    currentTile = targetWord.length - 1;
-                }
-
-            }, targetWord.length * 100 + 200);
-        }
-
-        // Check if game is over (no more rows)
-        if (currentRow === 7) {
-            gameOver = true;
-            setTimeout(() => {
-                messageEl.textContent = `Dommage! Le mot était ${targetWord}. Nouvelle partie...`;
-                setTimeout(() => {
-                    resetGame();
-                }, 3000);
-            }, targetWord.length * 100 + 500);
-        }
-    }
-
-    // Reset the Wordle game
-    function resetGame() {
-        currentRow = 0;
-        currentTile = 0;
-        gameOver = false;
-        guesses = [];
-
-        const boxes = document.querySelectorAll('.letter-box');
-        boxes.forEach(box => {
-            box.textContent = '';
-            box.className = 'letter-box';
-            box.style.border = '2px solid #d3d6da';
-            box.style.backgroundColor = 'white';
-        });
-
-        document.getElementById('message').textContent = '';
-        document.getElementById('resultContainer').style.opacity = '0';
-
-        initializeBoard();
-    }
+];
+
+// Guest list with group assignments
+const guestList = [
+    // Ceux du Barreau... (Red Triangle)
+    { name: "Héloïse", id: 1, group: "redTriangle" },
+    { name: "Tigran", id: 2, group: "redTriangle" },
+    { name: "Ahmed", id: 3, group: "redTriangle" },
+    { name: "Antoine G.", id: 4, group: "redTriangle" },
+    { name: "Anaïs", id: 5, group: "redTriangle" },
+
+    // Fashion Police (Purple Triangle)
+    { name: "Petia", id: 6, group: "purpleTriangle" },
+    { name: "Mathilde SDS.", id: 7, group: "purpleTriangle" },
+    { name: "Nadia A.", id: 8, group: "purpleTriangle" },
+    { name: "Baptiste M.", id: 9, group: "purpleTriangle" },
+    { name: "Alexandra B.", id: 10, group: "purpleTriangle" },
+
+    // Footix (Black Hexagon)
+    { name: "Pauline", id: 11, group: "blackHexagon" },
+    { name: "Donald", id: 12, group: "blackHexagon" },
+    { name: "Ilan", id: 13, group: "blackHexagon" },
+    { name: "Maxime L.", id: 14, group: "blackHexagon" },
+    { name: "Shane", id: 15, group: "blackHexagon" },
+    { name: "Kévin", id: 16, group: "blackHexagon" },
+
+    // Grands Commis du Service Pub (Blue Hexagon)
+    { name: "Brigitte", id: 17, group: "blueHexagon" },
+    { name: "Alice", id: 18, group: "blueHexagon" },
+    { name: "Thanh-Bao", id: 19, group: "blueHexagon" },
+    { name: "Thiago", id: 20, group: "blueHexagon" },
+    { name: "Louise-Adélie", id: 21, group: "blueHexagon" },
+    { name: "Suzanne", id: 22, group: "blueHexagon" },
+    { name: "Pierre-Louis", id: 23, group: "blueHexagon" },
+
+    // Le Petit Zizi (Red Hexagon)
+    { name: "François", id: 24, group: "redHexagon" },
+    { name: "Clovis", id: 25, group: "redHexagon" },
+
+    // Les amis d'Antoine Dupont (Red Octagon)
+    { name: "Quentin", id: 26, group: "redOctagon" },
+    { name: "Guillaume S.", id: 27, group: "redOctagon" },
+    { name: "Thomas", id: 28, group: "redOctagon" },
+    { name: "Alix", id: 29, group: "redOctagon" },
+    { name: "Pauric", id: 30, group: "redOctagon" },
+
+    // Les Bibliophiles (Blue Triangle)
+    { name: "Germain", id: 31, group: "blueTriangle" },
+    { name: "Ophélie", id: 32, group: "blueTriangle" },
+    { name: "Timothée", id: 33, group: "blueTriangle" },
+    { name: "Guillaume D.", id: 34, group: "blueTriangle" },
+    { name: "Igor", id: 35, group: "blueTriangle" },
+
+    // Les coureurs de fond (Blue Square)
+    { name: "Anne", id: 36, group: "blueSquare" },
+    { name: "Jeanne-Lise", id: 37, group: "blueSquare" },
+    { name: "Guillaume RV.", id: 38, group: "blueSquare" },
+    { name: "Emmanuel", id: 39, group: "blueSquare" },
+
+    // Les créateurs de vrai contenu (Blue Pentagon)
+    { name: "Laurent", id: 40, group: "bluePentagon" },
+    { name: "Arthur", id: 41, group: "bluePentagon" },
+    { name: "David", id: 42, group: "bluePentagon" },
+    { name: "Marie-Alix", id: 43, group: "bluePentagon" },
+    { name: "Rowan", id: 44, group: "bluePentagon" },
+
+    // Les Fabriquants (Blue Octagon)
+    { name: "Solène", id: 45, group: "blueOctagon" },
+    { name: "Théo", id: 46, group: "blueOctagon" },
+    { name: "Manon", id: 47, group: "blueOctagon" },
+    { name: "Amélie", id: 48, group: "blueOctagon" },
+
+    // Les oreilles fines (Green Triangle)
+    { name: "Katharina", id: 49, group: "greenTriangle" },
+    { name: "Orlando", id: 50, group: "greenTriangle" },
+    { name: "Antoine C.", id: 51, group: "greenTriangle" },
+    { name: "Luis", id: 52, group: "greenTriangle" },
+    { name: "Rémi", id: 53, group: "greenTriangle" },
+    { name: "Laureen", id: 54, group: "greenTriangle" },
+
+    // Les Patissiers (Green Square)
+    { name: "Willy", id: 55, group: "greenSquare" },
+    { name: "Elvire", id: 56, group: "greenSquare" },
+    { name: "Agathe", id: 57, group: "greenSquare" },
+    { name: "Naomi", id: 58, group: "greenSquare" },
+
+    // Les Quadrilles (Green Pentagon)
+    { name: "Jacques", id: 59, group: "greenPentagon" },
+    { name: "Amandine", id: 60, group: "greenPentagon" },
+    { name: "Stefano", id: 61, group: "greenPentagon" },
+    { name: "Charlotte", id: 62, group: "greenPentagon" },
+    { name: "Alexandra O.", id: 63, group: "greenPentagon" },
+    { name: "Estelle", id: 64, group: "greenPentagon" },
+
+    // Nos cavaliers préférés (Green Hexagon)
+    { name: "Rebecca", id: 65, group: "greenHexagon" },
+    { name: "Laura", id: 66, group: "greenHexagon" },
+    { name: "Fanny", id: 67, group: "greenHexagon" },
+    { name: "Hugo", id: 68, group: "greenHexagon" },
+    { name: "Audrey", id: 69, group: "greenHexagon" },
+
+    // Nos coachs sportifs (Green Octagon)
+    { name: "Orane", id: 70, group: "greenOctagon" },
+    { name: "Bo", id: 71, group: "greenOctagon" },
+    { name: "Graham", id: 72, group: "greenOctagon" },
+    { name: "Félix", id: 73, group: "greenOctagon" },
+    { name: "Baptiste P.", id: 74, group: "greenOctagon" },
+    { name: "Ciaran", id: 75, group: "greenOctagon" },
+
+    // Pet lovers <3 (Purple Square)
+    { name: "Perla", id: 76, group: "purpleSquare" },
+    { name: "Mikhaël", id: 77, group: "purpleSquare" },
+    { name: "Tiziana", id: 78, group: "purpleSquare" },
+    { name: "Magdalena", id: 79, group: "purpleSquare" },
+    { name: "Jessica", id: 80, group: "purpleSquare" },
+    { name: "Claire", id: 81, group: "purpleSquare" },
+
+    // Ricard & Pétanque (Black Pentagon)
+    { name: "Patrick", id: 82, group: "blackPentagon" },
+    { name: "Morin", id: 83, group: "blackPentagon" },
+    { name: "Joël", id: 84, group: "blackPentagon" },
+    { name: "Victor", id: 85, group: "blackPentagon" },
+
+    // Skieurs alpins (Purple Pentagon)
+    { name: "Marie", id: 86, group: "purplePentagon" },
+    { name: "Christine", id: 87, group: "purplePentagon" },
+    { name: "Camille", id: 88, group: "purplePentagon" },
+    { name: "Marianne", id: 89, group: "purplePentagon" },
+    { name: "John", id: 90, group: "purplePentagon" },
+
+    // The Conor McGregor FanClub (Purple Octagon)
+    { name: "Jonathan", id: 91, group: "purpleOctagon" },
+    { name: "Noé", id: 92, group: "purpleOctagon" },
+    { name: "Antoine R.", id: 93, group: "purpleOctagon" },
+    { name: "Matthieu", id: 94, group: "purpleOctagon" },
+
+    // The Finance Club (Black Triangle)
+    { name: "Yasmina", id: 95, group: "blackTriangle" },
+    { name: "Mathieu", id: 96, group: "blackTriangle" },
+    { name: "Alexis G.", id: 97, group: "blackTriangle" },
+    { name: "Chris", id: 98, group: "blackTriangle" },
+    { name: "Dan", id: 99, group: "blackTriangle" },
+
+    // Русские связи (The Russian Connexion) (Black Square)
+    { name: "Gyuzel", id: 100, group: "blackSquare" },
+    { name: "Nadia B.", id: 101, group: "blackSquare" },
+    { name: "Gabriel", id: 102, group: "blackSquare" },
+    { name: "Anastasiia", id: 103, group: "blackSquare" },
+
+    // Guests without groups assigned (need assignment)
+    { name: "Tristan", id: 104, group: "unassigned" },
+    { name: "Jules", id: 105, group: "unassigned" },
+    { name: "Maxime H.", id: 106, group: "unassigned" },
+    { name: "Cédric", id: 107, group: "unassigned" },
+    { name: "Léa", id: 108, group: "unassigned" },
+    { name: "Alexis", id: 109, group: "unassigned" },
+    { name: "Cécile", id: 110, group: "unassigned" },
+    { name: "Hélène", id: 111, group: "unassigned" },
+    { name: "Marwan", id: 112, group: "unassigned" },
+    { name: "Sarah", id: 113, group: "unassigned" },
+    { name: "Nathalie", id: 114, group: "unassigned" },
+    { name: "Alexis B.", id: 115, group: "unassigned" }
+];
 
     // Run when the page loads
     document.addEventListener("DOMContentLoaded", function() {
-        debug("Page loaded, starting script");
-
         // Get DOM elements
         const nameInputElem = document.getElementById("nameInput");
         const nameListElem = document.getElementById("nameList");
         const welcomeSectionElem = document.getElementById("welcomeSection");
         const groupDetailsElem = document.getElementById("groupDetails");
-        const gameSectionElem = document.getElementById("gameSection");
-        const gameBtn = document.getElementById("gameBtn");
-        const tableBtn = document.getElementById("tableBtn");
-
-        // Get mobile input elements
-        mobileOverlay = document.getElementById("mobileOverlay");
-        mobileInput = document.getElementById("mobileInput");
 
         let selectedGuest = null;
-
-        // Handle mobile input with better control
-        mobileInput.addEventListener('input', function(e) {
-            console.log("Mobile input event triggered, value:", e.target.value);
-
-            if (gameSectionElem.style.display === 'none' || gameOver) {
-                console.log("Game not active, ignoring input");
-                return;
-            }
-
-            const value = e.target.value.toUpperCase();
-            console.log("Processed value:", value);
-
-            if (value && value.match(/^[A-Z]$/)) {
-                console.log("Valid letter detected:", value);
-
-                // Clear input FIRST to prevent any re-triggering
-                this.value = '';
-
-                // Handle the key
-                handleKey(value.toLowerCase());
-
-                // Hide mobile input after processing
-                setTimeout(() => {
-                    hideMobileInput();
-                }, 100);
-            } else {
-                console.log("Invalid input, clearing");
-                this.value = '';
-            }
-        });
-
-        // Simplified mobile keydown handler
-        mobileInput.addEventListener('keydown', function(e) {
-            console.log("Mobile keydown event:", e.key);
-
-            if (gameSectionElem.style.display === 'none') return;
-
-            if (e.key === 'Backspace') {
-                e.preventDefault();
-                console.log("Backspace pressed on mobile");
-                handleKey('backspace');
-                hideMobileInput();
-            } else if (e.key === 'Escape') {
-                e.preventDefault();
-                hideMobileInput();
-            } else if (e.key === 'Enter') {
-                e.preventDefault();
-                hideMobileInput();
-            }
-            // Don't handle letter keys here - let input event handle them
-        });
-
-        // Enhanced mobile handling - tap any box in current row to input
-        function setupMobileBoxHandlers() {
-            document.querySelectorAll('.letter-box').forEach((box, index) => {
-                const row = Math.floor(index / (targetWord ? targetWord.length : 5));
-                const col = index % (targetWord ? targetWord.length : 5);
-
-                box.addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    if (document.getElementById('gameSection').style.display === 'none' || gameOver) return;
-
-                    // On mobile, allow clicking any empty box in current row
-                    if (isMobile() && row === currentRow) {
-                        const targetBox = document.getElementById(`box-${row}-${col}`);
-                        if (targetBox && !targetBox.classList.contains('correct')) {
-                            // Set currentTile to this position
-                            currentTile = col;
-                            focusCurrentBox();
-                        }
-                    } else if (!isMobile()) {
-                        // Desktop behavior - only current tile
-                        if (row === currentRow && col === currentTile) {
-                            focusCurrentBox();
-                        }
-                    }
-                });
-            });
-        }
-
-        // Close mobile input when clicking overlay
-        mobileOverlay.addEventListener('click', function() {
-            hideMobileInput();
-        });
 
         // Filter names as user types
         nameInputElem.addEventListener("input", function() {
             const searchText = nameInputElem.value.trim().toLowerCase();
-            debug("Filtering for: " + searchText);
 
             // Clear the list if input is empty
             if (searchText.length === 0) {
                 nameListElem.innerHTML = "";
-                gameBtn.style.display = "none";
-                tableBtn.style.display = "none";
                 selectedGuest = null;
                 return;
             }
@@ -1322,8 +895,6 @@
             const matchingGuests = guestList.filter(guest =>
                 guest.name.toLowerCase().includes(searchText)
             );
-
-            debug("Found " + matchingGuests.length + " matching guests");
 
             // Display matching guests
             nameListElem.innerHTML = "";
@@ -1336,7 +907,7 @@
 
                     // When a name is clicked, select it
                     nameItem.addEventListener("click", function() {
-                        selectGuestFromList(guest);
+                        selectGuest(guest);
                     });
 
                     nameListElem.appendChild(nameItem);
@@ -1344,42 +915,17 @@
             }
         });
 
-        // Function to handle guest selection from list
-        function selectGuestFromList(guest) {
+        // Function to handle guest selection
+        function selectGuest(guest) {
             selectedGuest = guest;
             nameInputElem.value = guest.name;
             nameListElem.innerHTML = "";
-
-            // Show the two buttons
-            gameBtn.style.display = "inline-block";
-            tableBtn.style.display = "inline-block";
-
-            debug("Selected guest: " + guest.name);
-        }
-
-        // Game button - goes to card game
-        gameBtn.addEventListener("click", function() {
-            if (selectedGuest) {
-                selectGuestForCardGame(selectedGuest);
-            }
-        });
-
-        // Table button - goes to wordle
-        tableBtn.addEventListener("click", function() {
-            if (selectedGuest) {
-                selectGuestForWordle(selectedGuest);
-            }
-        });
-
-        // Function for card game (existing functionality)
-        function selectGuestForCardGame(guest) {
-            debug("Selected guest for card game: " + guest.name + ", group: " + guest.group);
 
             // Find the group
             const assignedGroup = groups.find(g => g.id === guest.group);
 
             if (!assignedGroup) {
-                debug("Group not found for: " + guest.group);
+                console.log("Group not found for: " + guest.group);
                 return;
             }
 
@@ -1404,25 +950,7 @@
             // Reset card to front position
             document.getElementById("card").classList.remove("flipped");
 
-            debug("Displayed group details for: " + guest.name);
-        }
-
-        // Function for wordle game
-        function selectGuestForWordle(guest) {
-            currentGuest = guest;
-            document.getElementById("guestGreeting").textContent = `Bonjour, ${guest.name}`;
-
-            // Get assigned author
-            const assignedAuthor = guestTableAssignments[guest.id];
-            targetWord = assignedAuthor.wordleName;
-            targetFullName = assignedAuthor.fullName;
-
-            // Reset and initialize game
-            resetGame();
-
-            // Switch views
-            welcomeSectionElem.style.display = 'none';
-            gameSectionElem.style.display = 'block';
+            console.log("Displayed group details for: " + guest.name);
         }
 
         // Set up card flip functionality
@@ -1430,7 +958,7 @@
             this.classList.toggle("flipped");
         });
 
-        // Card game back button functionality
+        // Back button functionality
         const cardBackBtn = document.getElementById("cardBackBtn");
         if (cardBackBtn) {
             cardBackBtn.addEventListener("click", function() {
@@ -1438,11 +966,9 @@
                 groupDetailsElem.style.display = "none";
                 welcomeSectionElem.style.display = "block";
 
-                // Reset input and buttons
+                // Reset input
                 nameInputElem.value = "";
                 nameListElem.innerHTML = "";
-                gameBtn.style.display = "none";
-                tableBtn.style.display = "none";
                 selectedGuest = null;
 
                 // Reset clues
@@ -1453,42 +979,23 @@
                 document.getElementById("revealBtn").style.display = "none";
                 document.getElementById("groupName").style.display = "none";
 
-                debug("Returned to welcome screen from card game");
+                console.log("Returned to welcome screen");
             });
         }
 
-        // Wordle game back button functionality
-        const wordleBackBtn = document.getElementById("wordleBackBtn");
-        if (wordleBackBtn) {
-            wordleBackBtn.addEventListener("click", function() {
-                gameSectionElem.style.display = 'none';
-                welcomeSectionElem.style.display = 'block';
-
-                // Reset input and buttons
-                nameInputElem.value = '';
-                nameListElem.innerHTML = '';
-                gameBtn.style.display = "none";
-                tableBtn.style.display = "none";
-                selectedGuest = null;
-                currentGuest = null;
-
-                debug("Returned to welcome screen from Wordle game");
-            });
-        }
-
-        // Clue button handlers for card game
+        // Clue button handlers
         document.getElementById("clueBtn").addEventListener("click", function() {
             document.getElementById("clue1").style.display = "block";
             document.getElementById("clueBtn").style.display = "none";
             document.getElementById("clue2Btn").style.display = "block";
-            debug("Showed first clue");
+            console.log("Showed first clue");
         });
 
         document.getElementById("clue2Btn").addEventListener("click", function() {
             document.getElementById("clue2").style.display = "block";
             document.getElementById("clue2Btn").style.display = "none";
             document.getElementById("revealBtn").style.display = "block";
-            debug("Showed second clue");
+            console.log("Showed second clue");
         });
 
         document.getElementById("revealBtn").addEventListener("click", function() {
@@ -1497,26 +1004,10 @@
             document.getElementById("groupName").textContent = "Le nom de votre groupe est : " + groupTheme;
             document.getElementById("groupName").style.display = "block";
             document.getElementById("revealBtn").style.display = "none";
-            debug("Revealed group name");
+            console.log("Revealed group name");
         });
 
-        // Physical keyboard input for desktop
-        document.addEventListener('keydown', function(e) {
-            if (gameSectionElem.style.display === 'none') return;
-
-            if (e.key === 'Enter') {
-                handleKey('enter');
-            } else if (e.key === 'Backspace') {
-                handleKey('backspace');
-            } else if (e.key.match(/^[a-zA-Z]$/)) {
-                handleKey(e.key.toLowerCase());
-            }
-        });
-
-        // Initialize board on first load
-        initializeBoard();
-
-        debug("Setup complete!");
+        console.log("Setup complete!");
     });
 </script>
 
