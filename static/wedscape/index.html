@@ -511,440 +511,397 @@ console.log("Script started loading...");
 // Configuration des groupes
 const groups = [
     // RED TRIANGLE
-    {
-        id: "redTriangle",
-        color: "#c23616",
-        colorName: "Rouge",
-        shape: "triangle",
-        shapeName: "Triangle",
-        groupTheme: "Ceux du Barreau...",
-        clue1: "La justice est leur métier",
-        clue2: "Ils défendent et plaident"
-    },
-    // RED CIRCLE
-    {
-        id: "redCircle",
-        color: "#c23616",
-        colorName: "Rouge",
-        shape: "circle",
-        shapeName: "Cercle",
-        groupTheme: "Gourmet cuisine",
-        clue1: "Ils savent apprécier les bonnes choses",
-        clue2: "La gastronomie n'a pas de secret pour eux"
-    },
-    // RED SQUARE
-    {
-        id: "redSquare",
-        color: "#c23616",
-        colorName: "Rouge",
-        shape: "square",
-        shapeName: "Carré",
-        groupTheme: "Green Tea(m)",
-        clue1: "Une boisson qui les unit",
-        clue2: "Entre tradition et modernité"
-    },
+{
+    id: "redTriangle",
+    color: "#c23616",
+    colorName: "Rouge",
+    shape: "triangle",
+    shapeName: "Triangle",
+    groupTheme: "Les Épris de Justice",
+    clue1: "Balancer du palais (Courthouse scale)",
+    clue2: "Amoureux d'équité (Lovers of fairness)"
+},
 
-    // BLUE TRIANGLE
-    {
-        id: "blueTriangle",
-        color: "#2c3e50",
-        colorName: "Bleu",
-        shape: "triangle",
-        shapeName: "Triangle",
-        groupTheme: "Les Bibliophiles",
-        clue1: "Ils aiment les histoires",
-        clue2: "Entre les pages, ils trouvent l'évasion"
-    },
-    // BLUE CIRCLE
-    {
-        id: "blueCircle",
-        color: "#2c3e50",
-        colorName: "Bleu",
-        shape: "circle",
-        shapeName: "Cercle",
-        groupTheme: "Les coureurs de fond",
-        clue1: "L'endurance est leur qualité",
-        clue2: "Ils courent des kilomètres"
-    },
-    // BLUE SQUARE
-    {
-        id: "blueSquare",
-        color: "#2c3e50",
-        colorName: "Bleu",
-        shape: "square",
-        shapeName: "Carré",
-        groupTheme: "Les créateurs de vrai contenu",
-        clue1: "Ils créent et innovent",
-        clue2: "Le contenu authentique, c'est eux"
-    },
+// BLUE TRIANGLE
+{
+    id: "blueTriangle",
+    color: "#0097e6",
+    colorName: "Bleu",
+    shape: "triangle",
+    shapeName: "Triangle",
+    groupTheme: "Sciences Po",
+    clue1: "École de la rue Saint-Guillaume (School on Saint-Guillaume street)",
+    clue2: "Futur énarque (Future civil servant)"
+},
 
-    // GREEN TRIANGLE
-    {
-        id: "greenTriangle",
-        color: "#27ae60",
-        colorName: "Vert",
-        shape: "triangle",
-        shapeName: "Triangle",
-        groupTheme: "Les oreilles fines",
-        clue1: "Ils écoutent avec attention",
-        clue2: "La musique est leur passion"
-    },
-    // GREEN CIRCLE
-    {
-        id: "greenCircle",
-        color: "#27ae60",
-        colorName: "Vert",
-        shape: "circle",
-        shapeName: "Cercle",
-        groupTheme: "Les Patissiers",
-        clue1: "La douceur est leur spécialité",
-        clue2: "Ils créent des merveilles sucrées"
-    },
-    // GREEN SQUARE
-    {
-        id: "greenSquare",
-        color: "#27ae60",
-        colorName: "Vert",
-        shape: "square",
-        shapeName: "Carré",
-        groupTheme: "Les Quadrilles",
-        clue1: "La danse traditionnelle les anime",
-        clue2: "En cadence, ils évoluent"
-    },
+// GREEN TRIANGLE
+{
+    id: "greenTriangle",
+    color: "#44bd32",
+    colorName: "Vert",
+    shape: "triangle",
+    shapeName: "Triangle",
+    groupTheme: "Les Fondateurs",
+    clue1: "Premières pierres posées (First stones laid)",
+    clue2: "Créateurs originels (Original creators)"
+},
 
-    // PURPLE TRIANGLE
-    {
-        id: "purpleTriangle",
-        color: "#8e44ad",
-        colorName: "Violet",
-        shape: "triangle",
-        shapeName: "Triangle",
-        groupTheme: "Fashion Police",
-        clue1: "Le style, c'est leur affaire",
-        clue2: "Ils savent ce qui est tendance"
-    },
-    // PURPLE CIRCLE
-    {
-        id: "purpleCircle",
-        color: "#8e44ad",
-        colorName: "Violet",
-        shape: "circle",
-        shapeName: "Cercle",
-        groupTheme: "Pet lovers <3",
-        clue1: "Les animaux sont leur faiblesse",
-        clue2: "Chiens, chats... ils les adorent tous"
-    },
-    // PURPLE SQUARE
-    {
-        id: "purpleSquare",
-        color: "#8e44ad",
-        colorName: "Violet",
-        shape: "square",
-        shapeName: "Carré",
-        groupTheme: "Skieurs alpins",
-        clue1: "La montagne les appelle",
-        clue2: "Sur les pistes, ils dévalent"
-    },
+// PURPLE TRIANGLE
+{
+    id: "purpleTriangle",
+    color: "#8c7ae6",
+    colorName: "Violet",
+    shape: "triangle",
+    shapeName: "Triangle",
+    groupTheme: "Le Petit Zizi",
+    clue1: "Diminutif anatomique familier (Familiar anatomical diminutive)",
+    clue2: "Membre masculin en miniature (Miniature male member)"
+},
 
-    // ORANGE TRIANGLE
-    {
-        id: "orangeTriangle",
-        color: "#f39c12",
-        colorName: "Orange",
-        shape: "triangle",
-        shapeName: "Triangle",
-        groupTheme: "Start-up nation",
-        clue1: "L'entrepreneuriat les anime",
-        clue2: "Ils innovent et entreprennent"
-    },
-    // ORANGE CIRCLE
-    {
-        id: "orangeCircle",
-        color: "#f39c12",
-        colorName: "Orange",
-        shape: "circle",
-        shapeName: "Cercle",
-        groupTheme: "The Conor McGregor FanClub",
-        clue1: "Un combattant les inspire",
-        clue2: "L'Irlandais au style flamboyant"
-    },
-    // ORANGE SQUARE
-    {
-        id: "orangeSquare",
-        color: "#f39c12",
-        colorName: "Orange",
-        shape: "square",
-        shapeName: "Carré",
-        groupTheme: "The Finance Club",
-        clue1: "Les chiffres, c'est leur domaine",
-        clue2: "L'économie n'a pas de secret pour eux"
-    },
+// BLACK TRIANGLE
+{
+    id: "blackTriangle",
+    color: "#2c2c54",
+    colorName: "Noir",
+    shape: "triangle",
+    shapeName: "Triangle",
+    groupTheme: "Les amis d'Antoine Dupont",
+    clue1: "Capitaine du Stade Toulousain (Captain of Toulouse Stadium)",
+    clue2: "Fans du demi de mêlée (Scrum-half fans)"
+},
 
-    // PINK TRIANGLE
-    {
-        id: "pinkTriangle",
-        color: "#e91e63",
-        colorName: "Rose",
-        shape: "triangle",
-        shapeName: "Triangle",
-        groupTheme: "Русские связи (The Russian Connexion)",
-        clue1: "De l'Est, ils viennent",
-        clue2: "Une culture riche les unit"
-    },
-    // PINK CIRCLE
-    {
-        id: "pinkCircle",
-        color: "#e91e63",
-        colorName: "Rose",
-        shape: "circle",
-        shapeName: "Cercle",
-        groupTheme: "Ricard & Pétanque",
-        clue1: "L'apéritif et le jeu traditionnel",
-        clue2: "Sous le soleil du Midi"
-    },
-    // PINK SQUARE
-    {
-        id: "pinkSquare",
-        color: "#e91e63",
-        colorName: "Rose",
-        shape: "square",
-        shapeName: "Carré",
-        groupTheme: "Footix",
-        clue1: "Le sport, c'est la vie",
-        clue2: "Ils encouragent leurs équipes"
-    },
+// ORANGE TRIANGLE
+{
+    id: "orangeTriangle",
+    color: "#ff6348",
+    colorName: "Orange",
+    shape: "triangle",
+    shapeName: "Triangle",
+    groupTheme: "Les Bibliophiles",
+    clue1: "Dévoreurs de Gutenberg (Gutenberg devourers)",
+    clue2: "Amateurs de livres (Book lovers)"
+},
 
-    // YELLOW TRIANGLE
-    {
-        id: "yellowTriangle",
-        color: "#f1c40f",
-        colorName: "Jaune",
-        shape: "triangle",
-        shapeName: "Triangle",
-        groupTheme: "Grands Commis du Service Pub",
-        clue1: "Communication et créativité",
-        clue2: "Ils font parler des marques"
-    },
-    // YELLOW CIRCLE
-    {
-        id: "yellowCircle",
-        color: "#f1c40f",
-        colorName: "Jaune",
-        shape: "circle",
-        shapeName: "Cercle",
-        groupTheme: "Les Fabriquants",
-        clue1: "De leurs mains naissent les objets",
-        clue2: "Créer et fabriquer, c'est leur art"
-    },
-    // YELLOW SQUARE
-    {
-        id: "yellowSquare",
-        color: "#f1c40f",
-        colorName: "Jaune",
-        shape: "square",
-        shapeName: "Carré",
-        groupTheme: "Nos cavaliers préférés",
-        clue1: "L'équitation est leur passion",
-        clue2: "Avec les chevaux, ils sont complices"
-    },
+// RED SQUARE
+{
+    id: "redSquare",
+    color: "#c23616",
+    colorName: "Rouge",
+    shape: "square",
+    shapeName: "Carré",
+    groupTheme: "Les coureurs de fond",
+    clue1: "Champions de l'endurance longue (Long endurance champions)",
+    clue2: "Spécialistes du marathon (Marathon specialists)"
+},
 
-    // TEAL TRIANGLE
-    {
-        id: "tealTriangle",
-        color: "#1abc9c",
-        colorName: "Turquoise",
-        shape: "triangle",
-        shapeName: "Triangle",
-        groupTheme: "Nos coachs sportifs",
-        clue1: "Le sport, ils l'enseignent",
-        clue2: "Ils motivent et accompagnent"
-    },
-    // TEAL CIRCLE
-    {
-        id: "tealCircle",
-        color: "#1abc9c",
-        colorName: "Turquoise",
-        shape: "circle",
-        shapeName: "Cercle",
-        groupTheme: "Le Petit Zizi",
-        clue1: "Un nom qui fait sourire",
-        clue2: "L'humour est leur force"
-    },
-    // TEAL SQUARE
-    {
-        id: "tealSquare",
-        color: "#1abc9c",
-        colorName: "Turquoise",
-        shape: "square",
-        shapeName: "Carré",
-        groupTheme: "Les amis d'Antoine Dupont",
-        clue1: "Le rugby, c'est leur passion",
-        clue2: "Ils suivent le meilleur demi de mêlée"
-    }
+// BLUE SQUARE
+{
+    id: "blueSquare",
+    color: "#0097e6",
+    colorName: "Bleu",
+    shape: "square",
+    shapeName: "Carré",
+    groupTheme: "Les créateurs de vrai contenu",
+    clue1: "Anti-superficialité numérique (Anti-digital superficiality)",
+    clue2: "Producteurs authentiques (Authentic producers)"
+},
+
+// GREEN SQUARE
+{
+    id: "greenSquare",
+    color: "#44bd32",
+    colorName: "Vert",
+    shape: "square",
+    shapeName: "Carré",
+    groupTheme: "Grands Commis du Service Pub",
+    clue1: "Hauts fonctionnaires publicitaires (Senior advertising civil servants)",
+    clue2: "Élite de la réclame (Advertising elite)"
+},
+
+// PURPLE SQUARE
+{
+    id: "purpleSquare",
+    color: "#8c7ae6",
+    colorName: "Violet",
+    shape: "square",
+    shapeName: "Carré",
+    groupTheme: "Les Fabriquants",
+    clue1: "Ouvriers de la production (Production workers)",
+    clue2: "Créateurs manufacturiers (Manufacturing creators)"
+},
+
+// BLACK SQUARE
+{
+    id: "blackSquare",
+    color: "#2c2c54",
+    colorName: "Noir",
+    shape: "square",
+    shapeName: "Carré",
+    groupTheme: "Les oreilles fines",
+    clue1: "Ouïe d'audiophile expert (Expert audiophile hearing)",
+    clue2: "Sens auditif développé (Developed hearing sense)"
+},
+
+// ORANGE SQUARE
+{
+    id: "orangeSquare",
+    color: "#ff6348",
+    colorName: "Orange",
+    shape: "square",
+    shapeName: "Carré",
+    groupTheme: "Les Patissiers",
+    clue1: "Artisans des mille-feuilles (Thousand-layer craftsmen)",
+    clue2: "Maîtres des gâteaux (Cake masters)"
+},
+
+// RED DIAMOND
+{
+    id: "redDiamond",
+    color: "#c23616",
+    colorName: "Rouge",
+    shape: "diamond",
+    shapeName: "Losange",
+    groupTheme: "Les Quadrilles",
+    clue1: "Danse de cour en carré (Square court dance)",
+    clue2: "Formation de quatre couples (Four couples formation)"
+},
+
+// BLUE DIAMOND
+{
+    id: "blueDiamond",
+    color: "#0097e6",
+    colorName: "Bleu",
+    shape: "diamond",
+    shapeName: "Losange",
+    groupTheme: "Nos cavaliers préférés",
+    clue1: "Maîtres de l'art équestre aimés (Beloved equestrian art masters)",
+    clue2: "Champions à cheval chouchous (Favorite horse champions)"
+},
+
+// GREEN DIAMOND
+{
+    id: "greenDiamond",
+    color: "#44bd32",
+    colorName: "Vert",
+    shape: "diamond",
+    shapeName: "Losange",
+    groupTheme: "Nos coachs sportifs",
+    clue1: "Entraîneurs de notre condition physique (Our fitness trainers)",
+    clue2: "Professeurs de sport personnels (Personal sports teachers)"
+},
+
+// PURPLE DIAMOND
+{
+    id: "purpleDiamond",
+    color: "#8c7ae6",
+    colorName: "Violet",
+    shape: "diamond",
+    shapeName: "Losange",
+    groupTheme: "Fashion Police",
+    clue1: "Gendarmes du style vestimentaire (Style enforcement officers)",
+    clue2: "Police de la mode (Fashion police)"
+},
+
+// BLACK DIAMOND
+{
+    id: "blackDiamond",
+    color: "#2c2c54",
+    colorName: "Noir",
+    shape: "diamond",
+    shapeName: "Losange",
+    groupTheme: "Pet lovers <3",
+    clue1: "Adorateurs d'animaux domestiques (Domestic animal worshippers)",
+    clue2: "Amoureux des compagnons à quatre pattes (Four-legged companion lovers)"
+},
+
+// ORANGE DIAMOND
+{
+    id: "orangeDiamond",
+    color: "#ff6348",
+    colorName: "Orange",
+    shape: "diamond",
+    shapeName: "Losange",
+    groupTheme: "Skieurs alpins",
+    clue1: "Glisseurs des pentes montagneuses (Mountain slope gliders)",
+    clue2: "Sportifs des sommets enneigés (Snowy summit athletes)"
+},
+
+// RED CIRCLE
+{
+    id: "redCircle",
+    color: "#c23616",
+    colorName: "Rouge",
+    shape: "circle",
+    shapeName: "Cercle",
+    groupTheme: "NBA",
+    clue1: "Ligue américaine du ballon orange (American orange ball league)",
+    clue2: "Association nationale de basket (National Basketball Association)"
+},
+
+// BLUE CIRCLE
+{
+    id: "blueCircle",
+    color: "#0097e6",
+    colorName: "Bleu",
+    shape: "circle",
+    shapeName: "Cercle",
+    groupTheme: "The Conor McGregor FanClub",
+    clue1: "Supporters du Notorious irlandais (Irish Notorious supporters)",
+    clue2: "Fans du combattant de Dublin (Dublin fighter fans)"
+},
+
+// GREEN CIRCLE
+{
+    id: "greenCircle",
+    color: "#44bd32",
+    colorName: "Vert",
+    shape: "circle",
+    shapeName: "Cercle",
+    groupTheme: "Русские связи (The Russian Connexion)",
+    clue1: "Réseau de l'Est européen (Eastern European network)",
+    clue2: "Connexions slaves mystérieuses (Mysterious Slavic connections)"
+},
+
+// PURPLE CIRCLE
+{
+    id: "purpleCircle",
+    color: "#8c7ae6",
+    colorName: "Violet",
+    shape: "circle",
+    shapeName: "Cercle",
+    groupTheme: "Ricard & Pétanque",
+    clue1: "Pastis et boules provençales (Pastis and Provençal balls)",
+    clue2: "Apéritif et jeu de Marseille (Aperitif and Marseille game)"
+},
+
+// BLACK CIRCLE
+{
+    id: "blackCircle",
+    color: "#2c2c54",
+    colorName: "Noir",
+    shape: "circle",
+    shapeName: "Cercle",
+    groupTheme: "Footix",
+    clue1: "Supporters pseudo-experts du ballon rond (Pseudo-expert round ball supporters)",
+    clue2: "Faux amateurs de football (Fake football enthusiasts)"
+}
 ];
 
 // Guest list with group assignments
 const guestList = [
-    // Ceux du Barreau... (Red Triangle)
-    { name: "Héloïse", id: 1, group: "redTriangle" },
-    { name: "Tigran", id: 2, group: "redTriangle" },
-    { name: "Ahmed", id: 3, group: "redTriangle" },
-    { name: "Antoine G.", id: 4, group: "redTriangle" },
-    { name: "Anaïs", id: 5, group: "redTriangle" },
-
-    // Gourmet cuisine (Red Circle)
-    { name: "Petia", id: 6, group: "redCircle" },
-    { name: "Mathilde SDS.", id: 7, group: "redCircle" },
-    { name: "Nadia A.", id: 8, group: "redCircle" },
-    { name: "Baptiste M.", id: 9, group: "redCircle" },
-    { name: "Alexandra B.", id: 10, group: "redCircle" },
-
-    // Green Tea(m) (Red Square)
-    { name: "François", id: 24, group: "redSquare" },
-    { name: "Clovis", id: 25, group: "redSquare" },
-
-    // Fashion Police (Purple Triangle)
-    { name: "Rebecca", id: 65, group: "purpleTriangle" },
-    { name: "Laura", id: 66, group: "purpleTriangle" },
-    { name: "Fanny", id: 67, group: "purpleTriangle" },
-    { name: "Hugo", id: 68, group: "purpleTriangle" },
-    { name: "Audrey", id: 69, group: "purpleTriangle" },
-
-    // Footix (Pink Square)
-    { name: "Pauline", id: 11, group: "pinkSquare" },
-    { name: "Donald", id: 12, group: "pinkSquare" },
-    { name: "Ilan", id: 13, group: "pinkSquare" },
-    { name: "Maxime L.", id: 14, group: "pinkSquare" },
-    { name: "Shane", id: 15, group: "pinkSquare" },
-    { name: "Kévin", id: 16, group: "pinkSquare" },
-
-    // Grands Commis du Service Pub (Yellow Triangle)
-    { name: "Brigitte", id: 17, group: "yellowTriangle" },
-    { name: "Alice", id: 18, group: "yellowTriangle" },
-    { name: "Thanh-Bao", id: 19, group: "yellowTriangle" },
-    { name: "Thiago", id: 20, group: "yellowTriangle" },
-    { name: "Louise-Adélie", id: 21, group: "yellowTriangle" },
-    { name: "Suzanne", id: 22, group: "yellowTriangle" },
-    { name: "Pierre-Louis", id: 23, group: "yellowTriangle" },
-
-    // Les amis d'Antoine Dupont (Teal Square)
-    { name: "Quentin", id: 26, group: "tealSquare" },
-    { name: "Guillaume S.", id: 27, group: "tealSquare" },
-    { name: "Thomas", id: 28, group: "tealSquare" },
-    { name: "Alix", id: 29, group: "tealSquare" },
-    { name: "Pauric", id: 30, group: "tealSquare" },
-
-    // Les Bibliophiles (Blue Triangle)
-    { name: "Germain", id: 31, group: "blueTriangle" },
-    { name: "Ophélie", id: 32, group: "blueTriangle" },
-    { name: "Timothée", id: 33, group: "blueTriangle" },
-    { name: "Guillaume D.", id: 34, group: "blueTriangle" },
-    { name: "Igor", id: 35, group: "blueTriangle" },
-
-    // Les coureurs de fond (Blue Circle)
-    { name: "Anne", id: 36, group: "blueCircle" },
-    { name: "Jeanne-Lise", id: 37, group: "blueCircle" },
-    { name: "Guillaume RV.", id: 38, group: "blueCircle" },
-    { name: "Emmanuel", id: 39, group: "blueCircle" },
-
-    // Les créateurs de vrai contenu (Blue Square)
-    { name: "Laurent", id: 40, group: "blueSquare" },
-    { name: "Arthur", id: 41, group: "blueSquare" },
-    { name: "David", id: 42, group: "blueSquare" },
-    { name: "Marie-Alix", id: 43, group: "blueSquare" },
-    { name: "Rowan", id: 44, group: "blueSquare" },
-
-    // Les Fabriquants (Yellow Circle)
-    { name: "Solène", id: 45, group: "yellowCircle" },
-    { name: "Théo", id: 46, group: "yellowCircle" },
-    { name: "Manon", id: 47, group: "yellowCircle" },
-    { name: "Amélie", id: 48, group: "yellowCircle" },
-
-    // Les oreilles fines (Green Triangle)
-    { name: "Katharina", id: 49, group: "greenTriangle" },
-    { name: "Orlando", id: 50, group: "greenTriangle" },
-    { name: "Antoine C.", id: 51, group: "greenTriangle" },
-    { name: "Luis", id: 52, group: "greenTriangle" },
-    { name: "Rémi", id: 53, group: "greenTriangle" },
-    { name: "Laureen", id: 54, group: "greenTriangle" },
-
-    // Les Patissiers (Green Circle)
-    { name: "Willy", id: 55, group: "greenCircle" },
-    { name: "Elvire", id: 56, group: "greenCircle" },
-    { name: "Agathe", id: 57, group: "greenCircle" },
-    { name: "Naomi", id: 58, group: "greenCircle" },
-
-    // Les Quadrilles (Green Square)
-    { name: "Jacques", id: 59, group: "greenSquare" },
-    { name: "Amandine", id: 60, group: "greenSquare" },
-    { name: "Stefano", id: 61, group: "greenSquare" },
-    { name: "Charlotte", id: 62, group: "greenSquare" },
-    { name: "Alexandra O.", id: 63, group: "greenSquare" },
-    { name: "Estelle", id: 64, group: "greenSquare" },
-
-    // Nos coachs sportifs (Teal Triangle)
-    { name: "Orane", id: 70, group: "tealTriangle" },
-    { name: "Bo", id: 71, group: "tealTriangle" },
-    { name: "Graham", id: 72, group: "tealTriangle" },
-    { name: "Félix", id: 73, group: "tealTriangle" },
-    { name: "Baptiste P.", id: 74, group: "tealTriangle" },
-    { name: "Ciaran", id: 75, group: "tealTriangle" },
-
-    // Pet lovers <3 (Purple Circle)
-    { name: "Perla", id: 76, group: "purpleCircle" },
-    { name: "Mikhaël", id: 77, group: "purpleCircle" },
-    { name: "Tiziana", id: 78, group: "purpleCircle" },
-    { name: "Magdalena", id: 79, group: "purpleCircle" },
-    { name: "Jessica", id: 80, group: "purpleCircle" },
-    { name: "Claire", id: 81, group: "purpleCircle" },
-
-    // Ricard & Pétanque (Pink Circle)
-    { name: "Patrick", id: 82, group: "pinkCircle" },
-    { name: "Morin", id: 83, group: "pinkCircle" },
-    { name: "Joël", id: 84, group: "pinkCircle" },
-    { name: "Victor", id: 85, group: "pinkCircle" },
-
-    // Skieurs alpins (Purple Square)
-    { name: "Marie", id: 86, group: "purpleSquare" },
-    { name: "Christine", id: 87, group: "purpleSquare" },
-    { name: "Camille", id: 88, group: "purpleSquare" },
-    { name: "Marianne", id: 89, group: "purpleSquare" },
-    { name: "John", id: 90, group: "purpleSquare" },
-
-    // The Conor McGregor FanClub (Orange Circle)
-    { name: "Jonathan", id: 91, group: "orangeCircle" },
-    { name: "Noé", id: 92, group: "orangeCircle" },
-    { name: "Antoine R.", id: 93, group: "orangeCircle" },
-    { name: "Matthieu", id: 94, group: "orangeCircle" },
-
-    // The Finance Club (Orange Square)
-    { name: "Yasmina", id: 95, group: "orangeSquare" },
-    { name: "Mathieu", id: 96, group: "orangeSquare" },
-    { name: "Alexis G.", id: 97, group: "orangeSquare" },
-    { name: "Chris", id: 98, group: "orangeSquare" },
-    { name: "Dan", id: 99, group: "orangeSquare" },
-
-    // Русские связи (Pink Triangle)
-    { name: "Gyuzel", id: 100, group: "pinkTriangle" },
-    { name: "Nadia B.", id: 101, group: "pinkTriangle" },
-    { name: "Gabriel", id: 102, group: "pinkTriangle" },
-    { name: "Anastasiia", id: 103, group: "pinkTriangle" },
-
-    // Start-up nation (Orange Triangle)
-    { name: "Tristan", id: 104, group: "orangeTriangle" },
-    { name: "Jules", id: 105, group: "orangeTriangle" },
-    { name: "Maxime H.", id: 106, group: "orangeTriangle" },
-    { name: "Cédric", id: 107, group: "orangeTriangle" },
-
-    // Le Petit Zizi (Teal Circle)
-    { name: "Léa", id: 108, group: "tealCircle" },
-    { name: "Alexis", id: 109, group: "tealCircle" },
-    { name: "Cécile", id: 110, group: "tealCircle" },
-    { name: "Hélène", id: 111, group: "tealCircle" },
-    { name: "Marwan", id: 112, group: "tealCircle" },
-    { name: "Sarah", id: 113, group: "tealCircle" },
-    { name: "Nathalie", id: 114, group: "tealCircle" },
-    { name: "Alexis B.", id: 115, group: "tealCircle" }
+    { name: Alexandra B., id:  1 , group: purpleDiamond },
+    { name: Baptiste M., id:  2 , group: purpleDiamond },
+    { name: Mathilde SDS., id:  3 , group: purpleDiamond },
+    { name: Nadia A., id:  4 , group: purpleDiamond },
+    { name: Petia, id:  5 , group: purpleDiamond },
+    { name: Ilan, id:  6 , group: blackCircle },
+    { name: Maxime L., id:  7 , group: blackCircle },
+    { name: Pauline, id:  8 , group: blackCircle },
+    { name: Shane, id:  9 , group: blackCircle },
+    { name: Stefano, id:  10 , group: blackCircle },
+    { name: Dan, id:  11 , group: blackCircle },
+    { name: Brigitte, id:  12 , group: greenSquare },
+    { name: Louise-Adélie, id:  13 , group: greenSquare },
+    { name: Pierre-Louis, id:  14 , group: greenSquare },
+    { name: Suzanne, id:  15 , group: greenSquare },
+    { name: Thanh-Bao, id:  16 , group: greenSquare },
+    { name: Thiago, id:  17 , group: greenSquare },
+    { name: Clovis, id:  18 , group: purpleTriangle },
+    { name: Alix, id:  19 , group: blackTriangle },
+    { name: Guillaume S., id:  20 , group: blackTriangle },
+    { name: Pauric, id:  21 , group: blackTriangle },
+    { name: Quentin, id:  22 , group: blackTriangle },
+    { name: Thomas, id:  23 , group: blackTriangle },
+    { name: Igor, id:  24 , group: orangeTriangle },
+    { name: Léa, id:  25 , group: orangeTriangle },
+    { name: Ophélie, id:  26 , group: orangeTriangle },
+    { name: Timothée, id:  27 , group: orangeTriangle },
+    { name: Tiziana, id:  28 , group: orangeTriangle },
+    { name: Anne, id:  29 , group: redSquare },
+    { name: Emmanuel, id:  30 , group: redSquare },
+    { name: Guillaume RV., id:  31 , group: redSquare },
+    { name: Jeanne-Lise, id:  32 , group: redSquare },
+    { name: Marwan, id:  33 , group: redSquare },
+    { name: Mathieu, id:  34 , group: redSquare },
+    { name: Arthur, id:  35 , group: blueSquare },
+    { name: David, id:  36 , group: blueSquare },
+    { name: Laurent, id:  37 , group: blueSquare },
+    { name: Marie-Alix, id:  38 , group: blueSquare },
+    { name: Rowan, id:  39 , group: blueSquare },
+    { name: Ahmed, id:  40 , group: redTriangle },
+    { name: Anaïs, id:  41 , group: redTriangle },
+    { name: Antoine G., id:  42 , group: redTriangle },
+    { name: Héloïse, id:  43 , group: redTriangle },
+    { name: Tigran, id:  44 , group: redTriangle },
+    { name: Amélie, id:  45 , group: purpleSquare },
+    { name: Manon, id:  46 , group: purpleSquare },
+    { name: Solène, id:  47 , group: purpleSquare },
+    { name: Théo, id:  48 , group: purpleSquare },
+    { name: Jules, id:  49 , group: greenTriangle },
+    { name: Luis, id:  50 , group: greenTriangle },
+    { name: Maxime H., id:  51 , group: greenTriangle },
+    { name: Sarah, id:  52 , group: greenTriangle },
+    { name: Antoine C., id:  53 , group: blackSquare },
+    { name: Katharina, id:  54 , group: blackSquare },
+    { name: Laureen, id:  55 , group: blackSquare },
+    { name: Orlando, id:  56 , group: blackSquare },
+    { name: Rémi, id:  57 , group: blackSquare },
+    { name: Agathe, id:  58 , group: orangeSquare },
+    { name: Elvire, id:  59 , group: orangeSquare },
+    { name: Guillaume D., id:  60 , group: orangeSquare },
+    { name: Naomi, id:  61 , group: orangeSquare },
+    { name: Willy, id:  62 , group: orangeSquare },
+    { name: Alexandra O., id:  63 , group: redDiamond },
+    { name: Amandine, id:  64 , group: redDiamond },
+    { name: Charlotte, id:  65 , group: redDiamond },
+    { name: Estelle, id:  66 , group: redDiamond },
+    { name: Jacques, id:  67 , group: redDiamond },
+    { name: François, id:  68 , group: redCircle },
+    { name: Donald, id:  69 , group: redCircle },
+    { name: Kévin, id:  70 , group: redCircle },
+    { name: Morin, id:  71 , group: redCircle },
+    { name: Tristan, id:  72 , group: redCircle },
+    { name: Audrey, id:  73 , group: blueDiamond },
+    { name: Fanny, id:  74 , group: blueDiamond },
+    { name: Hugo, id:  75 , group: blueDiamond },
+    { name: Laura, id:  76 , group: blueDiamond },
+    { name: Rebecca, id:  77 , group: blueDiamond },
+    { name: Baptiste P., id:  78 , group: greenDiamond },
+    { name: Bo, id:  79 , group: greenDiamond },
+    { name: Ciaran, id:  80 , group: greenDiamond },
+    { name: Félix, id:  81 , group: greenDiamond },
+    { name: Graham, id:  82 , group: greenDiamond },
+    { name: Orane, id:  83 , group: greenDiamond },
+    { name: Claire, id:  84 , group: blackDiamond },
+    { name: Jessica, id:  85 , group: blackDiamond },
+    { name: Magdalena, id:  86 , group: blackDiamond },
+    { name: Mikhaël, id:  87 , group: blackDiamond },
+    { name: Perla, id:  88 , group: blackDiamond },
+    { name: Alexis G., id:  89 , group: purpleCircle },
+    { name: Chris, id:  90 , group: purpleCircle },
+    { name: Hélène, id:  91 , group: purpleCircle },
+    { name: Joël, id:  92 , group: purpleCircle },
+    { name: Patrick, id:  93 , group: purpleCircle },
+    { name: Victor, id:  94 , group: purpleCircle },
+    { name: Alexis B., id:  95 , group: blueTriangle },
+    { name: Alice, id:  96 , group: blueTriangle },
+    { name: Germain, id:  97 , group: blueTriangle },
+    { name: Nathalie, id:  98 , group: blueTriangle },
+    { name: Yasmina, id:  99 , group: blueTriangle },
+    { name: Camille, id:  100 , group: orangeDiamond },
+    { name: Christine, id:  101 , group: orangeDiamond },
+    { name: John, id:  102 , group: orangeDiamond },
+    { name: Marianne, id:  103 , group: orangeDiamond },
+    { name: Marie, id:  104 , group: orangeDiamond },
+    { name: Antoine R., id:  105 , group: blueCircle },
+    { name: Cédric, id:  106 , group: blueCircle },
+    { name: Jonathan, id:  107 , group: blueCircle },
+    { name: Matthieu, id:  108 , group: blueCircle },
+    { name: Noé, id:  109 , group: blueCircle },
+    { name: Anastasiia, id:  110 , group: greenCircle },
+    { name: Gabriel, id:  111 , group: greenCircle },
+    { name: Gyuzel, id:  112 , group: greenCircle },
+    { name: Nadia B., id:  113 , group: greenCircle }
 ];
 
 console.log("Data loaded, guest count:", guestList.length);
