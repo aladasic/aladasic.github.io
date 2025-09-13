@@ -236,7 +236,7 @@
             background-color: white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             display: none;
-            position: relative;
+            position: absolute;
             left: 0;
             right: 0;
             z-index: 1000;
@@ -452,10 +452,10 @@
         <!-- Welcome Section (initially visible) -->
         <div id="welcomeSection" class="welcome-section">
             <h2>Bienvenue !</h2>
-            <p>Découvre ta carte (Discover your card)</p>
+            <p>Veuillez entrer votre prénom</p>
 
             <div class="input-section">
-                <input type="text" id="nameInput" placeholder="Entrez votre prénom, enter your first name">
+                <input type="text" id="nameInput" placeholder="Entrez votre prénom">
                 <div id="nameList" class="name-list"></div>
             </div>
         </div>
@@ -466,7 +466,7 @@
                 <div id="card" class="card">
                     <div class="card-front">
                         <div class="card-title">C & A</div>
-                        <div class="card-instruction">Click</div>
+                        <div class="card-instruction">Cliquez pour découvrir</div>
                         <div class="card-label" id="guestName">Invité</div>
                     </div>
                     <div class="card-back">
@@ -482,13 +482,13 @@
             <div class="instructions">
                 <h3>Instructions :</h3>
                 <ol>
-                    <li>Retrouver les invités avec qui vous partagez le symbole et sa couleur (Find guests with whom you share the symbol and its color)</li>
-                    <li>Découvrer ce qui vous lie, à l'aide d'indices si besoin ! (Uncover what brings you together, with clues if need be !)</li>
-                    <li>Partagez vos photos au 2e QR code (Share your pics with the 2nd QR code!)</li>
+                    <li>Rejoignez les personnes de votre couleur pour la cérémonie</li>
+                    <li>Trouvez ensuite les personnes qui ont la même forme que vous pour le cocktail</li>
+                    <li>Ensemble, découvrez le point commun de votre groupe (indices ci-dessous si besoin)</li>
                 </ol>
             </div>
 
-            <button class="clue-button" id="clueBtn">Besoin d'un indice ? (Need a clue ?)</button>
+            <button class="clue-button" id="clueBtn">Besoin d'un indice ?</button>
             <div class="clue" id="clue1">
                 <strong>Indice 1 :</strong> <span id="clue1Text"></span>
             </div>
@@ -518,8 +518,8 @@ const groups = [
     shape: "triangle",
     shapeName: "Triangle",
     groupTheme: "Les Épris de Justice",
-    clue1: "Le PGD est Votre PGCD",
-    clue2: "Carcassonne, Mais Pas la Ville"
+    clue1: "Balancer du palais (Courthouse scale)",
+    clue2: "Amoureux d'équité (Lovers of fairness)"
 },
 
 // BLUE TRIANGLE
@@ -529,9 +529,9 @@ const groups = [
     colorName: "Bleu",
     shape: "triangle",
     shapeName: "Triangle",
-    groupTheme: "Sciences (Pi)Po",
-    clue1: "Derrière ou Devant le Pupitre",
-    clue2: "Le Lion et Le Renard"
+    groupTheme: "Sciences Po",
+    clue1: "École de la rue Saint-Guillaume (School on Saint-Guillaume street)",
+    clue2: "Futur énarque (Future civil servant)"
 },
 
 // GREEN TRIANGLE
@@ -542,8 +542,8 @@ const groups = [
     shape: "triangle",
     shapeName: "Triangle",
     groupTheme: "Les Fondateurs",
-    clue1: "Initiateurs de ce qui les Dépasse (Starters of Bigger Things)",
-    clue2: "Leaders & Mentors"
+    clue1: "Premières pierres posées (First stones laid)",
+    clue2: "Créateurs originels (Original creators)"
 },
 
 // PURPLE TRIANGLE
@@ -553,9 +553,9 @@ const groups = [
     colorName: "Violet",
     shape: "triangle",
     shapeName: "Triangle",
-    groupTheme: "Le Petit Zizi (Lol... rejoue à Charlemagne!)",
-    clue1: "Ambitions Manquées",
-    clue2: "L'engin miniature"
+    groupTheme: "Le Petit Zizi",
+    clue1: "Diminutif anatomique familier (Familiar anatomical diminutive)",
+    clue2: "Membre masculin en miniature (Miniature male member)"
 },
 
 // BLACK TRIANGLE
@@ -565,9 +565,9 @@ const groups = [
     colorName: "Noir",
     shape: "triangle",
     shapeName: "Triangle",
-    groupTheme: "Les Amis d'Antoine Dupont",
-    clue1: "7 à 15 (7 to 15)",
-    clue2: "L'Oval > Le Rond (Oval > Round)"
+    groupTheme: "Les amis d'Antoine Dupont",
+    clue1: "Capitaine du Stade Toulousain (Captain of Toulouse Stadium)",
+    clue2: "Fans du demi de mêlée (Scrum-half fans)"
 },
 
 // ORANGE TRIANGLE
@@ -578,8 +578,8 @@ const groups = [
     shape: "triangle",
     shapeName: "Triangle",
     groupTheme: "Les Bibliophiles",
-    clue1: "Entasseurs de Papiers",
-    clue2: "La Vraie Vie Dirait Proust"
+    clue1: "Dévoreurs de Gutenberg (Gutenberg devourers)",
+    clue2: "Amateurs de livres (Book lovers)"
 },
 
 // RED SQUARE
@@ -589,9 +589,9 @@ const groups = [
     colorName: "Rouge",
     shape: "square",
     shapeName: "Carré",
-    groupTheme: "Les Coureurs De Fond",
-    clue1: "Doubleurs De Diniz",
-    clue2: "Sorties Courtes, Sorties Longues"
+    groupTheme: "Les coureurs de fond",
+    clue1: "Champions de l'endurance longue (Long endurance champions)",
+    clue2: "Spécialistes du marathon (Marathon specialists)"
 },
 
 // BLUE SQUARE
@@ -601,9 +601,9 @@ const groups = [
     colorName: "Bleu",
     shape: "square",
     shapeName: "Carré",
-    groupTheme: "Les Créateurs De Vrai Contenu",
-    clue1: "Influenceurs de Passion (Passion Influencers)",
-    clue2: "Pas Toujours Sur Vos Écrans (Not Always On-Screen)"
+    groupTheme: "Les créateurs de vrai contenu",
+    clue1: "Anti-superficialité numérique (Anti-digital superficiality)",
+    clue2: "Producteurs authentiques (Authentic producers)"
 },
 
 // GREEN SQUARE
@@ -614,8 +614,8 @@ const groups = [
     shape: "square",
     shapeName: "Carré",
     groupTheme: "Grands Commis du Service Pub",
-    clue1: "Bouzanquet, 1935",
-    clue2: "De Blum à Sauvé"
+    clue1: "Hauts fonctionnaires publicitaires (Senior advertising civil servants)",
+    clue2: "Élite de la réclame (Advertising elite)"
 },
 
 // PURPLE SQUARE
@@ -626,8 +626,8 @@ const groups = [
     shape: "square",
     shapeName: "Carré",
     groupTheme: "Les Fabriquants",
-    clue1: "Doigts de Fées",
-    clue2: "De A à Z"
+    clue1: "Ouvriers de la production (Production workers)",
+    clue2: "Créateurs manufacturiers (Manufacturing creators)"
 },
 
 // BLACK SQUARE
@@ -637,9 +637,9 @@ const groups = [
     colorName: "Noir",
     shape: "square",
     shapeName: "Carré",
-    groupTheme: "Les Fines Oreilles",
-    clue1: "Certains l'Ont Absolue",
-    clue2: "Dans la Voix ou Dans les Doigts"
+    groupTheme: "Les oreilles fines",
+    clue1: "Ouïe d'audiophile expert (Expert audiophile hearing)",
+    clue2: "Sens auditif développé (Developed hearing sense)"
 },
 
 // ORANGE SQUARE
@@ -650,8 +650,8 @@ const groups = [
     shape: "square",
     shapeName: "Carré",
     groupTheme: "Les Patissiers",
-    clue1: "Au Bon Caramel",
-    clue2: "Inspirés par Maïté"
+    clue1: "Artisans des mille-feuilles (Thousand-layer craftsmen)",
+    clue2: "Maîtres des gâteaux (Cake masters)"
 },
 
 // RED DIAMOND
@@ -662,8 +662,8 @@ const groups = [
     shape: "diamond",
     shapeName: "Losange",
     groupTheme: "Les Quadrilles",
-    clue1: "1, 2, 3, 4 !",
-    clue2: "De la Scène à la Salle de Bal (From Stage to Ballroom)"
+    clue1: "Danse de cour en carré (Square court dance)",
+    clue2: "Formation de quatre couples (Four couples formation)"
 },
 
 // BLUE DIAMOND
@@ -673,9 +673,9 @@ const groups = [
     colorName: "Bleu",
     shape: "diamond",
     shapeName: "Losange",
-    groupTheme: "Le Club du Grand Galop",
-    clue1: "Excusez-Moi & Snowball",
-    clue2: "Voltige & Saut de Haies (Volting & Steeple-chase)"
+    groupTheme: "Nos cavaliers préférés",
+    clue1: "Maîtres de l'art équestre aimés (Beloved equestrian art masters)",
+    clue2: "Champions à cheval chouchous (Favorite horse champions)"
 },
 
 // GREEN DIAMOND
@@ -685,9 +685,9 @@ const groups = [
     colorName: "Vert",
     shape: "diamond",
     shapeName: "Losange",
-    groupTheme: "Les Coachs Sportifs",
-    clue1: "Force & Bien-Être (Strenght & Well-Being)",
-    clue2: "Certains l'aiment HIIT (Some Like it HIIT)"
+    groupTheme: "Nos coachs sportifs",
+    clue1: "Entraîneurs de notre condition physique (Our fitness trainers)",
+    clue2: "Professeurs de sport personnels (Personal sports teachers)"
 },
 
 // PURPLE DIAMOND
@@ -697,9 +697,9 @@ const groups = [
     colorName: "Violet",
     shape: "diamond",
     shapeName: "Losange",
-    groupTheme: "La Fashion Police",
-    clue1: "Question de Goût (It's About Taste)",
-    clue2: "From Girlboss to Red Carpets"
+    groupTheme: "Fashion Police",
+    clue1: "Gendarmes du style vestimentaire (Style enforcement officers)",
+    clue2: "Police de la mode (Fashion police)"
 },
 
 // BLACK DIAMOND
@@ -709,9 +709,9 @@ const groups = [
     colorName: "Noir",
     shape: "diamond",
     shapeName: "Losange",
-    groupTheme: "Les Amis des Bêtes",
-    clue1: "Jamais Seuls (Never Alone)",
-    clue2: "Trick AND Treats"
+    groupTheme: "Pet lovers <3",
+    clue1: "Adorateurs d'animaux domestiques (Domestic animal worshippers)",
+    clue2: "Amoureux des compagnons à quatre pattes (Four-legged companion lovers)"
 },
 
 // ORANGE DIAMOND
@@ -721,9 +721,9 @@ const groups = [
     colorName: "Orange",
     shape: "diamond",
     shapeName: "Losange",
-    groupTheme: "Les Skieurs Alpins",
-    clue1: "A 1 ou 2 Planches (With 1 or 2 Boards)",
-    clue2: "Hors Pistes (Off-Piste)"
+    groupTheme: "Skieurs alpins",
+    clue1: "Glisseurs des pentes montagneuses (Mountain slope gliders)",
+    clue2: "Sportifs des sommets enneigés (Snowy summit athletes)"
 },
 
 // RED CIRCLE
@@ -733,9 +733,9 @@ const groups = [
     colorName: "Rouge",
     shape: "circle",
     shapeName: "Cercle",
-    groupTheme: "B-Ballers",
-    clue1: "Triple Double",
-    clue2: "Là où les Fusées Rencontrent les Cavaliers (Where Rockets Meet Cavaliers)"
+    groupTheme: "NBA",
+    clue1: "Ligue américaine du ballon orange (American orange ball league)",
+    clue2: "Association nationale de basket (National Basketball Association)"
 },
 
 // BLUE CIRCLE
@@ -745,9 +745,9 @@ const groups = [
     colorName: "Bleu",
     shape: "circle",
     shapeName: "Cercle",
-    groupTheme: "Le Conor McGregor FanClub",
-    clue1: "Gladiators des Temps Modern (Modern Days Gladiators)",
-    clue2: "Triangle Choke"
+    groupTheme: "The Conor McGregor FanClub",
+    clue1: "Supporters du Notorious irlandais (Irish Notorious supporters)",
+    clue2: "Fans du combattant de Dublin (Dublin fighter fans)"
 },
 
 // GREEN CIRCLE
@@ -758,8 +758,8 @@ const groups = [
     shape: "circle",
     shapeName: "Cercle",
     groupTheme: "Русские связи (The Russian Connexion)",
-    clue1: ""Un Rébu Enveloppé de Mystère" ("A Riddle Wrapped in a Mystery")",
-    clue2: "счастливый"
+    clue1: "Réseau de l'Est européen (Eastern European network)",
+    clue2: "Connexions slaves mystérieuses (Mysterious Slavic connections)"
 },
 
 // PURPLE CIRCLE
@@ -770,8 +770,8 @@ const groups = [
     shape: "circle",
     shapeName: "Cercle",
     groupTheme: "Ricard & Pétanque",
-    clue1: "On Dirait le Sud",
-    clue2: "Fadas du Cochonnet "
+    clue1: "Pastis et boules provençales (Pastis and Provençal balls)",
+    clue2: "Apéritif et jeu de Marseille (Aperitif and Marseille game)"
 },
 
 // BLACK CIRCLE
@@ -781,9 +781,9 @@ const groups = [
     colorName: "Noir",
     shape: "circle",
     shapeName: "Cercle",
-    groupTheme: "Les Footix",
-    clue1: "Le Rond > L'Oval (Round > Oval)",
-    clue2: "Rivaux en Passion (Rivals in Passion)"
+    groupTheme: "Footix",
+    clue1: "Supporters pseudo-experts du ballon rond (Pseudo-expert round ball supporters)",
+    clue2: "Faux amateurs de football (Fake football enthusiasts)"
 }
 ];
 
@@ -810,14 +810,14 @@ const guestList = [
         { name: "Alix", id:  19 , group: "blackTriangle" },
         { name: "Guillaume S.", id:  20 , group: "blackTriangle" },
         { name: "Pauric", id:  21 , group: "blackTriangle" },
-        { name: "Quentin", id:  22 , group: "redSquare" },
+        { name: "Quentin", id:  22 , group: "blackTriangle" },
         { name: "Thomas", id:  23 , group: "blackTriangle" },
         { name: "Igor", id:  24 , group: "orangeTriangle" },
         { name: "Léa", id:  25 , group: "orangeTriangle" },
         { name: "Ophélie", id:  26 , group: "orangeTriangle" },
         { name: "Timothée", id:  27 , group: "orangeTriangle" },
         { name: "Tiziana", id:  28 , group: "orangeTriangle" },
-        { name: "Anne", id:  29 , group: "greenTriangle" },
+        { name: "Anne", id:  29 , group: "redSquare" },
         { name: "Emmanuel", id:  30 , group: "redSquare" },
         { name: "Guillaume RV.", id:  31 , group: "redSquare" },
         { name: "Jeanne-Lise", id:  32 , group: "redSquare" },
@@ -898,11 +898,10 @@ const guestList = [
         { name: "Jonathan", id:  107 , group: "blueCircle" },
         { name: "Matthieu", id:  108 , group: "blueCircle" },
         { name: "Noé", id:  109 , group: "blueCircle" },
-        { name: "Gabriel", id:  110 , group: "greenCircle" },
-        { name: "Gyuzel", id:  111 , group: "greenCircle" },
-        { name: "Charlemagne", id:  112 , group: "purpleDiamond" },
-        { name: "Jean-Charles", id:  113 , group: "blackSquare" },
-
+        { name: "Anastasiia", id:  110 , group: "greenCircle" },
+        { name: "Gabriel", id:  111 , group: "greenCircle" },
+        { name: "Gyuzel", id:  112 , group: "greenCircle" },
+        { name: "Nadia B.", id:  113 , group: "greenCircle" }
 ];
 
 console.log("Data loaded, guest count:", guestList.length);
