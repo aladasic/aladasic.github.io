@@ -42,8 +42,14 @@
       "style",
       "summary",
       "svg",
+      "table",
+      "tbody",
+      "td",
+      "th",
+      "thead",
       "time",
       "title",
+      "tr",
       "ul"
     ],
     "classes": [
@@ -564,7 +570,6 @@
       "page-bg",
       "papers",
       "political-realignment",
-      "practice-exercises",
       "profile",
       "search",
       "search_toggle",
@@ -615,7 +620,8 @@
       "the-cultural-corner",
       "the-empirics",
       "the-theory",
-      "top"
+      "top",
+      "tutorial-exercises"
     ]
   }
 }

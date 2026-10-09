@@ -14,7 +14,17 @@ image:
 
 I am a Teaching Assistant for **ECU22032 - Mathematical and Statistical Methods B** at Trinity College Dublin. The module outline is available [here](https://www.tcd.ie/media/tcd/economics/pdfs/ECU22032-Mathematical-and-Statistical-Methods-B-26-27.pdf).
 
-Below are the materials I prepared for my tutorials.
+Below are the materials I prepared for my tutorials: the weekly exercise sheets, followed by notes on sampling theory and point estimation.
+
+## Tutorial Exercises
+
+| Week | Topic | Exercises |
+|------|-------|-----------|
+| 2 | Confidence intervals and hypothesis testing | [PDF](week2-exercises.pdf) |
+| 3 | Hypothesis testing | [PDF](week3-exercises.pdf) |
+| 4 | Type I and II errors | [PDF](week4-exercises.pdf) |
+| 5 | Two-sample statistics | [PDF](week5-exercises.pdf) |
+| 6 | Testing and confidence intervals for variances | [PDF](week6-exercises.pdf) |
 
 ## Chapter 2.1 - Sampling Theory
 
@@ -328,11 +338,6 @@ $$\text{That is, for any } \epsilon > 0:$$
 $$\lim_{n\rightarrow\infty}P(|\hat{\theta}_n - \theta| > \epsilon) = 0$$
 {{< /math >}}
 {{< /spoiler >}}
-
-## Practice Exercises
-
-[Sampling Theory](#) <!-- This will be replaced with the actual link once the spreadsheet is uploaded -->
-[Point estimation](#) <!-- This will be replaced with the actual link once the spreadsheet is uploaded -->
 
 ## Interactive Tools
 
