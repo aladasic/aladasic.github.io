@@ -1,6 +1,6 @@
 ---
-title: Statistical Inference
-summary: Sampling theory and point estimation
+title: ECU22032 - Mathematical and Statistical Methods B
+summary: Teaching Assistant, Trinity College Dublin. Sampling theory and point estimation
 date: 2025-03-01
 type: docs
 math: true
@@ -11,6 +11,10 @@ tags:
 image:
   caption: 'Statistical concepts for evidence-based decision-making'
 ---
+
+I am a Teaching Assistant for **ECU22032 - Mathematical and Statistical Methods B** at Trinity College Dublin. The module outline is available [here](https://www.tcd.ie/media/tcd/economics/pdfs/ECU22032-Mathematical-and-Statistical-Methods-B-26-27.pdf).
+
+Below are the materials I prepared for my tutorials.
 
 ## Chapter 2.1 - Sampling Theory
 

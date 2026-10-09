@@ -20,7 +20,7 @@ superuser: true
 highlight_name: true
 
 # Role/position/tagline
-role: Senior Economist
+role: Economics Advisor
 
 # Organizations/Affiliations to display in Biography blox
 organizations:
@@ -75,12 +75,20 @@ education:
       Courses included:
       - Topology, Optimization, Numerical Method
 work:
+  - position: Economics Advisor (Research Collaboration Unit)
+    company_name: Central Bank of Ireland
+    company_url: 'https://www.centralbank.ie/'
+    company_logo: ''
+    date_start: 2026-09-01
+    date_end: ''
+    summary: |
+      - Managing the delivery of the Bank's research agenda, both internally and externally.
   - position: Senior Economist (EU&International Function)
     company_name: Central Bank of Ireland
     company_url: 'https://www.centralbank.ie/'
     company_logo: ''
     date_start: 2025-02-01
-    date_end: ''
+    date_end: 2026-09-01
     summary: |
       - In charge of the central bank's contribution to the IMF Article IV mission and IMF FSAP. 
       - Leading a team responsible for the preparation of EU committees (EFC, SCIMF, IRC)
@@ -179,4 +187,4 @@ languages:
 
 ## About Me
 
-Hi ! I'm a 5 years' experienced public servant with a background in finance and public policies. I have worked in the private sector within financial markets (Goldman Sachs) and the tech sector (AWS), but i have spent most of my time in the public sector (French Ministry of Finance, French Central Bank and Central Bank of Ireland). My experience to date has focused on promoting international financial stability, public regulatory and economic interests. These are also the fields that I am interested in for my part-time PhD @Trinity, when I'm not taking care of my lovely cat, Isadora. Views expressed are my own. Feel free to get in touch - AL
+Hi ! I'm a public servant with 7 years' experience and a background in finance and public policies. I have worked in the private sector within financial markets (Goldman Sachs) and the tech sector (AWS), but i have spent most of my time in the public sector (French Ministry of Finance, French Central Bank and Central Bank of Ireland). Since September 2026, I have been an Economics Advisor in the Research Collaboration Unit of the Central Bank of Ireland, where I manage the delivery of the Bank's research agenda both internally and externally. My experience to date has focused on promoting international financial stability, public regulatory and economic interests. These are also the fields that I am interested in for my part-time PhD @Trinity, when I'm not taking care of my lovely cat, Isadora. Views expressed are my own. Feel free to get in touch - AL
