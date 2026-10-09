@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Parité Resto — effort économique · Michelin Value Explorer</title>
+<style>
+:root{
+  --bg:#EFF1EC;--surface:#E6E9E3;--text:#202B24;--sec:#4C5850;
+  --div:#3E5C54;--ring:#EFF1EC;--tip-bg:rgba(32,43,36,.95);--tip-txt:#EFF1EC;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#161D18;--surface:#1E2820;--text:#EFF1EC;--sec:#8BA098;--div:#3E5C54;--ring:#1E2820;
+}}
+:root[data-theme=dark]{--bg:#161D18;--surface:#1E2820;--text:#EFF1EC;--sec:#8BA098;--ring:#1E2820;}
+:root[data-theme=light]{--bg:#EFF1EC;--surface:#E6E9E3;--text:#202B24;--sec:#4C5850;--ring:#EFF1EC;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:13px;padding:24px 20px 36px;min-height:100vh;}
+header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
+.header-left h1{font-family:Georgia,serif;font-size:17px;font-weight:normal;letter-spacing:.01em;margin-bottom:3px;}
+.sub{color:var(--sec);font-size:11.5px}
+.nav-link{font-size:11.5px;color:var(--sec);text-decoration:none;border:1px solid currentColor;border-radius:4px;padding:4px 10px;opacity:.7;transition:opacity .15s;white-space:nowrap;align-self:center;}
+.nav-link:hover{opacity:1}
+.card{background:var(--surface);border-radius:8px;padding:16px 18px 14px;}
+#chart1{position:relative;user-select:none;}
+svg.sc{width:100%;height:auto;display:block;overflow:visible;cursor:grab;}
+svg.sc.dragging{cursor:grabbing;}
+.grid-line{stroke:var(--div);stroke-opacity:.13;stroke-width:1}
+.axis-line{stroke:var(--div);stroke-opacity:.3;stroke-width:1}
+.tick{fill:var(--sec);font-size:9.5px;font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-variant-numeric:tabular-nums;}
+.ax-label{fill:var(--sec);font-size:9.5px;letter-spacing:.04em;font-family:-apple-system,"Segoe UI",system-ui,sans-serif;}
+.dot-ind{stroke:none;opacity:.45;cursor:crosshair;}
+.dot-ind:hover{opacity:1;stroke:#fff;stroke-width:1.5}
+.dot-mean{stroke:var(--ring);stroke-width:2.5;cursor:pointer;filter:drop-shadow(0 1px 3px rgba(0,0,0,.22));transition:stroke-width .1s;}
+.dot-mean:hover{stroke-width:3.5;}
+.city-label{fill:var(--text);font-size:9px;font-weight:600;font-family:-apple-system,"Segoe UI",system-ui,sans-serif;pointer-events:none;}
+.zoom-btns{position:absolute;top:4px;right:4px;display:flex;gap:4px;}
+.zoom-btn{background:var(--surface);border:1px solid var(--div);border-radius:4px;color:var(--sec);font-size:13px;width:24px;height:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:.7;transition:opacity .15s;}
+.zoom-btn:hover{opacity:1}
+.leg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 20px;margin-top:14px;}
+.leg-head{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--sec);font-weight:600;margin-bottom:6px;}
+.leg-items{display:flex;flex-wrap:wrap;gap:5px 12px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--sec)}
+.leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;border:1.5px solid var(--ring);box-shadow:0 0 0 1px rgba(0,0,0,.1);}
+#tip{position:fixed;z-index:9999;display:none;background:var(--tip-bg);color:var(--tip-txt);font-size:11px;padding:9px 12px;border-radius:5px;pointer-events:none;max-width:220px;line-height:1.55;box-shadow:0 3px 14px rgba(0,0,0,.3);}
+.tip-name{font-family:Georgia,serif;font-size:12.5px;margin-bottom:1px}
+.tip-city{color:rgba(239,241,236,.5);font-size:10px;margin-bottom:6px}
+.tip-row{display:flex;justify-content:space-between;gap:10px;margin-bottom:1px}
+.tip-lbl{color:rgba(239,241,236,.6)}
+.tip-val{font-weight:600;font-variant-numeric:tabular-nums}
+.tip-sep{border:none;border-top:1px solid rgba(239,241,236,.12);margin:5px 0}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <h1>Parité Resto par plat — effort économique local (× PIB/hab)</h1>
+    <div class="sub">159 restaurants avec nb de plats renseigné · France, Allemagne, Espagne, Irlande, Nouvelle-Zélande · 1 étoile Michelin</div>
+  </div>
+  <a class="nav-link" href="map.html">&#8592; Carte</a>
+</header>
+<div class="card">
+  <div id="chart1">
+    <div class="zoom-btns">
+      <button class="zoom-btn" id="btn-zi" title="Zoom +">+</button>
+      <button class="zoom-btn" id="btn-zo" title="Zoom −">−</button>
+      <button class="zoom-btn" id="btn-zr" title="Réinitialiser" style="font-size:10px">↺</button>
+    </div>
+  </div>
+  <div class="leg">
+    <div class="leg-section">
+      <div class="leg-head">France</div>
+      <div class="leg-items" id="leg-fr"></div>
+    </div>
+    <div class="leg-section">
+      <div class="leg-head">Allemagne &amp; Espagne</div>
+      <div class="leg-items" id="leg-de-es"></div>
+    </div>
+    <div class="leg-section">
+      <div class="leg-head">Irlande &amp; Nouvelle-Zélande</div>
+      <div class="leg-items" id="leg-ie-nz"></div>
+    </div>
+  </div>
+</div>
+<div id="tip"></div>
+<script>
+const DATA  = [{"n":"Amicis","co":"France","ci":"Bordeaux","y":14.2,"x1":1.3218,"p":115.0,"nb":7.0},{"n":"Cent33","co":"France","ci":"Bordeaux","y":16.4,"x1":1.092,"p":95.0,"nb":5.0},{"n":"La Table d'Hôtes - Le Quatrième Mur","co":"France","ci":"Bordeaux","y":20.9,"x1":1.954,"p":170.0,"nb":7.0},{"n":"Le Pavillon des Boulevards","co":"France","ci":"Bordeaux","y":15.4,"x1":1.4368,"p":125.0,"nb":7.0},{"n":"L'Oiseau Bleu","co":"France","ci":"Bordeaux","y":18.7,"x1":1.4943,"p":130.0,"nb":6.0},{"n":"Ressources","co":"France","ci":"Bordeaux","y":15.8,"x1":1.2644,"p":110.0,"nb":6.0},{"n":"Soléna","co":"France","ci":"Bordeaux","y":15.4,"x1":1.4368,"p":125.0,"nb":7.0},{"n":"Tentazioni","co":"France","ci":"Bordeaux","y":14.8,"x1":1.3793,"p":120.0,"nb":7.0},{"n":"Au 14 Février","co":"France","ci":"Lyon","y":15.8,"x1":1.1,"p":110.0,"nb":6.0},{"n":"Burgundy by Matthieu","co":"France","ci":"Lyon","y":27.4,"x1":1.59,"p":159.0,"nb":5.0},{"n":"Circle","co":"France","ci":"Lyon","y":10.2,"x1":0.95,"p":95.0,"nb":8.0},{"n":"L'Atelier des Augustins","co":"France","ci":"Lyon","y":17.8,"x1":1.24,"p":124.0,"nb":6.0},{"n":"Les Loges","co":"France","ci":"Lyon","y":23.3,"x1":1.35,"p":135.0,"nb":5.0},{"n":"Miraflores","co":"France","ci":"Lyon","y":17.8,"x1":1.65,"p":165.0,"nb":8.0},{"n":"Ombellule","co":"France","ci":"Lyon","y":19.6,"x1":1.59,"p":159.0,"nb":7.0},{"n":"Prairial","co":"France","ci":"Lyon","y":19.6,"x1":1.59,"p":159.0,"nb":7.0},{"n":"Rustique","co":"France","ci":"Lyon","y":22.8,"x1":1.85,"p":185.0,"nb":7.0},{"n":"Têtedoie","co":"France","ci":"Lyon","y":21.3,"x1":1.48,"p":148.0,"nb":6.0},{"n":"Auffo","co":"France","ci":"Marseille","y":23.7,"x1":1.7188,"p":165.0,"nb":6.0},{"n":"Belle de Mars","co":"France","ci":"Marseille","y":12.8,"x1":0.9271,"p":89.0,"nb":6.0},{"n":"Une Table, au Sud","co":"France","ci":"Marseille","y":21.0,"x1":2.0312,"p":195.0,"nb":8.0},{"n":"Freia","co":"France","ci":"Nantes","y":12.9,"x1":1.3793,"p":120.0,"nb":8.0},{"n":"L'Atlantide 1874 - Maison Guého","co":"France","ci":"Nantes","y":14.5,"x1":1.5517,"p":135.0,"nb":8.0},{"n":"Le Manoir de la Régate","co":"France","ci":"Nantes","y":19.7,"x1":1.8391,"p":160.0,"nb":7.0},{"n":"Les Cadets","co":"France","ci":"Nantes","y":12.9,"x1":1.2069,"p":105.0,"nb":7.0},{"n":"LuluRouget","co":"France","ci":"Nantes","y":17.9,"x1":1.6667,"p":145.0,"nb":7.0},{"n":"Omija","co":"France","ci":"Nantes","y":15.5,"x1":1.2414,"p":108.0,"nb":6.0},{"n":"Épicentre","co":"France","ci":"Nice","y":13.3,"x1":1.4479,"p":139.0,"nb":9.0},{"n":"L'Aromate","co":"France","ci":"Nice","y":22.2,"x1":1.875,"p":180.0,"nb":7.0},{"n":"Le Chantecler","co":"France","ci":"Nice","y":30.2,"x1":2.9167,"p":280.0,"nb":8.0},{"n":"Les Agitateurs","co":"France","ci":"Nice","y":19.9,"x1":1.9271,"p":185.0,"nb":8.0},{"n":"ONICE","co":"France","ci":"Nice","y":17.9,"x1":1.5104,"p":145.0,"nb":7.0},{"n":"Racines - Bruno Cirino","co":"France","ci":"Nice","y":10.5,"x1":0.8854,"p":85.0,"nb":7.0},{"n":"114 Faubourg","co":"France","ci":"Paris","y":51.7,"x1":2.25,"p":360.0,"nb":6.0},{"n":"Accents Table Bourse","co":"France","ci":"Paris","y":18.5,"x1":0.9375,"p":150.0,"nb":7.0},{"n":"Agapé","co":"France","ci":"Paris","y":16.7,"x1":0.9688,"p":155.0,"nb":8.0},{"n":"Akrame","co":"France","ci":"Paris","y":27.1,"x1":1.375,"p":220.0,"nb":7.0},{"n":"Alan Geaam","co":"France","ci":"Paris","y":22.2,"x1":1.125,"p":180.0,"nb":7.0},{"n":"Aldehyde","co":"France","ci":"Paris","y":16.6,"x1":0.8438,"p":135.0,"nb":7.0},{"n":"Amâlia","co":"France","ci":"Paris","y":19.7,"x1":1.0,"p":160.0,"nb":7.0},{"n":"Anne","co":"France","ci":"Paris","y":24.6,"x1":1.25,"p":200.0,"nb":7.0},{"n":"Anona","co":"France","ci":"Paris","y":18.5,"x1":0.9375,"p":150.0,"nb":7.0},{"n":"Apicius","co":"France","ci":"Paris","y":31.6,"x1":1.375,"p":220.0,"nb":6.0},{"n":"AT","co":"France","ci":"Paris","y":13.6,"x1":1.1875,"p":190.0,"nb":12.0},{"n":"Auguste","co":"France","ci":"Paris","y":17.2,"x1":0.75,"p":120.0,"nb":6.0},{"n":"Automne","co":"France","ci":"Paris","y":17.9,"x1":0.9062,"p":145.0,"nb":7.0},{"n":"Baieta","co":"France","ci":"Paris","y":19.8,"x1":0.7188,"p":115.0,"nb":5.0},{"n":"Bellefeuille - Saint James Paris","co":"France","ci":"Paris","y":35.9,"x1":1.5625,"p":250.0,"nb":6.0},{"n":"Chakaiseki Akiyoshi","co":"France","ci":"Paris","y":19.9,"x1":1.875,"p":300.0,"nb":13.0},{"n":"Comice","co":"France","ci":"Paris","y":25.1,"x1":1.0938,"p":175.0,"nb":6.0},{"n":"Contraste","co":"France","ci":"Paris","y":19.6,"x1":0.9938,"p":159.0,"nb":7.0},{"n":"Datil","co":"France","ci":"Paris","y":19.7,"x1":1.0,"p":160.0,"nb":7.0},{"n":"Don Juan II","co":"France","ci":"Paris","y":43.1,"x1":1.5625,"p":250.0,"nb":5.0},{"n":"ES","co":"France","ci":"Paris","y":35.9,"x1":1.5625,"p":250.0,"nb":6.0},{"n":"Espadon","co":"France","ci":"Paris","y":39.4,"x1":2.0,"p":320.0,"nb":7.0},{"n":"FIEF","co":"France","ci":"Paris","y":14.7,"x1":1.0625,"p":170.0,"nb":10.0},{"n":"Fleur de Pavé","co":"France","ci":"Paris","y":19.4,"x1":0.8438,"p":135.0,"nb":6.0},{"n":"Frédéric Simonin","co":"France","ci":"Paris","y":21.6,"x1":1.25,"p":200.0,"nb":8.0},{"n":"Frenchie","co":"France","ci":"Paris","y":25.5,"x1":0.925,"p":148.0,"nb":5.0},{"n":"Gaya par Pierre Gagnaire","co":"France","ci":"Paris","y":29.3,"x1":1.0625,"p":170.0,"nb":5.0},{"n":"Geoélia","co":"France","ci":"Paris","y":23.7,"x1":1.0312,"p":165.0,"nb":6.0},{"n":"Géosmine","co":"France","ci":"Paris","y":24.1,"x1":0.875,"p":140.0,"nb":5.0},{"n":"Granite","co":"France","ci":"Paris","y":23.2,"x1":1.175,"p":188.0,"nb":7.0},{"n":"Il Carpaccio","co":"France","ci":"Paris","y":30.2,"x1":1.0938,"p":175.0,"nb":5.0},{"n":"Imperial Treasure","co":"France","ci":"Paris","y":18.9,"x1":1.0938,"p":175.0,"nb":8.0},{"n":"Irwin","co":"France","ci":"Paris","y":21.6,"x1":1.0938,"p":175.0,"nb":7.0},{"n":"Jacques Faussat","co":"France","ci":"Paris","y":23.7,"x1":0.6875,"p":110.0,"nb":4.0},{"n":"Jean Imbert au Plaza Athénée","co":"France","ci":"Paris","y":58.6,"x1":2.125,"p":340.0,"nb":5.0},{"n":"L'Archeste","co":"France","ci":"Paris","y":30.2,"x1":1.0938,"p":175.0,"nb":5.0},{"n":"L'Arôme","co":"France","ci":"Paris","y":30.2,"x1":1.0938,"p":175.0,"nb":5.0},{"n":"Lasserre","co":"France","ci":"Paris","y":32.3,"x1":1.4062,"p":225.0,"nb":6.0},{"n":"L'Atelier de Joël Robuchon - Étoile","co":"France","ci":"Paris","y":23.7,"x1":1.375,"p":220.0,"nb":8.0},{"n":"Le Baudelaire","co":"France","ci":"Paris","y":24.0,"x1":1.2188,"p":195.0,"nb":7.0},{"n":"Le Faham","co":"France","ci":"Paris","y":23.3,"x1":1.0125,"p":162.0,"nb":6.0},{"n":"Le George","co":"France","ci":"Paris","y":17.2,"x1":1.0,"p":160.0,"nb":8.0},{"n":"Le Sergent Recruteur","co":"France","ci":"Paris","y":20.3,"x1":0.7375,"p":118.0,"nb":5.0},{"n":"Le Tout-Paris","co":"France","ci":"Paris","y":30.2,"x1":1.0938,"p":175.0,"nb":5.0},{"n":"Le Violon d'Ingres","co":"France","ci":"Paris","y":24.4,"x1":1.0625,"p":170.0,"nb":6.0},{"n":"Lucas Carton","co":"France","ci":"Paris","y":25.9,"x1":1.3125,"p":210.0,"nb":7.0},{"n":"Maison Dubois","co":"France","ci":"Paris","y":34.5,"x1":1.25,"p":200.0,"nb":5.0},{"n":"Bandol sur mer","co":"Germany","ci":"Berlin","y":24.2,"x1":1.4488,"p":184.0,"nb":7.0},{"n":"Bonvivant","co":"Germany","ci":"Berlin","y":18.8,"x1":1.126,"p":143.0,"nb":7.0},{"n":"Bricole","co":"Germany","ci":"Berlin","y":19.8,"x1":1.0157,"p":129.0,"nb":6.0},{"n":"Cookies Cream","co":"Germany","ci":"Berlin","y":18.5,"x1":1.1024,"p":140.0,"nb":7.0},{"n":"GOLVET","co":"Germany","ci":"Berlin","y":26.2,"x1":1.5669,"p":199.0,"nb":7.0},{"n":"hallmann & klee","co":"Germany","ci":"Berlin","y":16.9,"x1":1.0079,"p":128.0,"nb":7.0},{"n":"Hugos","co":"Germany","ci":"Berlin","y":27.7,"x1":1.4173,"p":180.0,"nb":6.0},{"n":"Irma la Douce","co":"Germany","ci":"Berlin","y":17.2,"x1":0.7323,"p":93.0,"nb":5.0},{"n":"Lorenz Adlon Esszimmer","co":"Germany","ci":"Berlin","y":45.4,"x1":2.3228,"p":295.0,"nb":6.0},{"n":"Loumi","co":"Germany","ci":"Berlin","y":19.5,"x1":1.3307,"p":169.0,"nb":8.0},{"n":"Matthias","co":"Germany","ci":"Berlin","y":20.8,"x1":1.063,"p":135.0,"nb":6.0},{"n":"Nobelhart & Schmutzig","co":"Germany","ci":"Berlin","y":24.8,"x1":1.6929,"p":215.0,"nb":8.0},{"n":"pars Restaurant","co":"Germany","ci":"Berlin","y":22.9,"x1":1.5669,"p":199.0,"nb":8.0},{"n":"tulus lotrek","co":"Germany","ci":"Berlin","y":27.6,"x1":1.8819,"p":239.0,"nb":8.0},{"n":"La Cuisine Rademacher","co":"Germany","ci":"Cologne","y":24.4,"x1":1.5678,"p":185.0,"nb":7.0},{"n":"La Société","co":"Germany","ci":"Cologne","y":21.9,"x1":1.6102,"p":190.0,"nb":8.0},{"n":"Le Moissonnier Bistro","co":"Germany","ci":"Cologne","y":33.4,"x1":1.2288,"p":145.0,"nb":4.0},{"n":"maximilian lorenz","co":"Germany","ci":"Cologne","y":20.8,"x1":1.1441,"p":135.0,"nb":6.0},{"n":"NeoBiota","co":"Germany","ci":"Cologne","y":30.8,"x1":1.6949,"p":200.0,"nb":6.0},{"n":"Pottkind","co":"Germany","ci":"Cologne","y":23.1,"x1":1.2712,"p":150.0,"nb":6.0},{"n":"Sahila - The Restaurant","co":"Germany","ci":"Cologne","y":26.2,"x1":1.6864,"p":199.0,"nb":7.0},{"n":"taku","co":"Germany","ci":"Cologne","y":25.4,"x1":1.3983,"p":165.0,"nb":6.0},{"n":"Zur Tant","co":"Germany","ci":"Cologne","y":25.3,"x1":1.3941,"p":164.5,"nb":6.0},{"n":"The Bishop's Buttery","co":"Ireland","ci":"Cashel","y":19.4,"x1":0.7373,"p":160.0,"nb":7.0},{"n":"Homestead Cottage","co":"Ireland","ci":"Doolin","y":15.1,"x1":1.25,"p":125.0,"nb":7.0},{"n":"Bastible","co":"Ireland","ci":"Dublin City","y":11.6,"x1":0.4104,"p":110.0,"nb":8.0},{"n":"D'Olier Street","co":"Ireland","ci":"Dublin City","y":9.1,"x1":0.5187,"p":139.0,"nb":13.0},{"n":"Forest Avenue","co":"Ireland","ci":"Dublin City","y":11.9,"x1":0.3657,"p":98.0,"nb":7.0},{"n":"Glovers Alley","co":"Ireland","ci":"Dublin City","y":20.0,"x1":0.6157,"p":165.0,"nb":7.0},{"n":"Variety Jones","co":"Ireland","ci":"Dublin City","y":15.5,"x1":0.4104,"p":110.0,"nb":6.0},{"n":"Aniar","co":"Ireland","ci":"Galway","y":6.2,"x1":1.75,"p":175.0,"nb":24.0},{"n":"The Pullman","co":"Ireland","ci":"Galway","y":18.1,"x1":1.5,"p":150.0,"nb":7.0},{"n":"Campagne","co":"Ireland","ci":"Kilkenny","y":24.0,"x1":0.3571,"p":85.0,"nb":3.0},{"n":"Chestnut","co":"Ireland","ci":"Ballydehob","y":15.1,"x1":0.5252,"p":125.0,"nb":7.0},{"n":"House","co":"Ireland","ci":"Ardmore","y":31.5,"x1":0.6261,"p":149.0,"nb":4.0},{"n":"Lady Helen","co":"Ireland","ci":"Thomastown","y":19.6,"x1":0.7773,"p":185.0,"nb":8.0},{"n":"LIGИUM","co":"Ireland","ci":"Bullaun","y":13.1,"x1":0.6513,"p":155.0,"nb":10.0},{"n":"The Morrison Room","co":"Ireland","ci":"Maynooth","y":20.0,"x1":0.6933,"p":165.0,"nb":7.0},{"n":"The Oak Room","co":"Ireland","ci":"Adare","y":26.1,"x1":0.7773,"p":185.0,"nb":6.0},{"n":"Achilli al Parlamento","co":"Italy","ci":"Rome","y":20.3,"x1":1.5929,"p":180.0,"nb":8.0},{"n":"All'Oro","co":"Italy","ci":"Rome","y":18.6,"x1":1.6372,"p":185.0,"nb":9.0},{"n":"Aroma","co":"Italy","ci":"Rome","y":48.7,"x1":2.3894,"p":270.0,"nb":5.0},{"n":"Glass Hostaria","co":"Italy","ci":"Rome","y":20.3,"x1":1.1947,"p":135.0,"nb":6.0},{"n":"Idylio by Apreda","co":"Italy","ci":"Rome","y":28.9,"x1":1.4159,"p":160.0,"nb":5.0},{"n":"Il Convivio Troiani","co":"Italy","ci":"Rome","y":16.5,"x1":1.4602,"p":165.0,"nb":9.0},{"n":"INEO","co":"Italy","ci":"Rome","y":23.3,"x1":1.3717,"p":155.0,"nb":6.0},{"n":"Marco Martini Restaurant","co":"Italy","ci":"Rome","y":21.9,"x1":1.5044,"p":170.0,"nb":7.0},{"n":"Moma","co":"Italy","ci":"Rome","y":19.3,"x1":1.3274,"p":150.0,"nb":7.0},{"n":"Orma Roma","co":"Italy","ci":"Rome","y":24.5,"x1":1.6814,"p":190.0,"nb":7.0},{"n":"A'Barra","co":"Spain","ci":"Madrid","y":27.6,"x1":1.32,"p":165.0,"nb":7.0},{"n":"CEBO","co":"Spain","ci":"Madrid","y":14.4,"x1":1.28,"p":160.0,"nb":13.0},{"n":"Chispa Bistró","co":"Spain","ci":"Madrid","y":13.2,"x1":1.08,"p":135.0,"nb":12.0},{"n":"Clos Madrid","co":"Spain","ci":"Madrid","y":38.8,"x1":1.592,"p":199.0,"nb":6.0},{"n":"Corral de la Morería Gastronómico","co":"Spain","ci":"Madrid","y":13.7,"x1":0.84,"p":105.0,"nb":9.0},{"n":"Desde 1911","co":"Spain","ci":"Madrid","y":45.2,"x1":2.16,"p":270.0,"nb":7.0},{"n":"El Invernadero","co":"Spain","ci":"Madrid","y":13.1,"x1":1.344,"p":168.0,"nb":15.0},{"n":"EMi","co":"Spain","ci":"Madrid","y":16.3,"x1":1.56,"p":195.0,"nb":14.0},{"n":"Gaytán","co":"Spain","ci":"Madrid","y":11.7,"x1":1.2,"p":150.0,"nb":15.0},{"n":"La Tasquería","co":"Spain","ci":"Madrid","y":11.1,"x1":0.68,"p":85.0,"nb":9.0},{"n":"OSA","co":"Spain","ci":"Madrid","y":11.7,"x1":1.6,"p":200.0,"nb":20.0},{"n":"Quimbaya","co":"Spain","ci":"Madrid","y":18.1,"x1":1.36,"p":170.0,"nb":11.0},{"n":"RavioXO","co":"Spain","ci":"Madrid","y":12.9,"x1":1.32,"p":165.0,"nb":15.0},{"n":"Saddle","co":"Spain","ci":"Madrid","y":27.1,"x1":1.48,"p":185.0,"nb":8.0},{"n":"Sen Omakase","co":"Spain","ci":"Madrid","y":8.6,"x1":1.76,"p":220.0,"nb":30.0},{"n":"Ugo Chan","co":"Spain","ci":"Madrid","y":22.0,"x1":1.8,"p":225.0,"nb":12.0},{"n":"VelascoAbellà","co":"Spain","ci":"Madrid","y":8.1,"x1":1.104,"p":138.0,"nb":20.0},{"n":"Yugo The Bunker","co":"Spain","ci":"Madrid","y":12.8,"x1":1.4,"p":175.0,"nb":16.0},{"n":"Ahi.","co":"New Zealand","ci":"Auckland","y":8.1,"x1":0.8098,"p":180.0,"nb":8.0},{"n":"Mudbrick","co":"New Zealand","ci":"Waiheke Island","y":14.9,"x1":0.5623,"p":125.0,"nb":3.0},{"n":"Paris Butter","co":"New Zealand","ci":"Auckland","y":11.6,"x1":1.1697,"p":260.0,"nb":8.0},{"n":"Tala","co":"New Zealand","ci":"Auckland","y":6.4,"x1":0.9672,"p":215.0,"nb":12.0},{"n":"The Estate","co":"New Zealand","ci":"Waiheke Island","y":10.5,"x1":0.7873,"p":175.0,"nb":6.0},{"n":"Inati","co":"New Zealand","ci":"Christchurch","y":8.3,"x1":0.9645,"p":185.0,"nb":8.0},{"n":"Amisfield","co":"New Zealand","ci":"Queenstown","y":6.1,"x1":2.3172,"p":425.0,"nb":25.0},{"n":"Kika","co":"New Zealand","ci":"Wānaka","y":5.9,"x1":0.627,"p":115.0,"nb":7.0},{"n":"Rātā","co":"New Zealand","ci":"Queenstown","y":9.0,"x1":0.9541,"p":175.0,"nb":7.0},{"n":"Sherwood","co":"New Zealand","ci":"Queenstown","y":11.9,"x1":0.5452,"p":100.0,"nb":3.0},{"n":"Jano Bistro","co":"New Zealand","ci":"Wellington","y":9.6,"x1":0.6764,"p":160.0,"nb":6.0},{"n":"Logan Brown","co":"New Zealand","ci":"Wellington","y":8.4,"x1":0.5919,"p":140.0,"nb":6.0}];
+const MEANS = {"Bordeaux":{"mx":1.4224,"my":16.5,"n":8,"co":"France"},"Lyon":{"mx":1.439,"my":19.6,"n":10,"co":"France"},"Marseille":{"mx":1.559,"my":19.2,"n":3,"co":"France"},"Nantes":{"mx":1.4809,"my":15.6,"n":6,"co":"France"},"Nice":{"mx":1.7604,"my":19.0,"n":6,"co":"France"},"Paris":{"mx":1.1755,"my":25.6,"n":47,"co":"France"},"Berlin":{"mx":1.3768,"my":23.6,"n":14,"co":"Germany"},"Cologne":{"mx":1.444,"my":25.7,"n":9,"co":"Germany"},"Cashel":{"mx":0.7373,"my":19.4,"n":1,"co":"Ireland"},"Doolin":{"mx":1.25,"my":15.1,"n":1,"co":"Ireland"},"Dublin City":{"mx":0.4642,"my":13.6,"n":5,"co":"Ireland"},"Galway":{"mx":1.625,"my":12.2,"n":2,"co":"Ireland"},"Kilkenny":{"mx":0.3571,"my":24.0,"n":1,"co":"Ireland"},"Ballydehob":{"mx":0.5252,"my":15.1,"n":1,"co":"Ireland"},"Ardmore":{"mx":0.6261,"my":31.5,"n":1,"co":"Ireland"},"Thomastown":{"mx":0.7773,"my":19.6,"n":1,"co":"Ireland"},"Bullaun":{"mx":0.6513,"my":13.1,"n":1,"co":"Ireland"},"Maynooth":{"mx":0.6933,"my":20.0,"n":1,"co":"Ireland"},"Adare":{"mx":0.7773,"my":26.1,"n":1,"co":"Ireland"},"Rome":{"mx":1.5575,"my":24.2,"n":10,"co":"Italy"},"Madrid":{"mx":1.3822,"my":18.1,"n":18,"co":"Spain"},"Auckland":{"mx":0.9822,"my":8.7,"n":3,"co":"New Zealand"},"Waiheke Island":{"mx":0.6748,"my":12.7,"n":2,"co":"New Zealand"},"Christchurch":{"mx":0.9645,"my":8.3,"n":1,"co":"New Zealand"},"Queenstown":{"mx":1.2722,"my":9.0,"n":3,"co":"New Zealand"},"Wānaka":{"mx":0.627,"my":5.9,"n":1,"co":"New Zealand"},"Wellington":{"mx":0.6341,"my":9.0,"n":2,"co":"New Zealand"}};
+
+const CITY_COLOR = {
+  'Paris':        '#e74c3c',
+  'Lyon':         '#e67e22',
+  'Bordeaux':     '#c0392b',
+  'Nice':         '#d35400',
+  'Nantes':       '#f39c12',
+  'Marseille':    '#f1c40f',
+  'Berlin':       '#5D7690',
+  'Cologne':      '#3a5f7a',
+  'Madrid':       '#B98A3A',
+  'Dublin City':  '#2ecc71',
+  'Galway':       '#27ae60',
+  'Kinsale':      '#1abc9c',
+  'Doolin':       '#16a085',
+  'Cashel':       '#3498db',
+  'Kilkenny':     '#2980b9',
+  'Adare':        '#1a7a5e',
+  'Ardmore':      '#20946e',
+  'Ballydehob':   '#25a67e',
+  'Ballyfin':     '#0e8c64',
+  'Bullaun':      '#1aad82',
+  'Maynooth':     '#12996e',
+  'Thomastown':   '#0f8a5f',
+  'Auckland':     '#3E5C54',
+  'Queenstown':   '#2d4a42',
+  'Waiheke Island':'#4a7068',
+  'Wellington':   '#5a8070',
+  'Christchurch': '#6a9080',
+  'Wānaka':       '#3d5e55',
+};
+
+const W=620,H=390,PAD={top:18,right:24,bottom:46,left:54};
+const CW=W-PAD.left-PAD.right,CH=H-PAD.top-PAD.bottom;
+const XDEF={min:0.25,max:3.1},YDEF={min:4,max:65};
+let view={xmin:XDEF.min,xmax:XDEF.max,ymin:YDEF.min,ymax:YDEF.max};
+
+function tx(v){return PAD.left+(v-view.xmin)/(view.xmax-view.xmin)*CW;}
+function ty(v){return PAD.top+CH-(v-view.ymin)/(view.ymax-view.ymin)*CH;}
+function f1(v){return v.toFixed(1);}
+function fTick(v){const r=+v.toPrecision(6);return Number.isInteger(r)?r:r;}
+
+function niceTicks(mn,mx,target=6){
+  const range=mx-mn;
+  const base=Math.pow(10,Math.floor(Math.log10(range/target)));
+  for(const m of [1,2,2.5,5,10]){
+    const s=base*m;
+    if(range/s<=target+0.5){
+      const first=Math.ceil(mn/s-1e-9)*s;
+      const ticks=[];
+      for(let v=first;v<=mx+s*0.01;v+=s)ticks.push(+v.toPrecision(8));
+      return ticks;
+    }
+  }
+  return [];
+}
+
+function render(){
+  const {xmin,xmax,ymin,ymax}=view;
+  const xt=niceTicks(xmin,xmax);
+  const yt=niceTicks(ymin,ymax);
+
+  let s=`<svg class="sc" viewBox="0 0 ${W} ${H}">`;
+  s+=`<defs><clipPath id="pc"><rect x="${PAD.left}" y="${PAD.top}" width="${CW}" height="${CH}"/></clipPath></defs>`;
+
+  yt.forEach(v=>{
+    if(v<ymin-1e-9||v>ymax+1e-9) return;
+    const y=ty(v);
+    s+=`<line class="grid-line" x1="${PAD.left}" y1="${y}" x2="${PAD.left+CW}" y2="${y}"/>`;
+    s+=`<text class="tick" x="${PAD.left-7}" y="${y+3.5}" text-anchor="end">${fTick(v)}</text>`;
+  });
+  xt.forEach(v=>{
+    if(v<xmin-1e-9||v>xmax+1e-9) return;
+    const x=tx(v);
+    s+=`<line class="grid-line" x1="${x}" y1="${PAD.top}" x2="${x}" y2="${PAD.top+CH}"/>`;
+    s+=`<text class="tick" x="${x}" y="${PAD.top+CH+13}" text-anchor="middle">&#215;${fTick(v)}</text>`;
+  });
+  s+=`<line class="axis-line" x1="${PAD.left}" y1="${PAD.top}" x2="${PAD.left}" y2="${PAD.top+CH}"/>`;
+  s+=`<line class="axis-line" x1="${PAD.left}" y1="${PAD.top+CH}" x2="${PAD.left+CW}" y2="${PAD.top+CH}"/>`;
+  s+=`<text class="ax-label" transform="rotate(-90)" x="${-(PAD.top+CH/2)}" y="15" text-anchor="middle">Parité Resto / plat (&#8364;)</text>`;
+  s+=`<text class="ax-label" x="${PAD.left+CW/2}" y="${H-6}" text-anchor="middle">&#215; PIB / habitant local</text>`;
+
+  s+=`<g clip-path="url(#pc)">`;
+  DATA.forEach((r,i)=>{
+    const cx=tx(r.x1),cy=ty(r.y);
+    s+=`<circle class="dot-ind" cx="${cx}" cy="${cy}" r="4" fill="#8BA098" data-i="${i}"/>`;
+  });
+  Object.entries(MEANS).forEach(([ci,m])=>{
+    if(m.n<2) return;
+    const cx=tx(m.mx),cy=ty(m.my);
+    const rad=Math.max(7,Math.min(14,Math.sqrt(m.n)*2.4));
+    s+=`<circle cx="${cx}" cy="${cy}" r="${rad+2.5}" fill="var(--ring)" stroke="none"/>`;
+  });
+  Object.entries(MEANS).forEach(([ci,m])=>{
+    if(m.n<2) return;
+    const col=CITY_COLOR[ci]||'#95a5a6';
+    const cx=tx(m.mx),cy=ty(m.my);
+    const rad=Math.max(7,Math.min(14,Math.sqrt(m.n)*2.4));
+    s+=`<circle class="dot-mean" cx="${cx}" cy="${cy}" r="${rad}" fill="${col}" data-city="${ci}"/>`;
+  });
+  // Labels fixes pour les villes clés
+  const FIXED_LABELS={
+    'Paris':       {dx:13,dy:4,anchor:'start'},
+    'Dublin City': {dx:-13,dy:4,anchor:'end'},
+    'Berlin':      {dx:13,dy:-9,anchor:'start'},
+    'Madrid':      {dx:13,dy:4,anchor:'start'},
+    'Auckland':    {dx:0,dy:16,anchor:'middle'},
+    'Nice':        {dx:-13,dy:4,anchor:'end'},
+  };
+  Object.entries(FIXED_LABELS).forEach(([ci,cfg])=>{
+    const m=MEANS[ci];
+    if(!m||m.n<2) return;
+    const cx=tx(m.mx),cy=ty(m.my);
+    const lbl=ci==='Dublin City'?'Dublin':ci;
+    s+=`<text class="city-label" x="${cx+cfg.dx}" y="${cy+cfg.dy}" text-anchor="${cfg.anchor}">${lbl}</text>`;
+  });
+  s+=`</g></svg>`;
+  document.getElementById('chart1').insertAdjacentHTML('afterbegin',s);
+}
+
+render();
+
+/* Legend */
+const LEG_GROUPS={
+  'leg-fr':    ['Paris','Lyon','Bordeaux','Nice','Nantes','Marseille'],
+  'leg-de-es': ['Berlin','Cologne','Madrid'],
+  'leg-ie-nz': ['Dublin City','Galway','Kinsale','Doolin','Cashel','Auckland','Queenstown','Wellington'],
+};
+Object.entries(LEG_GROUPS).forEach(([elId,cities])=>{
+  const el=document.getElementById(elId);
+  cities.forEach(ci=>{
+    if(!CITY_COLOR[ci]) return;
+    const sp=document.createElement('span');sp.className='leg-item';
+    const lbl=ci==='Dublin City'?'Dublin':ci;
+    sp.innerHTML=`<span class="leg-dot" style="background:${CITY_COLOR[ci]}"></span>${lbl}`;
+    el.appendChild(sp);
+  });
+});
+
+/* Tooltip */
+const tip=document.getElementById('tip');
+function moveTip(e){
+  if(tip.style.display==='none') return;
+  let x=e.clientX+14,y=e.clientY-16;
+  const tw=tip.offsetWidth||210,th=tip.offsetHeight||100;
+  if(x+tw>window.innerWidth-8) x=e.clientX-tw-10;
+  if(y+th>window.innerHeight-8) y=e.clientY-th-10;
+  tip.style.left=x+'px';tip.style.top=y+'px';
+}
+function hideTip(){tip.style.display='none';}
+const CO_FR={
+  'France':'France','Germany':'Allemagne','Spain':'Espagne',
+  'Ireland':'Irlande','New Zealand':'Nouvelle-Zélande'
+};
+
+const chartEl=document.getElementById('chart1');
+chartEl.addEventListener('mousemove',e=>{
+  const el=e.target;
+  if(el.classList.contains('dot-mean')){
+    const ci=el.dataset.city,m=MEANS[ci];
+    if(!m){hideTip();return;}
+    const col=CITY_COLOR[ci]||'#aaa';
+    const lbl=ci==='Dublin City'?'Dublin':ci;
+    tip.innerHTML=
+      `<div class="tip-name" style="color:${col}">${lbl}</div>`+
+      `<div class="tip-city">${CO_FR[m.co]||m.co} · ${m.n} restaurant${m.n>1?'s':''}</div>`+
+      `<hr class="tip-sep">`+
+      `<div class="tip-row"><span class="tip-lbl">Parité / plat moy.</span><span class="tip-val">${f1(m.my)} &#8364;</span></div>`+
+      `<div class="tip-row"><span class="tip-lbl">&#215; PIB/hab moy.</span><span class="tip-val">&#215;${f1(m.mx)}</span></div>`;
+    tip.style.display='block';moveTip(e);return;
+  }
+  if(el.classList.contains('dot-ind')){
+    const r=DATA[+el.dataset.i];
+    if(!r){hideTip();return;}
+    tip.innerHTML=
+      `<div class="tip-name">${r.n}</div>`+
+      `<div class="tip-city">${r.ci}, ${CO_FR[r.co]||r.co}</div>`+
+      `<hr class="tip-sep">`+
+      `<div class="tip-row"><span class="tip-lbl">Prix relevé</span><span class="tip-val">${r.p}${r.nb?' ('+r.nb+' plats)':''} </span></div>`+
+      `<div class="tip-row"><span class="tip-lbl">Parité / plat</span><span class="tip-val">${r.y} &#8364;</span></div>`+
+      `<div class="tip-row"><span class="tip-lbl">&#215; PIB/hab</span><span class="tip-val">&#215;${r.x1}</span></div>`;
+    tip.style.display='block';moveTip(e);return;
+  }
+  hideTip();
+});
+chartEl.addEventListener('mouseleave',hideTip);
+document.addEventListener('mousemove',moveTip);
+
+/* ── Zoom helpers ───────────────────────────────────── */
+function getSvgEl(){return chartEl.querySelector('svg.sc');}
+function svgCoords(e){
+  const svgEl=getSvgEl();
+  if(!svgEl) return {dx:0,dy:0};
+  const rect=svgEl.getBoundingClientRect();
+  // Scale from CSS pixels to SVG viewBox pixels
+  const scaleX=W/rect.width, scaleY=H/rect.height;
+  const svgX=(e.clientX-rect.left)*scaleX;
+  const svgY=(e.clientY-rect.top)*scaleY;
+  return {
+    dataX: view.xmin+(svgX-PAD.left)/CW*(view.xmax-view.xmin),
+    dataY: view.ymin+(1-(svgY-PAD.top)/CH)*(view.ymax-view.ymin),
+  };
+}
+
+function applyZoom(factor,pivotDataX,pivotDataY){
+  const {xmin,xmax,ymin,ymax}=view;
+  const px=pivotDataX??((xmin+xmax)/2);
+  const py=pivotDataY??((ymin+ymax)/2);
+  view={
+    xmin: px-(px-xmin)*factor,
+    xmax: px+(xmax-px)*factor,
+    ymin: py-(py-ymin)*factor,
+    ymax: py+(ymax-py)*factor,
+  };
+  getSvgEl()?.remove();
+  render();
+}
+
+/* Scroll to zoom */
+chartEl.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const factor=e.deltaY>0?1.15:1/1.15;
+  const {dataX,dataY}=svgCoords(e);
+  applyZoom(factor,dataX,dataY);
+  hideTip();
+},{passive:false});
+
+/* Drag to pan */
+let drag=null;
+chartEl.addEventListener('mousedown',e=>{
+  if(e.button!==0) return;
+  drag={cx:e.clientX,cy:e.clientY,v:{...view}};
+  getSvgEl()?.classList.add('dragging');
+  e.preventDefault();
+});
+document.addEventListener('mousemove',e=>{
+  if(!drag) return;
+  const svgEl=getSvgEl();
+  if(!svgEl) return;
+  const rect=svgEl.getBoundingClientRect();
+  const scaleX=W/rect.width,scaleY=H/rect.height;
+  const ddx=(e.clientX-drag.cx)*scaleX/CW*(drag.v.xmax-drag.v.xmin);
+  const ddy=(e.clientY-drag.cy)*scaleY/CH*(drag.v.ymax-drag.v.ymin);
+  view={xmin:drag.v.xmin-ddx,xmax:drag.v.xmax-ddx,ymin:drag.v.ymin+ddy,ymax:drag.v.ymax+ddy};
+  svgEl.remove();
+  render();
+  hideTip();
+});
+document.addEventListener('mouseup',()=>{
+  if(drag) getSvgEl()?.classList.remove('dragging');
+  drag=null;
+});
+
+/* Zoom buttons */
+document.getElementById('btn-zi').addEventListener('click',()=>applyZoom(1/1.35));
+document.getElementById('btn-zo').addEventListener('click',()=>applyZoom(1.35));
+document.getElementById('btn-zr').addEventListener('click',()=>{
+  view={xmin:XDEF.min,xmax:XDEF.max,ymin:YDEF.min,ymax:YDEF.max};
+  getSvgEl()?.remove();render();
+});
+</script>
+</body>
+</html>

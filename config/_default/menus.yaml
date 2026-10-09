@@ -10,6 +10,9 @@ main:
   - name: Papers
     url: /#papers
     weight: 11
+  - name: Food
+    url: food-economics/
+    weight: 12
   - name: News
     url: /#news
     weight: 13

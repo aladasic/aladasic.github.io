@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Michelin Value Explorer — Carte</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css"/>
+
+<style>
+:root {
+  --bg:#EFF1EC; --text:#202B24; --sec:#4C5850; --div:#3E5C54;
+  --sage:#6E8F68; --amber:#B98A3A; --slate:#5D7690; --brick:#B25A48;
+  --surface:#E6E9E3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+
+/* Header */
+header{padding:10px 16px 8px;border-bottom:1px solid var(--div);display:flex;align-items:center;gap:16px;flex-shrink:0;flex-wrap:wrap;}
+header h1{font-family:Georgia,serif;font-size:1.0rem;font-weight:normal;}
+.nav-link{font-size:11.5px;color:var(--sec);text-decoration:none;border:1px solid currentColor;border-radius:4px;padding:3px 9px;opacity:.7;transition:opacity .15s;margin-left:auto;}
+.nav-link:hover{opacity:1}
+
+/* Star filter */
+#filters{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.filter-label{font-size:11px;color:var(--sec);font-weight:600;letter-spacing:.05em;text-transform:uppercase;}
+.filter-item{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--sec);cursor:pointer;user-select:none;}
+.filter-item input{cursor:pointer;accent-color:var(--div);}
+.filter-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* Map */
+#map{flex:1;z-index:0;}
+
+/* Popup */
+.mp{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:12px;line-height:1.5;min-width:210px;}
+.mp-name{font-family:Georgia,serif;font-size:13.5px;font-weight:normal;margin-bottom:2px;}
+.mp-award{font-size:10.5px;margin-bottom:7px;}
+.mp-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:3px;}
+.mp-lbl{color:#666;font-size:11px;}
+.mp-val{font-weight:600;font-variant-numeric:tabular-nums;font-size:11.5px;}
+.mp-val-g{color:#3a7d44;}
+.mp-val-a{color:#a06c1a;}
+.mp-val-r{color:#b03a2e;}
+.mp-sep{border:none;border-top:1px solid #e0e0e0;margin:5px 0;}
+.mp-miss{font-size:11px;color:#aaa;font-style:italic;margin-top:4px;}
+.mp-url{display:block;font-size:10.5px;margin-top:6px;color:var(--div);text-decoration:none;opacity:.75;}
+.mp-url:hover{opacity:1;}
+/* Percentile bar */
+.mp-bar-wrap{flex:1;display:flex;align-items:center;gap:5px;min-width:0;}
+.mp-bar-track{flex:1;height:4px;background:#e0e0e0;border-radius:2px;position:relative;}
+.mp-bar-fill{height:100%;border-radius:2px;position:absolute;left:0;top:0;}
+.mp-bar-dot{width:7px;height:7px;border-radius:50%;border:1.5px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.2);position:absolute;top:50%;transform:translateY(-50%);}
+.mp-pct-lbl{font-size:10.5px;font-variant-numeric:tabular-nums;white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Michelin Value Explorer</h1>
+  <div id="filters">
+    <span class="filter-label">Étoiles&nbsp;:</span>
+    <label class="filter-item">
+      <input type="checkbox" value="3 Stars" id="f3"/>
+      <span class="filter-dot" style="background:var(--brick)"></span>3 étoiles
+    </label>
+    <label class="filter-item">
+      <input type="checkbox" value="2 Stars" id="f2"/>
+      <span class="filter-dot" style="background:var(--amber)"></span>2 étoiles
+    </label>
+    <label class="filter-item">
+      <input type="checkbox" value="1 Star" id="f1" checked/>
+      <span class="filter-dot" style="background:var(--sage)"></span>1 étoile
+    </label>
+    <label class="filter-item">
+      <input type="checkbox" value="Bib Gourmand" id="fb"/>
+      <span class="filter-dot" style="background:var(--slate)"></span>Bib Gourmand
+    </label>
+  </div>
+  <a class="nav-link" href="scatter.html">Scatter →</a>
+</header>
+
+<div id="map"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js"></script>
+<script>
+/* ── Map init ────────────────────────────────────────────── */
+const map = L.map('map', {preferCanvas: true}).setView([47, 10], 4);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '© OpenStreetMap contributors © CARTO',
+  maxZoom: 19
+}).addTo(map);
+
+/* ── Colors ─────────────────────────────────────────────── */
+const AWARD_COLOR = {
+  '3 Stars':     '#B25A48',
+  '2 Stars':     '#B98A3A',
+  '1 Star':      '#6E8F68',
+  'Bib Gourmand':'#5D7690',
+};
+function color(award) { return AWARD_COLOR[award] || '#8BA098'; }
+
+function makeIcon(award) {
+  const c = color(award);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+    <circle cx="7" cy="7" r="6" fill="${c}" stroke="white" stroke-width="1.5"/>
+  </svg>`;
+  return L.divIcon({
+    html: svg, className: '', iconSize: [14,14], iconAnchor: [7,7], popupAnchor: [0,-8]
+  });
+}
+
+/* ── Data + render ──────────────────────────────────────── */
+let allRestaurants = [];
+let clusterGroup   = null;
+
+function fmt(v, d=0) { return v == null ? '—' : Number(v).toFixed(d); }
+function cls(v, t1, t2) {
+  if (v == null) return '';
+  return v < t1 ? 'mp-val-g' : v < t2 ? 'mp-val-a' : 'mp-val-r';
+}
+function clsInv(v, t1, t2) { /* green=high */ return cls(1 - (v||0), 1-t2, 1-t1); }
+
+function percentileBar(p) {
+  if (p == null) return '—';
+  const pct = Math.round(p * 100);
+  // colour: green 0-33, amber 33-66, red 66-100
+  const c = p < 0.33 ? '#3a7d44' : p < 0.66 ? '#a06c1a' : '#b03a2e';
+  const left = Math.max(0, Math.min(97, p * 100));
+  return `<span class="mp-bar-wrap">
+    <span class="mp-bar-track">
+      <span class="mp-bar-fill" style="width:${left}%;background:${c}20"></span>
+      <span class="mp-bar-dot" style="left:calc(${left}% - 3px);background:${c}"></span>
+    </span>
+    <span class="mp-pct-lbl" style="color:${c}">${pct}e</span>
+  </span>`;
+}
+
+function buildPopup(r) {
+  const awardLabel = {'3 Stars':'★★★','2 Stars':'★★','1 Star':'★','Bib Gourmand':'Bib Gourmand'}[r.michelin_award] || r.michelin_award;
+  const awardColor = color(r.michelin_award);
+
+  let rows = '';
+  if (!r.price_missing && r.price_numeric_local != null) {
+    const cur = r.currency_local || '€';
+    const nom = r.price_numeric_local;
+
+    // 1. Prix relevé
+    const nbStr = r.nb_courses ? ` (${r.nb_courses} plats)` : '';
+    rows += `<div class="mp-row"><span class="mp-lbl">Prix relevé</span><span class="mp-val">${fmt(nom)} ${cur}${nbStr}</span></div>`;
+
+    // 2. Équiv. PPA (prix_ppa_resto pour UE, prix_ppa_bmi sinon) — vert si PPA < nominal
+    const ppa = r.prix_ppa_resto ?? r.prix_ppa_bmi;
+    if (ppa != null) {
+      const ppaEur = r.fx_market_rate_vs_eur != null && r.fx_market_rate_vs_eur !== 0
+        ? nom / r.fx_market_rate_vs_eur : nom;
+      const ppaCls = ppa < ppaEur ? 'mp-val-g' : 'mp-val-r';
+      rows += `<div class="mp-row"><span class="mp-lbl">Équiv. PPA</span><span class="mp-val ${ppaCls}">${fmt(ppa,0)} €</span></div>`;
+    }
+
+    // 3. Percentile pays
+    rows += `<div class="mp-row"><span class="mp-lbl">Percentile</span>${percentileBar(r.percentile_pays)}</div>`;
+
+    // 4. Prix par plat
+    if (r.price_per_plate != null)
+      rows += `<div class="mp-row"><span class="mp-lbl">Prix / plat</span><span class="mp-val">${fmt(r.price_per_plate,0)} ${cur}</span></div>`;
+
+    // 5. × PIB/hab local (ratio_prix_repas_moyen) — vert <1, ambre 1-2, rouge >2
+    if (r.ratio_prix_repas_moyen != null) {
+      const v = r.ratio_prix_repas_moyen;
+      rows += `<div class="mp-row"><span class="mp-lbl">× PIB/hab local</span><span class="mp-val ${cls(v,1,2)}">×${fmt(v,2)}</span></div>`;
+    }
+
+    // 6. × coût horaire = price / (salary / 160h) — vert <3, ambre 3-7, rouge >7
+    if (r.ratio_prix_salaire != null) {
+      const v = r.ratio_prix_salaire * 160;
+      rows += `<div class="mp-row"><span class="mp-lbl">× coût horaire</span><span class="mp-val ${cls(v,3,7)}">×${fmt(v,1)}</span></div>`;
+    }
+  } else {
+    rows = '<div class="mp-miss">Prix non renseigné</div>';
+  }
+
+  const url = r.michelin_url
+    ? `<a class="mp-url" href="${r.michelin_url}" target="_blank" rel="noopener">Fiche Michelin ↗</a>` : '';
+
+  return `<div class="mp">
+    <div class="mp-name">${r.name}</div>
+    <div class="mp-award" style="color:${awardColor}">${awardLabel} · ${r.city}</div>
+    <hr class="mp-sep"/>
+    ${rows}${url}
+  </div>`;
+}
+
+function activeAwards() {
+  return Array.from(document.querySelectorAll('#filters input:checked')).map(el => el.value);
+}
+
+function renderMarkers() {
+  if (clusterGroup) map.removeLayer(clusterGroup);
+  clusterGroup = L.markerClusterGroup({chunkedLoading: true, disableClusteringAtZoom: 14, showCoverageOnHover: false});
+  const awards = new Set(activeAwards());
+  allRestaurants.forEach(r => {
+    if (!awards.has(r.michelin_award)) return;
+    if (r.latitude == null || r.longitude == null) return;
+    const marker = L.marker([r.latitude, r.longitude], {icon: makeIcon(r.michelin_award)});
+    marker.bindPopup(buildPopup(r), {maxWidth: 260});
+    clusterGroup.addLayer(marker);
+  });
+  map.addLayer(clusterGroup);
+}
+
+fetch('restaurants_enriched.json')
+  .then(res => res.json())
+  .then(data => {
+    allRestaurants = data;
+    renderMarkers();
+  })
+  .catch(err => console.error('Erreur chargement JSON:', err));
+
+document.querySelectorAll('#filters input').forEach(el => {
+  el.addEventListener('change', renderMarkers);
+});
+</script>
+</body>
+</html>
