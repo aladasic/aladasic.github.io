@@ -1,0 +1,23 @@
+# R specific
+.Rhistory
+.RData
+.Rproj.user
+*.Rproj
+
+# Data files (can be regenerated)
+data/questions_bank.rds
+data/parsed_content.rds
+data/user_stats.rds
+
+# Temporary files
+*.tmp
+*.log
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/

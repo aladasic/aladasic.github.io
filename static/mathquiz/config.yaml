@@ -1,0 +1,48 @@
+# Configuration for MathQuiz Application
+
+# Paths
+maths_repo_path: "C:/Users/hp/Documents/GitHub/maths"  # Absolute path to maths repository
+
+# Quiz settings
+questions_per_session: 5  # Number of questions per quiz session
+time_per_question: 60  # seconds (optional feature)
+# Note: Total question bank contains 46 questions across 4 chapters
+
+# Chapters to include
+chapters:
+  - id: "chp0"
+    name: "Probability Theory"
+    file: "chp0-probabilities/chp0-course-probabilities.tex"
+    color: "#1CB0F6"  # Blue
+  - id: "chp1"
+    name: "Finite Random Variables"
+    file: "chp1-finite-rv/chp1-course-finite-rv.tex"
+    color: "#58CC02"  # Green
+  - id: "chp2"
+    name: "Continuous Random Variables"
+    file: "chp2-continuous-rv/chp2-course-continuous-rv.tex"
+    color: "#FF9600"  # Orange
+  - id: "chp3"
+    name: "Random Variable Pairs"
+    file: "chp3-rv-pair/chp3-rv-pair-and-properties.tex"
+    color: "#CE82FF"  # Purple
+
+# Difficulty modes
+difficulty_modes:
+  medium:
+    name: "Medium (QCM)"
+    description: "Multiple choice questions with 4 options"
+    num_options: 4
+  advanced:
+    name: "Advanced (Free Text)"
+    description: "Type your answer freely"
+    similarity_threshold: 0.70  # For fuzzy matching
+
+# UI Theme (Duolingo-inspired)
+theme:
+  primary_green: "#58CC02"
+  primary_red: "#FF4B4B"
+  primary_blue: "#1CB0F6"
+  bg_light: "#F7F7F7"
+  text_dark: "#3C3C3C"
+  card_shadow: "0 2px 8px rgba(0,0,0,0.1)"
