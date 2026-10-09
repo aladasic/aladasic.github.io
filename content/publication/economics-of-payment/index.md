@@ -1,9 +1,9 @@
 ---
-title: "The Economics of the Evolving Payments System: Implications for Policymaking"
+title: "The Economics of the Evolving Payments System: Implications for policymaking"
 authors:
-- Luca Riva
 - Gillian Phelan
 - Fergal McCann
+- Maria Elena Fillippin
 - admin
 - Michele Pelli
 date: "2026-09-01T00:00:00Z"
