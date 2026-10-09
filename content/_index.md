@@ -53,12 +53,35 @@ sections:
       columns: 2
   - block: collection
     content:
-      title: Recent Publications
+      title: Policy Papers
       text: ""
+      count: 0
       filters:
         folders:
           - publication
-        exclude_featured: false
+        publication_type: report
+    design:
+      view: citation
+  - block: collection
+    content:
+      title: Work in Progress
+      text: ""
+      count: 0
+      filters:
+        folders:
+          - publication
+        publication_type: article
+    design:
+      view: citation
+  - block: collection
+    content:
+      title: Other Writing
+      text: ""
+      count: 0
+      filters:
+        folders:
+          - publication
+        publication_type: article-journal
     design:
       view: citation
   - block: collection
